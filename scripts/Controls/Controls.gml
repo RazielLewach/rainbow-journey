@@ -40,20 +40,30 @@
 		return key(vk_left) or key(ord("A"));
 	}
 #endregion
+#region keyMoveFront
+	/// @func  keyMoveFront()
+	function keyMoveFront() {
+		return key(vk_up) or key(ord("W"));
+	}
+#endregion
+#region keyMoveBack
+	/// @func  keyMoveBack()
+	function keyMoveBack() {
+		return key(vk_down) or key(ord("S"));
+	}
+#endregion
 #region keyMoveUp
 	/// @func  keyMoveUp()
 	function keyMoveUp() {
-		return key(vk_up) or key(ord("W"));
+		return key(vk_shift) or key(ord("E"));
 	}
 #endregion
 #region keyMoveDown
 	/// @func  keyMoveDown()
 	function keyMoveDown() {
-		return key(vk_down) or key(ord("S"));
+		return key(vk_control) or key(ord("Q"));
 	}
 #endregion
-
-
 
 
 

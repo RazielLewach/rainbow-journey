@@ -1,1 +1,2 @@
-- 
+- Gráficos medusa.
+- Poner velocidad máxima en la dirección donde vayas.
