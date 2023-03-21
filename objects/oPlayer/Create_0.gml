@@ -16,4 +16,7 @@
 #endregion
 #region Vertex buffers.
 	vertexJellyfishHead = noone; // La cabeza de la medusa.
+	txJellyfishSkin = sprite_get_texture(sJellyfishSkin,0); // La piel de la cabeza.
+	vertexJellyfishTentacle = noone; // El tentáculo de la medusa.
+	txJellyfishTentacle = sprite_get_texture(sJellyfishTentacle,0); // El tentáculo.
 #endregion

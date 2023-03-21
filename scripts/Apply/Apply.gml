@@ -34,12 +34,12 @@
 		return camera_get_view_y(view_camera[0]);
 	}
 #endregion
-#region setShaderParameter
-	/// @func  setShaderParameter(shader,key,value)
-	function setShaderParameter(_shader,_key,_value)
+#region setShaderParameterFloat
+	/// @func  setShaderParameterFloat(shader,key,value)
+	function setShaderParameterFloat(_shader,_key,_value)
 	{
 		var _uniform = shader_get_uniform(_shader, _key);
-		shader_set_uniform_i(_uniform, _value);
+		shader_set_uniform_f(_uniform, _value);
 	}
 #endregion
 

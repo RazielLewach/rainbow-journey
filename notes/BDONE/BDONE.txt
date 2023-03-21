@@ -1,2 +1,3 @@
+- Gráficos medusa.
 - Poner velocidad máxima en la dirección donde vayas.
 - Físicas movimiento. Que se ralentice poco a poco y caiga por gravedad.

@@ -18,7 +18,7 @@
 	depth = 10;
 	gpu_set_cullmode(cull_counterclockwise);
 	gpu_set_alphatestenable(true);
-	gpu_set_zwriteenable(true);
+	gpu_set_alphatestref(0);
 	gpu_set_ztestenable(true);
 #endregion
 #region Enums (async).
@@ -27,6 +27,10 @@
 #region Macros (async).
 	#macro FPS 60 // Frames per second del juego.
 	#macro INFINITE 9999999 // Pos el infinito.
+#endregion
+#region Parámetros a guardar (async).
+	colorHueEssence = 255; // Tu color de esencia.
+	scCameraPrecision = 0.07; // Velocidad de movimiento de la cámara.
 #endregion
 #region Estado.
 	dirAngular0001 = 0; // Dirección angular de incremento 0001.
@@ -46,7 +50,8 @@
 	dirAngular10 = 0; // Dirección angular de incremento 10.
 	dirAngular12 = 0; // Dirección angular de incremento 15.
 	nStep = 0; // Contadores.
+	colorFinalEssence = make_color_hsv(colorHueEssence,255,255);
 #endregion
 #region Vertex y textures.
-	txBlank = sprite_get_texture(sBlank,0); // Blanco.
+	//txBlank = sprite_get_texture(sBlank,0); // Blanco.
 #endregion
