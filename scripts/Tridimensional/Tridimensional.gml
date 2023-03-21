@@ -70,8 +70,8 @@
 	}
 #endregion
 #region d3dAddSphere
-	/// @func  d3dAddSphere(vertex,x,y,z,radius,outside,steps,color,alpha,leftTexture,topTexture,rightTexture,botTexture)
-	function d3dAddSphere(_vtx,_x,_y,_z,_rad,_out,_ste,_col,_alp,_leftt,_topt,_rightt,_bott) {
+	/// @func  d3dAddSphere(vertex,x,y,z,radius,dirBase,dirTop,outside,steps,color,alpha,leftTexture,topTexture,rightTexture,botTexture)
+	function d3dAddSphere(_vtx,_x,_y,_z,_rad,_dirBase,_dirTop,_out,_ste,_col,_alp,_leftt,_topt,_rightt,_bott) {
 		// "steps" debe ser divisible de 90
 		var _ini = 0,_fin = 360,_inc = 1;
 		if (!_out) {
@@ -81,7 +81,7 @@
 		}
 		var _s = _ste;
 		var _inc = _s*_inc;
-		for (var i = -90; i < 90; i += _s) {
+		for (var i = _dirBase; i < _dirTop; i += _s) {
 			for (var j = _ini; j != _fin; j += _inc) {
 				var _itex0 = _leftt+(_rightt-_leftt)*j/360;
 				var _itex1 = _leftt+(_rightt-_leftt)*(j+_inc)/360;

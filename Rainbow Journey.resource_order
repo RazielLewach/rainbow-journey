@@ -16,6 +16,7 @@
     {"name":"Sprites","order":1,"path":"folders/Sprites.yy",},
     {"name":"Tile Sets","order":2,"path":"folders/Tile Sets.yy",},
     {"name":"Timelines","order":8,"path":"folders/Timelines.yy",},
+    {"name":"Textures","order":1,"path":"folders/Sprites/Textures.yy",},
   ],
   "ResourceOrderSettings": [
     {"name":"oPlayer","order":2,"path":"objects/oPlayer/oPlayer.yy",},
@@ -26,6 +27,7 @@
     {"name":"System","order":5,"path":"scripts/System/System.yy",},
     {"name":"oTrucos","order":1,"path":"objects/oTrucos/oTrucos.yy",},
     {"name":"BDONE","order":1,"path":"notes/BDONE/BDONE.yy",},
+    {"name":"sBlank","order":1,"path":"sprites/sBlank/sBlank.yy",},
     {"name":"Controls","order":2,"path":"scripts/Controls/Controls.yy",},
   ],
 }

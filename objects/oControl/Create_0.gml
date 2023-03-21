@@ -47,3 +47,6 @@
 	dirAngular12 = 0; // Dirección angular de incremento 15.
 	nStep = 0; // Contadores.
 #endregion
+#region Vertex y textures.
+	txBlank = sprite_get_texture(sBlank,0); // Blanco.
+#endregion

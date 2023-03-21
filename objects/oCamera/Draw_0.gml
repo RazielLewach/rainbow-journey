@@ -1,5 +1,5 @@
 #region Setea la cámara 3D.
-	var _lon = 100;
+	var _lon = 400;
 	var _xLon = +_lon*dcos(dirCamPhi)*dcos(dirCamTheta);
 	var _yLon = -_lon*dsin(dirCamPhi)*dcos(dirCamTheta);
 	var _zLon = -_lon*dsin(dirCamTheta);
