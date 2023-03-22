@@ -9,6 +9,7 @@
 	create(room_width/2,room_height/2,oPlayer);
 	create(room_width/2,room_height/2,oCamera);
 	create(room_width/2,room_height/2,oTrucos);
+	create(room_width/2,room_height/2,0,oLight);
 	window_set_fullscreen(true);
 	gpu_set_texrepeat(true);
 	randomize();
@@ -22,7 +23,8 @@
 	gpu_set_ztestenable(true);
 #endregion
 #region Enums (async).
-	
+	// General.
+	enum MODE {NOONE, JELLYFISH}
 #endregion
 #region Macros (async).
 	#macro FPS 60 // Frames per second del juego.

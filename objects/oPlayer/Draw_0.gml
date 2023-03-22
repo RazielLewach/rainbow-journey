@@ -5,23 +5,31 @@
 			// El núcleo.
 			var _r = radius, _v = vertexJellyfishHead, _c = oControl.colorFinalEssence;
 			setArrD3dOpciones(0,0,0,0,0,90,0,1,1,1);
-			d3dAddSphere(_v,0,0,0,_r*0.6,-90,+90,true,36,oControl.colorFinalEssence,1,0.0,0.0,0.01,0.01);
+			d3dAddSphere(_v,0,0,0,_r*0.6,-90,+90,true,9,oControl.colorFinalEssence,1,0.0,0.0,0.01,0.01);
 			
 			// La cáscara.
 			setArrD3dOpciones(0,0,0,0,0,0,36,1,1,1);
-			d3dAddSphere(_v,0,0,-_r*0.3,_r*1.0,-90,+0,false,36,c_gray,1,0.0,0.0,5.0,0.84);
+			d3dAddSphere(_v,0,0,0,_r*1.0,-90,+0,false,18,c_gray,1,0.0,0.0,5.0,1.0);
 			setArrD3dOpciones(0,0,0,0,0,0,0,1,1,1);
-			d3dAddSphere(_v,0,0,-_r*0.3,_r*1.0,-90,+0,true,36,_c,1,0.0,0.0,5.0,0.84);
+			d3dAddSphere(_v,0,0,0,_r*1.0,-90,+0,true,18,_c,1,0.0,0.0,5.0,1.0);
 			
 			// Los 5 brazos exteriores.
 			setArrD3dOpciones(0,0,0,0,0,0,0,1,1,1);
 			for (var i = 0; i < 360; i += 360/5)
 			{
 				var _dir = i+180;
-				var _x = +_r*0.95*dcos(_dir);
-				var _y = -_r*0.95*dsin(_dir);
+				var _x = +_r*1.00*dcos(_dir);
+				var _y = -_r*1.00*dsin(_dir);
 				
 				setArrD3dOpciones(_x,_y,0,0,0,0,_dir+90,1,1,1);
+				// TRIANGULITO TAPAR AGUJERO
+				// Left top
+				/*d3dAddTrioVertex(_v,_c,1,
+					-_r*0.60,-_r*0.20,+_r*0.00,0.00,0.50,
+					-_r*0.30,-_r*0.10,+_r*0.00,0.25,0.50,
+					+_r*0.00,+_r*0.00,+_r*0.00,0.50,0.50
+				);*/
+				
 				// FRONT
 				// Left top
 				d3dAddQuadraVertexArray(_v,_c,1,
@@ -93,7 +101,7 @@
 	var _scV = 1.0+0.4*dsin(dirSpeed);
 	if (vertexJellyfishHead != noone) {
 		shader_set(shJellyfishFlux);
-		setShaderParameterFloat(shJellyfishFlux,"scaling",dcos(dirSpeed));
+		setShaderParameterFloat(shJellyfishFlux,"dirSpeed",dirSpeed);
 		matrix_set(matrix_world,matrixBuildExt(x,y,z,0,dirThetaLook-90,dirPhiLook,_scH,_scH,_scV));
 		vertex_submit(vertexJellyfishHead,pr_trianglelist,txJellyfishSkin);
 		shader_reset();
@@ -108,27 +116,15 @@
 		var _r = radius, _v = vertexJellyfishTentacle, _c = oControl.colorFinalEssence;
 		
 		// El palo.
-		setArrD3dOpciones(0,0,0,0,0,-90,0,1,1,1);
+		setArrD3dOpciones(0,0,0,0,0,0,0,1,1,1);
 		var _rat = _r*0.1;
-		for (var i = 0; i < 5; ++i)
+		for (var i = 0; i < 25; ++i)
 		{
-			d3dAddPipe(_v,+_r*i,0,0,_rat,_rat-_r*0.015,_r*1,true,false,30,_c,1,0.0,0.0,0.5,1.0);
-			_rat -= _r*0.015;
+			d3dAddPipe(_v,10+_r*i/5,0,0,_rat,_rat,_r/5,true,false,36,_c,1,0.0,0.0,0.5,1.0);
 		}
-		d3dAddSphere(_v,+_r*5,0,0,_r*0.025,-90,+90,true,36,_c,1,0.0,0.0,0.5,1.0);
 		
-		// Las bolas.
-		var _N = 30;
-		for (var i = 0; i < _N; i++)
-		{
-			var _lon = _r*(0.1-0.075*i/_N);
-			var _dir = random(360);
-			d3dAddSphere(_v,
-				+_r*i*(5/_N),
-				+_lon*dcos(_dir),
-				-_lon*dsin(_dir),
-			_r*0.025,-90,+90,true,36,c_white,1,0.5,0.0,1.0,1.0);
-		}
+		setArrD3dOpciones(+_r*5,0,0,0,16,0,0,1,1,1);
+		d3dAddSphere(_v,10,0,0,_rat,-90,+90,true,36,_c,1,0.0,0.0,0.5,1.0);
 		
 		vertex_end(vertexJellyfishTentacle);
 		vertex_freeze(vertexJellyfishTentacle);
@@ -140,23 +136,23 @@
 		for (var i = 0; i < array_length(arrTentaculo); ++i)
 			with(arrTentaculo[i])
 			{
+				shader_set(shJellyfishTentacle);
+				for (var j = 0; j < array_length(arrDirPhi); ++j)
+				{
+					setShaderParameterFloat(shJellyfishTentacle,"phi"+string(j),-angle_difference(other.dirPhiLook,arrDirPhi[j])/30);
+					setShaderParameterFloat(shJellyfishTentacle,"theta"+string(j),-angle_difference(other.dirThetaLook,arrDirTheta[j])/30);
+				}
+				
 				var _dirPhi = i*72;
 				var _coords = matrix_transform_vertex(
 					matrixBuildExt(0,0,0,0,other.dirThetaLook-90,other.dirPhiLook,_scH,_scH,_scV),
 					+_lon*dcos(_dirPhi),-_lon*dsin(_dirPhi),0
 				);
-
-				shader_set(shJellyfishTentacle);
-				for (var j = 0; j < array_length(arrDirPhi); ++j)
-				{
-					setShaderParameterFloat(shJellyfishTentacle,"phi"+string(j),-angle_difference(other.dirPhiLook,arrDirPhi[j])/30);
-					setShaderParameterFloat(shJellyfishTentacle,"theta"+string(j),angle_difference(other.dirThetaLook,arrDirTheta[j])/30);
-				}
 				matrix_set(matrix_world,matrixBuildExt(
 					other.x+_coords[0],
 					other.y+_coords[1],
 					other.z+_coords[2],
-				0, other.dirThetaLook-90, other.dirPhiLook,1,1,1));
+				0, other.dirThetaLook, other.dirPhiLook,1,1,1));
 				vertex_submit(other.vertexJellyfishTentacle,pr_trianglelist,other.txJellyfishTentacle);
 				shader_reset();
 			}

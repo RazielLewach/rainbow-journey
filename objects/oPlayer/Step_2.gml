@@ -32,10 +32,9 @@
 #endregion
 #region Tiende a frenarse y caer.
 	var _phi = point_direction(0,0,hSpeed,vSpeed);
-	var _theta = point_direction(0,0,point_distance(0,0,hSpeed,vSpeed),dSpeed);
-	hSpeed = tiendeAX(hSpeed,0,abs(dcos(_phi)*dcos(_theta))*brake);
-	vSpeed = tiendeAX(vSpeed,0,abs(dsin(_phi)*dcos(_theta))*brake);
-	dSpeed += brake/5;
+	hSpeed = tiendeAX(hSpeed,0,abs(dcos(_phi))*brake);
+	vSpeed = tiendeAX(vSpeed,0,abs(dsin(_phi))*brake);
+	if (isCayendo) dSpeed += brake/2;
 #endregion
 #region Ajusta la velocidad máxima.
 	var _phi = point_direction(0,0,hSpeed,vSpeed);
@@ -50,7 +49,7 @@
 	y += vSpeed;
 	z += dSpeed;
 	
-	var _isFalling = dSpeed > 0 and hSpeed == 0 and vSpeed == 0;
+	var _isFalling = !_isMoving and dSpeed > 0 and hSpeed == 0 and vSpeed == 0;
 	if (!_isFalling)
 	{
 		spdDirSpeed = tiendeAX(spdDirSpeed,point_distance_3d(0,0,0,hSpeed,vSpeed,dSpeed)/50,1*_isMoving);
@@ -71,7 +70,7 @@
 				arrOffsetThetaDraw[j] = dirTiendeAX(arrOffsetThetaDraw[j], arrOffsetTheta[j], 0.1);
 				
 				// Movimiento fluido.				
-				var _spd = (array_length(arrDirPhi)-j)/10;
+				var _spd = (1.5*array_length(arrDirPhi)-j)/10;
 				if (other.isCayendo) _spd /= 3;
 				arrDirPhi[j] = dirTiendeAX(arrDirPhi[j], other.dirPhiLook + arrOffsetPhiDraw[j], _spd);
 				arrDirTheta[j] = dirTiendeAX(arrDirTheta[j], other.dirThetaLook + arrOffsetThetaDraw[j], _spd);

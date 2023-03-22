@@ -1,3 +1,6 @@
+- Animación cabeza: agrandarse horizontal-verticalmente al cerrar los brazos, encogerse al abrirlos.
+- Animación tentáculos fluida.
+- Gráficos tentáculos buenos y no planos.
 - Al no moverme, que la medusa cambie su dirlook hacia abajo para caer.
 - Puntito gris en el nucleo aparece al moverte.
 - Cambiar movimiento a contar theta para moverte 100% respecto a la cámara, Q/E perpendicular a la cámara y no al plano. ¿O borrar Q/E?
