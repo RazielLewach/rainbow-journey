@@ -1,1 +1,3 @@
-- Brazos medusa.
+- Tentáculos medusa. Debo usar shaders o queda feo (a cachos) y lento.
+- Cambiar movimiento a contar theta para moverte 100% respecto a la cámara, Q/E perpendicular a la cámara y no al plano. ¿O borrar Q/E?
+- Puntito gris en el nucleo aparece al moverte.

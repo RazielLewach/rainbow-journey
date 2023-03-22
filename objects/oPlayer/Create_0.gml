@@ -11,6 +11,19 @@
 	dirSpeed = 0; // Dirección para senos por velocidad.
 	spdDirSpeed = 0; // Velocidad para la dirspeed.
 #endregion
+#region Los tentáculos.
+	for (var i = 0; i < 5; ++i)
+	{
+		arrTentaculo[i] = {
+			arrDirPhi: array_create(10,0),
+			arrOffsetPhi: array_create(10,0),
+			arrOffsetPhiDraw: array_create(10,0),
+			arrDirTheta: array_create(10,0),
+			arrOffsetTheta: array_create(10,0),
+			arrOffsetThetaDraw: array_create(10,0)
+		}
+	}
+#endregion
 #region Estado.
 	radius = 50; // Radio de la medusa.
 #endregion
