@@ -106,9 +106,29 @@
 		vertex_begin(vertexJellyfishTentacle,oControl.vertexFormat);
 		
 		var _r = radius, _v = vertexJellyfishTentacle, _c = oControl.colorFinalEssence;
-		setArrD3dOpciones(0,0,0,0,0,0,0,1,0.05,1);
-		for (var i = 0; i < 30; ++i)
-			d3dAddSphere(_v,-_r*0.2*i,0,0,_r*0.13,-90,+90,true,36,_c,1,0.0,0.0,1.0,1.0);
+		
+		// El palo.
+		setArrD3dOpciones(0,0,0,0,0,-90,0,1,1,1);
+		var _rat = _r*0.1;
+		for (var i = 0; i < 5; ++i)
+		{
+			d3dAddPipe(_v,+_r*i,0,0,_rat,_rat-_r*0.015,_r*1,true,false,30,_c,1,0.0,0.0,0.5,1.0);
+			_rat -= _r*0.015;
+		}
+		d3dAddSphere(_v,+_r*5,0,0,_r*0.025,-90,+90,true,36,_c,1,0.0,0.0,0.5,1.0);
+		
+		// Las bolas.
+		var _N = 30;
+		for (var i = 0; i < _N; i++)
+		{
+			var _lon = _r*(0.1-0.075*i/_N);
+			var _dir = random(360);
+			d3dAddSphere(_v,
+				+_r*i*(5/_N),
+				+_lon*dcos(_dir),
+				-_lon*dsin(_dir),
+			_r*0.025,-90,+90,true,36,c_white,1,0.5,0.0,1.0,1.0);
+		}
 		
 		vertex_end(vertexJellyfishTentacle);
 		vertex_freeze(vertexJellyfishTentacle);
@@ -129,14 +149,14 @@
 				shader_set(shJellyfishTentacle);
 				for (var j = 0; j < array_length(arrDirPhi); ++j)
 				{
-					setShaderParameterFloat(shJellyfishTentacle,"phi"+string(j),-angle_difference(other.dirPhiLook,arrDirPhi[j])/10);
-					setShaderParameterFloat(shJellyfishTentacle,"theta"+string(j),angle_difference(other.dirThetaLook,arrDirTheta[j])/10);
+					setShaderParameterFloat(shJellyfishTentacle,"phi"+string(j),-angle_difference(other.dirPhiLook,arrDirPhi[j])/30);
+					setShaderParameterFloat(shJellyfishTentacle,"theta"+string(j),angle_difference(other.dirThetaLook,arrDirTheta[j])/30);
 				}
 				matrix_set(matrix_world,matrixBuildExt(
 					other.x+_coords[0],
 					other.y+_coords[1],
 					other.z+_coords[2],
-				0, other.dirThetaLook, other.dirPhiLook,1,1,1));
+				0, other.dirThetaLook-90, other.dirPhiLook,1,1,1));
 				vertex_submit(other.vertexJellyfishTentacle,pr_trianglelist,other.txJellyfishTentacle);
 				shader_reset();
 			}

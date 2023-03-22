@@ -32,52 +32,52 @@ void main()
 	float _phi = -atan(in_Position.y, in_Position.x);
 	float _theta = atan(in_Position.z, in_Position.x);
 	
-	_phi   += radians(phi0	)*(_dist-000.00)/050.00;
-	_theta += radians(theta0)*(_dist-000.00)/050.00;
+	_phi   += radians(phi0	)*(_dist-000.00)/025.00;
+	_theta += radians(theta0)*(_dist-000.00)/025.00;
+	if (_dist >= 025.0)
+	{
+		_phi   += radians(phi1	)*(_dist-025.00)/025.00;
+		_theta += radians(theta1)*(_dist-025.00)/025.00;
+	}
 	if (_dist >= 050.0)
 	{
-		_phi   += radians(phi1	)*(_dist-050.00)/050.00;
-		_theta += radians(theta1)*(_dist-050.00)/050.00;
+		_phi   += radians(phi2	)*(_dist-050.00)/025.00;
+		_theta += radians(theta2)*(_dist-050.00)/025.00;
+	}
+	if (_dist >= 075.0)
+	{
+		_phi   += radians(phi3	)*(_dist-075.00)/025.00;
+		_theta += radians(theta3)*(_dist-075.00)/025.00;
 	}
 	if (_dist >= 100.0)
 	{
-		_phi   += radians(phi2	)*(_dist-100.00)/050.00;
-		_theta += radians(theta2)*(_dist-100.00)/050.00;
+		_phi   += radians(phi4	)*(_dist-100.00)/025.00;
+		_theta += radians(theta4)*(_dist-100.00)/025.00;
+	}
+	if (_dist >= 125.0)
+	{
+		_phi   += radians(phi5	)*(_dist-125.00)/025.00;
+		_theta += radians(theta5)*(_dist-125.00)/025.00;
 	}
 	if (_dist >= 150.0)
 	{
-		_phi   += radians(phi3	)*(_dist-150.00)/050.00;
-		_theta += radians(theta3)*(_dist-150.00)/050.00;
+		_phi   += radians(phi6	)*(_dist-150.00)/025.00;
+		_theta += radians(theta6)*(_dist-150.00)/025.00;
+	}
+	if (_dist >= 175.0)
+	{
+		_phi   += radians(phi7	)*(_dist-175.00)/025.00;
+		_theta += radians(theta7)*(_dist-175.00)/025.00;
 	}
 	if (_dist >= 200.0)
 	{
-		_phi   += radians(phi4	)*(_dist-200.00)/050.00;
-		_theta += radians(theta4)*(_dist-200.00)/050.00;
+		_phi   += radians(phi8	)*(_dist-200.00)/025.00;
+		_theta += radians(theta8)*(_dist-200.00)/025.00;
 	}
-	if (_dist >= 250.0)
+	if (_dist >= 225.0)
 	{
-		_phi   += radians(phi5	)*(_dist-250.00)/050.00;
-		_theta += radians(theta5)*(_dist-250.00)/050.00;
-	}
-	if (_dist >= 300.0)
-	{
-		_phi   += radians(phi6	)*(_dist-300.00)/050.00;
-		_theta += radians(theta6)*(_dist-300.00)/050.00;
-	}
-	if (_dist >= 350.0)
-	{
-		_phi   += radians(phi7	)*(_dist-350.00)/050.00;
-		_theta += radians(theta7)*(_dist-350.00)/050.00;
-	}
-	if (_dist >= 400.0)
-	{
-		_phi   += radians(phi8	)*(_dist-400.00)/050.00;
-		_theta += radians(theta8)*(_dist-400.00)/050.00;
-	}
-	if (_dist >= 450.0)
-	{
-		_phi   += radians(phi9	)*(_dist-450.00)/050.00;
-		_theta += radians(theta9)*(_dist-450.00)/050.00;
+		_phi   += radians(phi9	)*(_dist-225.00)/025.00;
+		_theta += radians(theta9)*(_dist-225.00)/025.00;
 	}
 	
     vec4 object_space_pos = vec4(

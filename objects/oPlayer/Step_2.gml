@@ -25,7 +25,8 @@
 	else if (hSpeed == 0 and vSpeed == 0)
 	{
 		isCayendo = true;
-		dirThetaLook = dirTiendeAX(dirThetaLook,270+10*dcos(oControl.dirAngular01)*(dSpeed > 0),brake*dSpeed/maxSpeed);
+		if (dSpeed > 0)
+			dirThetaLook = dirTiendeAX(dirThetaLook,270+10*dcos(oControl.dirAngular01),brake*dSpeed/maxSpeed);
 		dirSpeed = dirTiendeAX(dirSpeed,90+10*dcos(oControl.dirAngular03),brake/3);
 	}
 #endregion
