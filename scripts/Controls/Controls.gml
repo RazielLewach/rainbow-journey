@@ -55,13 +55,7 @@
 #region keyMoveUp
 	/// @func  keyMoveUp()
 	function keyMoveUp() {
-		return key(vk_shift) or key(ord("E"));
-	}
-#endregion
-#region keyMoveDown
-	/// @func  keyMoveDown()
-	function keyMoveDown() {
-		return key(vk_control) or key(ord("Q"));
+		return key(vk_shift) or key(vk_control) or key(vk_space);
 	}
 #endregion
 

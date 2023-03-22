@@ -10,6 +10,7 @@
 	dirThetaLook = 90; // Dirección theta a la que miras.
 	dirSpeed = 0; // Dirección para senos por velocidad.
 	spdDirSpeed = 0; // Velocidad para la dirspeed.
+	isCayendo = false; // Parado y sólo afectado por la gravedad.
 #endregion
 #region Los tentáculos.
 	for (var i = 0; i < 5; ++i)

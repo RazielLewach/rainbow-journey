@@ -52,10 +52,11 @@
     {"id":{"name":"shJellyfishTentacle","path":"shaders/shJellyfishTentacle/shJellyfishTentacle.yy",},},
     {"id":{"name":"sJellyfishTentacle","path":"sprites/sJellyfishTentacle/sJellyfishTentacle.yy",},},
     {"id":{"name":"ATODO","path":"notes/ATODO/ATODO.yy",},},
-    {"id":{"name":"BDONE","path":"notes/BDONE/BDONE.yy",},},
+    {"id":{"name":"CDONE","path":"notes/CDONE/CDONE.yy",},},
     {"id":{"name":"sBlank","path":"sprites/sBlank/sBlank.yy",},},
     {"id":{"name":"sGrid","path":"sprites/sGrid/sGrid.yy",},},
     {"id":{"name":"Controls","path":"scripts/Controls/Controls.yy",},},
+    {"id":{"name":"BTOREMEMBER","path":"notes/BTOREMEMBER/BTOREMEMBER.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
   ],
   "RoomOrderNodes": [

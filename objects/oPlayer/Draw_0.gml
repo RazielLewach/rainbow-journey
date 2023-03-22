@@ -1,11 +1,11 @@
 #region Crea el modelo de la cabeza de la medusa.
 	if (vertexJellyfishHead == noone) {
 		vertexJellyfishHead = vertex_create_buffer();
-		setArrD3dOpciones(0,0,0,0,0,0,0,1,1,1);
 		vertex_begin(vertexJellyfishHead,oControl.vertexFormat);
 			// El núcleo.
 			var _r = radius, _v = vertexJellyfishHead, _c = oControl.colorFinalEssence;
-			d3dAddSphere(_v,0,0,-_r*0.4,_r*0.6,-90,+90,true,36,oControl.colorFinalEssence,1,0.0,0.0,0.01,0.01);
+			setArrD3dOpciones(0,0,0,0,0,90,0,1,1,1);
+			d3dAddSphere(_v,0,0,0,_r*0.6,-90,+90,true,36,oControl.colorFinalEssence,1,0.0,0.0,0.01,0.01);
 			
 			// La cáscara.
 			setArrD3dOpciones(0,0,0,0,0,0,36,1,1,1);

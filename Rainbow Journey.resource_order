@@ -29,8 +29,9 @@
     {"name":"oTrucos","order":1,"path":"objects/oTrucos/oTrucos.yy",},
     {"name":"shJellyfishTentacle","order":1,"path":"shaders/shJellyfishTentacle/shJellyfishTentacle.yy",},
     {"name":"sJellyfishTentacle","order":1,"path":"sprites/sJellyfishTentacle/sJellyfishTentacle.yy",},
-    {"name":"BDONE","order":1,"path":"notes/BDONE/BDONE.yy",},
+    {"name":"CDONE","order":1,"path":"notes/CDONE/CDONE.yy",},
     {"name":"sBlank","order":1,"path":"sprites/sBlank/sBlank.yy",},
     {"name":"Controls","order":2,"path":"scripts/Controls/Controls.yy",},
+    {"name":"BTOREMEMBER","order":2,"path":"notes/BTOREMEMBER/BTOREMEMBER.yy",},
   ],
 }

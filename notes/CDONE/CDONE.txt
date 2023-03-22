@@ -1,0 +1,7 @@
+- Al no moverme, que la medusa cambie su dirlook hacia abajo para caer.
+- Puntito gris en el nucleo aparece al moverte.
+- Cambiar movimiento a contar theta para moverte 100% respecto a la cámara, Q/E perpendicular a la cámara y no al plano. ¿O borrar Q/E?
+- Tentáculos medusa. Debo usar shaders o queda feo (a cachos) y lento.
+- Gráficos medusa.
+- Poner velocidad máxima en la dirección donde vayas.
+- Físicas movimiento. Que se ralentice poco a poco y caiga por gravedad.
