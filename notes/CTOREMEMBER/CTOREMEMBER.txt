@@ -1,3 +1,4 @@
+- Los tentaculos no hacen bien la iluminacion, pero la cabeza sí. ¿Parece que se ven por dentro?
 - Al nadar en picado abajo no respira
 - Triangulito en cabeza unión a brazos.
 - Tentáculos se rayan y hacen "teleport" al forzar mucho.

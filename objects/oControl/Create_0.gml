@@ -3,6 +3,7 @@
 	vertex_format_add_position_3d();
 	vertex_format_add_colour();
 	vertex_format_add_texcoord();
+	vertex_format_add_normal();
 	vertexFormat = vertex_format_end();
 #endregion
 #region Inicialización.
@@ -21,6 +22,8 @@
 	gpu_set_alphatestenable(true);
 	gpu_set_alphatestref(0);
 	gpu_set_ztestenable(true);
+	matTransformacion = noone; // La matriz nomás. Incluye translación.
+	matTransformacionNormal = noone; // Sin translaciones, para normales.
 #endregion
 #region Enums (async).
 	// General.

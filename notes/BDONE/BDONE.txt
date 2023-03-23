@@ -1,3 +1,5 @@
+- Brazos de la cabeza, malas normales.
+- Añadir normales a los 5 brazos.
 - Animación cabeza: agrandarse horizontal-verticalmente al cerrar los brazos, encogerse al abrirlos.
 - Animación tentáculos fluida.
 - Gráficos tentáculos buenos y no planos.

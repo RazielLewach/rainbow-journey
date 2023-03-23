@@ -1,1 +1,5 @@
+- Rehacer modelo brazos para que apunten abajo y luego dibujarlo en theta-90 como la cabeza.
 - Iluminación/efectos wenardos.
+- Agujero en bola núcleo.
+
+- Que al dejar de pulsar el boton de moverte, mientras esté en movimiento, se siga rotando todo el modelo acorde, lentamente hasta dejar de girarse.

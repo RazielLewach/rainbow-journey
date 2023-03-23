@@ -1,7 +1,7 @@
 {
   "resourceType": "GMNotes",
   "resourceVersion": "1.1",
-  "name": "CDONE",
+  "name": "BDONE",
   "parent": {
     "name": "Notes",
     "path": "folders/Notes.yy",
