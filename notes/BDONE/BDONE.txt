@@ -1,3 +1,7 @@
+- Al nadar en picado abajo no respira
+- Agujero en bola núcleo.
+- Los tentaculos no hacen bien la iluminacion, pero la cabeza sí. ¿Parece que se ven por dentro?
+- Rehacer modelo brazos para que apunten abajo y luego dibujarlo en theta-90 como la cabeza.
 - Brazos de la cabeza, malas normales.
 - Añadir normales a los 5 brazos.
 - Animación cabeza: agrandarse horizontal-verticalmente al cerrar los brazos, encogerse al abrirlos.

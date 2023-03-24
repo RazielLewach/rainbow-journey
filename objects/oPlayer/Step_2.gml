@@ -46,6 +46,8 @@
 	var _spd = spdDirSpeed;
 	if (_spd == 0) _spd = brake/5;
 	dirSpeed = angular(dirSpeed+_spd);
+	
+	ratLight = min(1, abs(z)/MAX_WATER_HEIGHT);
 #endregion
 #region Lógica de los tentáculos.
 	for (var i = 0; i < array_length(arrTentaculo); ++i)

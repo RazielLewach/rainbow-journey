@@ -8,7 +8,8 @@ varying vec4 v_vColour;
 
 uniform vec3 uLight; // Posición de la luz.
 uniform vec3 uOrigin; // Posición del objeto.
-uniform float dirSpeed;
+uniform float uDirSpeed;
+uniform float uRatLight;
 
 void main()
 {
@@ -18,13 +19,13 @@ void main()
 	
 	if (in_Position.z >= 0.0)
 	{
-		_scaling = cos(radians(dirSpeed));
+		_scaling = cos(radians(uDirSpeed));
 		_prof = pow(in_Position.z*0.1,2.0);
 		_lon = max(0.0, _lon + _prof*_scaling);
 	}
 	else
 	{
-		_scaling = 1.2 + 0.4*cos(radians(dirSpeed-180.0));
+		_scaling = 1.2 + 0.4*cos(radians(uDirSpeed-180.0));
 		_lon = max(0.0, _lon*_scaling);
 	}
 
@@ -37,9 +38,9 @@ void main()
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*object_space_pos;
 	
     v_vColour = in_Colour;
-	v_vColour.rgb *= min(1.0,max(0.0, dot(
+	v_vColour.rgb *= max(uRatLight, min(1.0,max(0.0, dot(
 		normalize((gm_Matrices[MATRIX_WORLD]*vec4(in_Normal,1.0)).xyz - uOrigin),
 		normalize(uLight-(gm_Matrices[MATRIX_WORLD]*object_space_pos).xyz)
-	)));
+	))));
     v_vTexcoord = in_TextureCoord;
 }

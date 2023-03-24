@@ -30,8 +30,12 @@
 	enum MODE {NOONE, JELLYFISH}
 #endregion
 #region Macros (async).
+	// General.
 	#macro FPS 60 // Frames per second del juego.
 	#macro INFINITE 9999999 // Pos el infinito.
+	
+	// Escenario.
+	#macro MAX_WATER_HEIGHT 100000 // Altura máxima.
 #endregion
 #region Parámetros a guardar (async).
 	colorHueEssence = 255; // Tu color de esencia.

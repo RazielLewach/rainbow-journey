@@ -10,6 +10,7 @@
 	dirThetaLook = 90; // Dirección theta a la que miras.
 	dirSpeed = 0; // Dirección para senos por velocidad.
 	spdDirSpeed = 0; // Velocidad para la dirspeed.
+	ratLight = 0; // Ratio de oscuridad.
 #endregion
 #region Los tentáculos.
 	for (var i = 0; i < 5; ++i)

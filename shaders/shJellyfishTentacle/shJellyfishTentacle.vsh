@@ -8,6 +8,7 @@ varying vec4 v_vColour;
 
 uniform vec3 uLight; // Posición de la luz.
 uniform vec3 uOrigin; // Posición del objeto.
+uniform float uRatLight;
 uniform float uPhi0;
 uniform float uPhi1;
 uniform float uPhi2;
@@ -33,7 +34,7 @@ void main()
 {
 	float _dist = sqrt(in_Position.x*in_Position.x + in_Position.y*in_Position.y + in_Position.z*in_Position.z);
 	float _phi = -atan(in_Position.y, in_Position.x);
-	float _theta = atan(in_Position.z, in_Position.x);
+	float _theta = -atan(in_Position.z, sqrt(in_Position.x*in_Position.x + in_Position.y*in_Position.y));
 	
 	_phi   += radians(uPhi0	)*(_dist-000.00)/025.00;
 	_theta += radians(uTheta0)*(_dist-000.00)/025.00;
@@ -91,9 +92,9 @@ void main()
     gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*object_space_pos;
     
     v_vColour = in_Colour;
-	v_vColour.rgb *= min(1.0,max(0.0, dot(
+	v_vColour.rgb *= max(uRatLight, min(1.0,max(0.0, dot(
 		normalize((gm_Matrices[MATRIX_WORLD]*vec4(in_Normal,1.0)).xyz - uOrigin),
 		normalize(uLight-(gm_Matrices[MATRIX_WORLD]*object_space_pos).xyz)
-	)));
+	))));
     v_vTexcoord = in_TextureCoord;
 }

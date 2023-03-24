@@ -103,7 +103,8 @@
 		shader_set(shJellyfishFlux);
 		setShaderParameterVec(shJellyfishFlux,"uLight",[oLight.x, oLight.y, oLight.z]);
 		setShaderParameterVec(shJellyfishFlux,"uOrigin",[x, y, z]);
-		setShaderParameterFloat(shJellyfishFlux,"dirSpeed",dirSpeed);
+		setShaderParameterFloat(shJellyfishFlux,"uDirSpeed",dirSpeed);
+		setShaderParameterFloat(shJellyfishFlux,"uRatLight",ratLight);
 		
 		matrix_set(matrix_world,matrixBuildExt(x,y,z,0,dirThetaLook-90,dirPhiLook,_scH,_scH,_scV));
 		vertex_submit(vertexJellyfishHead,pr_trianglelist,txJellyfishSkin);
@@ -123,12 +124,12 @@
 		var _rat = _r*0.1;
 		for (var i = 0; i < 25; ++i)
 		{
-			setArrD3dOpciones(0,0,-_r*i/5,0,0,+90,0,1,1,1);
+			setArrD3dOpciones(0,0,+i*_r/5,0,0,-90,0,1,1,1);
 			d3dAddPipe(_v,0,0,0,_rat,_rat,_r/5,true,false,36,_c,1,0.0,0.0,0.5,1.0);
 		}
 		
-		setArrD3dOpciones(0,0,-_r*5,0,16,0,0,1,1,1);
-		d3dAddSphere(_v,10,0,0,_rat,-90,+90,true,36,_c,1,0.0,0.0,0.5,1.0);
+		setArrD3dOpciones(0,0,+_r*5,0,16,0,0,1,1,1);
+		d3dAddSphere(_v,0,0,0,_rat,-90,+90,true,36,_c,1,0.0,0.0,0.5,1.0);
 		
 		vertex_end(vertexJellyfishTentacle);
 		vertex_freeze(vertexJellyfishTentacle);
@@ -154,8 +155,9 @@
 				{
 					setShaderParameterVec(shJellyfishTentacle,"uLight",[oLight.x, oLight.y, oLight.z]);
 					setShaderParameterVec(shJellyfishTentacle,"uOrigin",[_xDraw, _yDraw, _zDraw]);
-					setShaderParameterFloat(shJellyfishTentacle,"uPhi"+string(j),0)//-angle_difference(other.dirPhiLook,arrDirPhi[j])/30);
-					setShaderParameterFloat(shJellyfishTentacle,"uTheta"+string(j),0)//-angle_difference(other.dirThetaLook,arrDirTheta[j])/30);
+					setShaderParameterFloat(shJellyfishTentacle,"uPhi"+string(j),-angle_difference(other.dirPhiLook,arrDirPhi[j])/30);
+					setShaderParameterFloat(shJellyfishTentacle,"uTheta"+string(j),-angle_difference(other.dirThetaLook,arrDirTheta[j])/30);
+					setShaderParameterFloat(shJellyfishTentacle,"uRatLight",other.ratLight);
 				}
 				
 				matrix_set(matrix_world,matrixBuildExt(_xDraw, _yDraw, _zDraw, 0, other.dirThetaLook-90, other.dirPhiLook,1,1,1));
