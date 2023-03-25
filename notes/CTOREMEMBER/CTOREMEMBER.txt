@@ -1,1 +1,2 @@
 - Tentáculos se rayan y hacen "teleport" al forzar mucho.
+- Textura o modelo tentaculos?

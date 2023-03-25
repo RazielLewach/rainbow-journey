@@ -47,7 +47,7 @@
 	if (_spd == 0) _spd = brake/5;
 	dirSpeed = angular(dirSpeed+_spd);
 	
-	ratLight = min(1, abs(z)/MAX_WATER_HEIGHT);
+	ratLight = min(1, abs(z)/MAX_WATER_HEIGHT)*0.67;
 #endregion
 #region Lógica de los tentáculos.
 	for (var i = 0; i < array_length(arrTentaculo); ++i)
@@ -55,8 +55,8 @@
 			for (var j = 0; j < array_length(arrDirPhi); ++j)
 			{				
 				// Setea los offsets aleatorios para dar ambiente.
-				if (prob(1)) arrOffsetPhi[j] = random_range(-10,10);
-				if (prob(1)) arrOffsetTheta[j] = random_range(-10,10);
+				if (prob(1)) arrOffsetPhi[j] = random_range(-20,20);
+				if (prob(1)) arrOffsetTheta[j] = random_range(-20,20);
 				
 				// Los offset cambian gradualmente.
 				arrOffsetPhiDraw[j] = dirTiendeAX(arrOffsetPhiDraw[j], arrOffsetPhi[j], 0.1);
