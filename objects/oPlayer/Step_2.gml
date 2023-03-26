@@ -17,9 +17,9 @@
 		dSpeed -= acceleration*dsin(_theta);
 		
 		if (_hTo != 0 or _vTo != 0)
-			dirPhiLook = dirTiendeAX(dirPhiLook,_phi,acceleration);
+			dirPhiLook = dirTiendeAX(dirPhiLook,_phi,acceleration*2);
 		if (_isMoving)
-			dirThetaLook = dirTiendeAX(dirThetaLook,_theta,acceleration);
+			dirThetaLook = dirTiendeAX(dirThetaLook,_theta,acceleration*2);
 	}
 #endregion
 #region Tiende a frenarse y caer.

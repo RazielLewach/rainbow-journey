@@ -1,3 +1,5 @@
+- Aplastarlos como espada. Circularmente simetricos.
+- Efectos tentáculos, que no esten tiesos al inicio.
 - Que ondule más.
 - Al nadar en picado abajo no respira
 - Agujero en bola núcleo.

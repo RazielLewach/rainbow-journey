@@ -113,32 +113,34 @@
 	}
 #endregion
 #region Crea los modelos de los tentáculos de la medusa.
-	if (vertexJellyfishTentacle == noone) {
-		vertexJellyfishTentacle = vertex_create_buffer();
+	for (var t = 0; t < array_length(arrTentaculo); ++t)
+		if (vertexJellyfishTentacle[t] == noone) {
+			vertexJellyfishTentacle[t] = vertex_create_buffer();
 		
-		vertex_begin(vertexJellyfishTentacle,oControl.vertexFormat);
+			vertex_begin(vertexJellyfishTentacle[t],oControl.vertexFormat);
 		
-		var _r = radius, _v = vertexJellyfishTentacle, _c = oControl.colorFinalEssence;
+			var _r = radius, _v = vertexJellyfishTentacle[t], _c = oControl.colorFinalEssence;
 		
-		// El palo.
-		var _rat = _r*0.1;
-		for (var i = 0; i <= 25; ++i)
-		{
-			setArrD3dOpciones(-i*_r/5,0,0,0,0,0,0,1,1,1);
-			d3dAddPipe(_v,0,0,0,_rat,_rat,_r/5,true,false,90,_c,1,0.0,0.0,0.5,1.0);
+			// El palo.
+			var _dir = t*72+90-18;
+			var _rat = _r*0.1;
+			for (var i = 0; i <= 25; ++i)
+			{
+				setArrD3dOpciones(-i*_r/5,0,0,0,_dir,0,0,1,1,0.35);
+				d3dAddPipe(_v,0,0,0,_rat,_rat,_r/5,true,false,90,_c,1,0.0,0.0,0.5,1.0);
+			}
+		
+			setArrD3dOpciones(-_r*5,0,0,0,_dir,0,0,1,1,0.35);
+			d3dAddSphere(_v,0,0,0,_rat,-90,+90,true,90,_c,1,0.0,0.0,0.5,1.0);
+		
+			vertex_end(vertexJellyfishTentacle[t]);
+			vertex_freeze(vertexJellyfishTentacle[t]);
 		}
-		
-		setArrD3dOpciones(-_r*5,0,0,0,0,0,0,1,1,1);
-		d3dAddSphere(_v,0,0,0,_rat,-90,+90,true,90,_c,1,0.0,0.0,0.5,1.0);
-		
-		vertex_end(vertexJellyfishTentacle);
-		vertex_freeze(vertexJellyfishTentacle);
-	}
 #endregion
 #region Dibuja los modelos de los tentáculos de la medusa.
-	if (vertexJellyfishTentacle != noone) {
-		var _lon = radius*0.45;
-		for (var i = 0; i < array_length(arrTentaculo); ++i)
+	for (var i = 0; i < array_length(arrTentaculo); ++i)
+		if (vertexJellyfishTentacle[i] != noone) {
+			var _lon = radius*0.45;
 			with(arrTentaculo[i])
 			{
 				var _dirPhi = i*72-18;
@@ -155,17 +157,18 @@
 				{
 					setShaderParameterVec(shJellyfishTentacle,"uLight",[oLight.x, oLight.y, oLight.z]);
 					setShaderParameterVec(shJellyfishTentacle,"uOrigin",[_xDraw, _yDraw, _zDraw]);
-					setShaderParameterFloat(shJellyfishTentacle,"uPhi"+string(j),-angle_difference(other.dirPhiLook,arrDirPhi[j])/30);
-					setShaderParameterFloat(shJellyfishTentacle,"uTheta"+string(j),angle_difference(other.dirThetaLook,arrDirTheta[j])/30);
+					var _rat = 3 - 2.5*(j/array_length(arrDirPhi));
+					setShaderParameterFloat(shJellyfishTentacle,"uPhi"+string(j),-_rat*angle_difference(other.dirPhiLook,arrDirPhi[j])/100);
+					setShaderParameterFloat(shJellyfishTentacle,"uTheta"+string(j),_rat*angle_difference(other.dirThetaLook,arrDirTheta[j])/100);
 					setShaderParameterFloat(shJellyfishTentacle,"uRatLight",other.ratLight);
 				}
 				
 				matrix_set(matrix_world,matrixBuildExt(_xDraw, _yDraw, _zDraw, 0, other.dirThetaLook, other.dirPhiLook,1,1,1));
-				vertex_submit(other.vertexJellyfishTentacle,pr_trianglelist,other.txJellyfishTentacle);
+				vertex_submit(other.vertexJellyfishTentacle[i],pr_trianglelist,other.txJellyfishTentacle);
 				
 				shader_reset();
 			}
-	}
+		}
 #endregion
 #region Ajustar matrix.
 	matrix_set(matrix_world,matrixBuildExt(0,0,0,0,0,0,1,1,1));
