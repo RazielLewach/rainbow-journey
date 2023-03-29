@@ -52,8 +52,26 @@
 	}
 #endregion
 #region d3dAddPipe
-	/// @func  d3dAddPipe(vertex,x,y,z,radio_bot,radio_top,altura,outside,extended,increment,color,alpha,leftTexture,topTexture,rightTexture,botTexture)
-	function d3dAddPipe(_vtx,_x,_y,_z,_rb,_rt,_alt,_out,_ext,_incr,_col,_alp,_leftt,_topt,_rightt,_bott) {
+	/// @func  d3dAddPipe(vertex,x,y,z,radio_bot,radio_top,altura,outside,extended,increment,color,alphaBase,alphaTop,leftTexture,topTexture,rightTexture,botTexture)
+	function d3dAddPipe() {
+		var _vtx = argument[0],
+			_x = argument[1],
+			_y = argument[2],
+			_z = argument[3],
+			_rb = argument[4],
+			_rt = argument[5],
+			_alt = argument[6],
+			_out = argument[7],
+			_ext = argument[8],
+			_incr = argument[9],
+			_col = argument[10],
+			_alpBase = argument[11],
+			_alpTop = argument[12],
+			_leftt = argument[13],
+			_topt = argument[14],
+			_rightt = argument[15],
+			_bott = argument[16];
+		
 		var _ini = 360,_fin = 0,_inc = -_incr;
 		if (_out) {
 			_ini = 0;
@@ -66,12 +84,12 @@
 			var _itex0 = _leftt+(_rightt-_leftt)*i/360;
 			var _itex1 = _leftt+(_rightt-_leftt)*(i+_inc)/360;
 			var _xm = _alt*0.1*(!_out and _ext);
-			d3dAddVertex(_vtx,_x-_xm		,_y+_rb*dcos(i),		_z+_rb*dsin(i),_col,_alp,_itex0,_bott,		0,dcos(i	 ),dsin(i	  ));
-			d3dAddVertex(_vtx,_x+_xm+_alt	,_y+_rt*dcos(i),		_z+_rt*dsin(i),_col,_alp,_itex0,_topt,		0,dcos(i	 ),dsin(i	  ));
-			d3dAddVertex(_vtx,_x-_xm		,_y+_rb*dcos(i+_inc),	_z+_rb*dsin(i+_inc),_col,_alp,_itex1,_bott,	0,dcos(i+_inc),dsin(i+_inc));
-			d3dAddVertex(_vtx,_x-_xm		,_y+_rb*dcos(i+_inc),	_z+_rb*dsin(i+_inc),_col,_alp,_itex1,_bott,	0,dcos(i+_inc),dsin(i+_inc));
-			d3dAddVertex(_vtx,_x+_xm+_alt	,_y+_rt*dcos(i),		_z+_rt*dsin(i),_col,_alp,_itex0,_topt,		0,dcos(i	 ),dsin(i	  ));
-			d3dAddVertex(_vtx,_x+_xm+_alt	,_y+_rt*dcos(i+_inc),	_z+_rt*dsin(i+_inc),_col,_alp,_itex1,_topt,	0,dcos(i+_inc),dsin(i+_inc));
+			d3dAddVertex(_vtx,_x-_xm		,_y+_rb*dcos(i),		_z+_rb*dsin(i),_col,_alpTop,_itex0,_bott,		0,dcos(i	 ),dsin(i	  ));
+			d3dAddVertex(_vtx,_x+_xm+_alt	,_y+_rt*dcos(i),		_z+_rt*dsin(i),_col,_alpBase,_itex0,_topt,		0,dcos(i	 ),dsin(i	  ));
+			d3dAddVertex(_vtx,_x-_xm		,_y+_rb*dcos(i+_inc),	_z+_rb*dsin(i+_inc),_col,_alpTop,_itex1,_bott,	0,dcos(i+_inc),dsin(i+_inc));
+			d3dAddVertex(_vtx,_x-_xm		,_y+_rb*dcos(i+_inc),	_z+_rb*dsin(i+_inc),_col,_alpTop,_itex1,_bott,	0,dcos(i+_inc),dsin(i+_inc));
+			d3dAddVertex(_vtx,_x+_xm+_alt	,_y+_rt*dcos(i),		_z+_rt*dsin(i),_col,_alpBase,_itex0,_topt,		0,dcos(i	 ),dsin(i	  ));
+			d3dAddVertex(_vtx,_x+_xm+_alt	,_y+_rt*dcos(i+_inc),	_z+_rt*dsin(i+_inc),_col,_alpBase,_itex1,_topt,	0,dcos(i+_inc),dsin(i+_inc));
 		}
 	}
 #endregion

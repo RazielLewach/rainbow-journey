@@ -7,21 +7,28 @@
 	acceleration = 2; // Acceleración we.
 	brake = 1; // Freno we.
 	dirPhiLook = 0; // Dirección phi a la que miras.
-	dirThetaLook = 90; // Dirección theta a la que miras.
+	dirThetaLook = 0; // Dirección theta a la que miras.
 	dirSpeed = 0; // Dirección para senos por velocidad.
 	spdDirSpeed = 0; // Velocidad para la dirspeed.
 	ratLight = 0; // Ratio de oscuridad.
+	dirPhiMoving = 0; // Dirección phi a la que te mueves.
+	dirThetaMoving = 0; // Dirección theta a la que te mueves.
 #endregion
 #region Los tentáculos.
 	for (var i = 0; i < 5; ++i)
 	{
 		arrTentaculo[i] = {
 			arrDirPhi: array_create(10,0),
+			arrDirPhiDifference: array_create(10,0),
 			arrOffsetPhi: array_create(10,0),
 			arrOffsetPhiDraw: array_create(10,0),
 			arrDirTheta: array_create(10,0),
+			arrDirThetaDifference: array_create(10,0),
 			arrOffsetTheta: array_create(10,0),
-			arrOffsetThetaDraw: array_create(10,0)
+			arrOffsetThetaDraw: array_create(10,0),
+			arrXBase: array_create(10,0),
+			arrYBase: array_create(10,0),
+			arrZBase: array_create(10,0)
 		}
 	}
 #endregion

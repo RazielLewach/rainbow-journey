@@ -5,7 +5,7 @@
 	if (cntRestart == 1) game_restart();
 	if keyP(vk_f4) window_set_fullscreen(!window_get_fullscreen());
 
-	if key(ord("M")) room_speed = 5;
+	if key(ord("M")) room_speed = 1;
 	else room_speed = 60;
 
 	if key(vk_numpad8) ajustes++;

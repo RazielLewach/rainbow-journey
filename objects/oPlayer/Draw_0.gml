@@ -124,10 +124,12 @@
 			// El palo.
 			var _dir = t*72+90-18;
 			var _rat = _r*0.1;
-			for (var i = 0; i <= 25; ++i)
+			for (var i = 0; i <= 50; ++i)
 			{
-				setArrD3dOpciones(-i*_r/5,0,0,0,_dir,0,0,1,1,0.35);
-				d3dAddPipe(_v,0,0,0,_rat,_rat,_r/5,true,false,90,_c,1,0.0,0.0,0.5,1.0);
+				var _alphaBase = i/51;
+				var _alphaTop = (i+1)/51;
+				setArrD3dOpciones(-i*_r*0.1,0,0,0,_dir,0,0,1,1,0.35);
+				d3dAddPipe(_v,0,0,0,_rat,_rat,_r*0.1,true,false,90,_c,_alphaBase,_alphaTop,0.0,0.0,0.5,1.0);
 			}
 		
 			setArrD3dOpciones(-_r*5,0,0,0,_dir,0,0,1,1,0.35);
@@ -153,15 +155,14 @@
 				var _zDraw = other.z+_coords[2];
 				
 				shader_set(shJellyfishTentacle);
-				for (var j = 0; j < array_length(arrDirPhi); ++j)
-				{
-					setShaderParameterVec(shJellyfishTentacle,"uLight",[oLight.x, oLight.y, oLight.z]);
-					setShaderParameterVec(shJellyfishTentacle,"uOrigin",[_xDraw, _yDraw, _zDraw]);
-					var _rat = 3 - 2.5*(j/array_length(arrDirPhi));
-					setShaderParameterFloat(shJellyfishTentacle,"uPhi"+string(j),-_rat*angle_difference(other.dirPhiLook,arrDirPhi[j])/100);
-					setShaderParameterFloat(shJellyfishTentacle,"uTheta"+string(j),_rat*angle_difference(other.dirThetaLook,arrDirTheta[j])/100);
-					setShaderParameterFloat(shJellyfishTentacle,"uRatLight",other.ratLight);
-				}
+				setShaderParameterVec(shJellyfishTentacle,"uLight",[oLight.x, oLight.y, oLight.z]);
+				setShaderParameterVec(shJellyfishTentacle,"uOrigin",[_xDraw, _yDraw, _zDraw]);
+				setShaderParameterFloat(shJellyfishTentacle,"uRatLight",other.ratLight);
+				setShaderParameterVec(shJellyfishTentacle,"uArrPhi",arrDirPhiDifference);
+				setShaderParameterVec(shJellyfishTentacle,"uArrTheta",arrDirThetaDifference);
+				setShaderParameterVec(shJellyfishTentacle,"uArrXBase",arrXBase);
+				setShaderParameterVec(shJellyfishTentacle,"uArrYBase",arrYBase);
+				setShaderParameterVec(shJellyfishTentacle,"uArrZBase",arrZBase);
 				
 				matrix_set(matrix_world,matrixBuildExt(_xDraw, _yDraw, _zDraw, 0, other.dirThetaLook, other.dirPhiLook,1,1,1));
 				vertex_submit(other.vertexJellyfishTentacle[i],pr_trianglelist,other.txJellyfishTentacle);

@@ -1,4 +1,5 @@
 #region Calcula el movimiento.
+	// Calcula direcciones.
 	var _hTo = 0 + 1*(keyMoveFront()) - 1*(keyMoveBack());
 	var _vTo = 0 + 1*(keyMoveRight()) - 1*(keyMoveLeft());
 	var _dTo = 0 - 1*(keyMoveUp());
@@ -16,10 +17,17 @@
 		vSpeed -= acceleration*dsin(_phi)*dcos(_theta);
 		dSpeed -= acceleration*dsin(_theta);
 		
-		if (_hTo != 0 or _vTo != 0)
-			dirPhiLook = dirTiendeAX(dirPhiLook,_phi,acceleration*2);
-		if (_isMoving)
-			dirThetaLook = dirTiendeAX(dirThetaLook,_theta,acceleration*2);
+		dirPhiMoving = _phi;
+		dirThetaMoving = _theta;
+	}
+	
+	// Ángulos de movimiento.
+	var _spd = sqrt(hSpeed*hSpeed + vSpeed*vSpeed + dSpeed*dSpeed);
+	if (_spd > 0 and (dirPhiMoving != dirPhiLook or dirThetaMoving != dirThetaLook))
+	{
+		var _spdRota = max(0.1,acceleration*5*_spd/maxSpeed);
+		dirPhiLook = dirTiendeAX(dirPhiLook,dirPhiMoving,_spdRota);
+		dirThetaLook = dirTiendeAX(dirThetaLook,dirThetaMoving,_spdRota);
 	}
 #endregion
 #region Tiende a frenarse y caer.
@@ -55,18 +63,27 @@
 			for (var j = 0; j < array_length(arrDirPhi); ++j)
 			{				
 				// Setea los offsets aleatorios para dar ambiente.
-				if (prob(1)) arrOffsetPhi[j] = random_range(-20,20);
-				if (prob(1)) arrOffsetTheta[j] = random_range(-20,20);
+				//if (prob(1)) arrOffsetPhi[j] = random_range(-20,20);
+				//if (prob(1)) arrOffsetTheta[j] = random_range(-20,20);
 				
 				// Los offset cambian gradualmente.
-				arrOffsetPhiDraw[j] = dirTiendeAX(arrOffsetPhiDraw[j], arrOffsetPhi[j], 0.1);
-				arrOffsetThetaDraw[j] = dirTiendeAX(arrOffsetThetaDraw[j], arrOffsetTheta[j], 0.1);
+				//arrOffsetPhiDraw[j] = dirTiendeAX(arrOffsetPhiDraw[j], arrOffsetPhi[j], 0.1);
+				//arrOffsetThetaDraw[j] = dirTiendeAX(arrOffsetThetaDraw[j], arrOffsetTheta[j], 0.1);
 				
 				// Movimiento fluido.				
 				var _spd = (1.5*array_length(arrDirPhi)-j)/10;
-				arrDirPhi[j] = dirTiendeAX(arrDirPhi[j], other.dirPhiLook + arrOffsetPhiDraw[j], _spd);
-				arrDirTheta[j] = dirTiendeAX(arrDirTheta[j], other.dirThetaLook + arrOffsetThetaDraw[j], _spd);
-				if (arrDirPhi[j] > 180) arrDirPhi[j] -= 360;
-				if (arrDirTheta[j] > 180) arrDirTheta[j] -= 360;
+				arrDirPhi[j] = dirTiendeAX(arrDirPhi[j], other.dirPhiLook /*+ arrOffsetPhiDraw[j]*/, _spd);
+				arrDirPhiDifference[j] = +angle_difference(other.dirPhiLook,arrDirPhi[j]);
+				if (arrDirPhiDifference[j] > 180) arrDirPhiDifference[j] -= 360;
+				
+				arrDirTheta[j] = dirTiendeAX(arrDirTheta[j], other.dirThetaLook /*+ arrOffsetThetaDraw[j]*/, _spd);
+				arrDirThetaDifference[j] = -angle_difference(other.dirThetaLook,arrDirTheta[j]);
+				if (arrDirThetaDifference[j] > 180) arrDirThetaDifference[j] -= 360;
+				
+				// Las bases.
+				var _lon = 25;
+				arrXBase[j] = j == 0 ? 0 : (arrXBase[j-1] + _lon*dcos(270+arrDirPhiDifference[j-1])*dcos(arrDirThetaDifference[j-1]));
+				arrYBase[j] = j == 0 ? 0 : (arrYBase[j-1] - _lon*dsin(270+arrDirPhiDifference[j-1])*dcos(arrDirThetaDifference[j-1]));
+				arrZBase[j] = j == 0 ? 0 : (arrZBase[j-1] - _lon*dsin(arrDirThetaDifference[j-1]));
 			}
 #endregion
