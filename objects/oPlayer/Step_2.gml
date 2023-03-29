@@ -72,13 +72,11 @@
 				
 				// Movimiento fluido.				
 				var _spd = (1.5*array_length(arrDirPhi)-j)/10;
-				arrDirPhi[j] = dirTiendeAX(arrDirPhi[j], other.dirPhiLook /*+ arrOffsetPhiDraw[j]*/, _spd);
-				arrDirPhiDifference[j] = +angle_difference(other.dirPhiLook,arrDirPhi[j]);
-				if (arrDirPhiDifference[j] > 180) arrDirPhiDifference[j] -= 360;
-				
-				arrDirTheta[j] = dirTiendeAX(arrDirTheta[j], other.dirThetaLook /*+ arrOffsetThetaDraw[j]*/, _spd);
-				arrDirThetaDifference[j] = -angle_difference(other.dirThetaLook,arrDirTheta[j]);
-				if (arrDirThetaDifference[j] > 180) arrDirThetaDifference[j] -= 360;
+				arrDirPhi[j] = dirTiendeAX(arrDirPhi[j], other.dirPhiLook, _spd);
+				arrDirTheta[j] = dirTiendeAX(arrDirTheta[j], other.dirThetaLook, _spd);
+				var _lim = 10+j*5;
+				arrDirPhiDifference[j] = angular(min(_lim,max(-_lim,angle_difference(other.dirPhiLook,arrDirPhi[j])))) /*+ arrOffsetPhiDraw[j]*/;
+				arrDirThetaDifference[j] = angular(min(_lim,max(-_lim,-angle_difference(other.dirThetaLook,arrDirTheta[j])))) /*+ arrOffsetThetaDraw[j]*/;
 				
 				// Las bases.
 				var _lon = 25;

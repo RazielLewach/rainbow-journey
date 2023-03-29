@@ -25,8 +25,8 @@ void main()
 	float _yCheck = in_Position.y - 25.0*float(_i);
 	float _zCheck = in_Position.z;
 	float _lonDraw = sqrt(_xCheck*_xCheck + _yCheck*_yCheck + _zCheck*_zCheck);
-	float _phi   = -atan(_yCheck, _xCheck) + radians(uArrPhi[_i])*_ratio;
-	float _theta = -atan(_zCheck, sqrt(_xCheck*_xCheck + _yCheck*_yCheck)) + radians(uArrTheta[_i])*_ratio;
+	float _phi   = -atan(_yCheck, _xCheck) - radians(uArrPhi[_i]/**_ratio*/);
+	float _theta = 0.0;//-atan(_zCheck, sqrt(_xCheck*_xCheck + _yCheck*_yCheck)) + radians(uArrTheta[_i]*_ratio);
 	
     vec4 object_space_pos = vec4(
 		uArrXBase[_i]+_lonDraw*cos(_phi)*cos(_theta),
