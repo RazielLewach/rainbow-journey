@@ -1,3 +1,4 @@
+- Triangulito en cabeza unión a brazos.
 - Tentáculos se rayan y hacen "teleport" al forzar mucho.
 - Que al dejar de pulsar el boton de moverte, mientras esté en movimiento, se siga rotando todo el modelo acorde, lentamente hasta dejar de girarse. ¿O rework?
 - Aplastarlos como espada. Circularmente simetricos.

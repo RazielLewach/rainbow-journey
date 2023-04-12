@@ -1,4 +1,3 @@
-- Triangulito en cabeza unión a brazos.
 - Secciones tentáculos según la dirección se "retuercen" y se notan las divisiones.
 
 - Físicas de colisión con suelo.

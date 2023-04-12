@@ -220,10 +220,10 @@
 	}
 #endregion
 #region d3dAddTrioVertex
-	/// @func d3dAddTrioVertex(vertex,color,alpha,x1,y1,z1,i1,j1,x2,y2,z2,i2,j2,x3,y3,z3,i3,j4)
+	/// @func d3dAddTrioVertex(vertex,color,alpha,x1,y1,z1,i1,j1,nx1,ny1,nz1,x2,y2,z2,i2,j2,nx2,ny2,nz2,x3,y3,z3,i3,j4,nx3,ny3,nz3)
 	function d3dAddTrioVertex() {
-		d3dAddVertex(argument[0],argument[3],argument[4],argument[5],argument[1],argument[2],argument[6],argument[7], 1,0,0); //1
-		d3dAddVertex(argument[0],argument[8],argument[9],argument[10],argument[1],argument[2],argument[11],argument[12], 1,0,0); //2
-		d3dAddVertex(argument[0],argument[13],argument[14],argument[15],argument[1],argument[2],argument[16],argument[17], 1,0,0); //3
+		d3dAddVertex(argument[0],argument[3],argument[4],argument[5],argument[1],argument[2],argument[6],argument[7], argument[8],argument[9],argument[10]); //1
+		d3dAddVertex(argument[0],argument[11],argument[12],argument[13],argument[1],argument[2],argument[14],argument[15], argument[16],argument[17],argument[18]); //2
+		d3dAddVertex(argument[0],argument[19],argument[20],argument[21],argument[1],argument[2],argument[22],argument[23], argument[24],argument[25],argument[26]); //3
 	}
 #endregion
