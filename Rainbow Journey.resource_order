@@ -29,6 +29,7 @@
     {"name":"System","order":5,"path":"scripts/System/System.yy",},
     {"name":"oTrucos","order":1,"path":"objects/oTrucos/oTrucos.yy",},
     {"name":"shJellyfishTentacle","order":1,"path":"shaders/shJellyfishTentacle/shJellyfishTentacle.yy",},
+    {"name":"pruebas","order":3,"path":"sprites/pruebas/pruebas.yy",},
     {"name":"sJellyfishTentacle","order":1,"path":"sprites/sJellyfishTentacle/sJellyfishTentacle.yy",},
     {"name":"BDONE","order":1,"path":"notes/BDONE/BDONE.yy",},
     {"name":"sBlank","order":1,"path":"sprites/sBlank/sBlank.yy",},

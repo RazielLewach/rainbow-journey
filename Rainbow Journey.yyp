@@ -52,6 +52,7 @@
     {"id":{"name":"System","path":"scripts/System/System.yy",},},
     {"id":{"name":"oTrucos","path":"objects/oTrucos/oTrucos.yy",},},
     {"id":{"name":"shJellyfishTentacle","path":"shaders/shJellyfishTentacle/shJellyfishTentacle.yy",},},
+    {"id":{"name":"pruebas","path":"sprites/pruebas/pruebas.yy",},},
     {"id":{"name":"sJellyfishTentacle","path":"sprites/sJellyfishTentacle/sJellyfishTentacle.yy",},},
     {"id":{"name":"ATODO","path":"notes/ATODO/ATODO.yy",},},
     {"id":{"name":"BDONE","path":"notes/BDONE/BDONE.yy",},},

@@ -36,6 +36,9 @@
 	
 	// Escenario.
 	#macro MAX_WATER_HEIGHT 100000 // Altura máxima.
+	
+	// Player.
+	#macro SEP_NODE_TENTACLE 25 // Separación entre nodos del tentáculo.
 #endregion
 #region Parámetros a guardar (async).
 	colorHueEssence = 255; // Tu color de esencia.
@@ -62,5 +65,6 @@
 	colorFinalEssence = make_color_hsv(colorHueEssence,255,255);
 #endregion
 #region Vertex y textures.
-	//txBlank = sprite_get_texture(sBlank,0); // Blanco.
+	txBlank = sprite_get_texture(sBlank,0); // Blanco.
+	vertexSphere = noone; // Esfera.
 #endregion

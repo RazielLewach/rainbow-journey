@@ -3,9 +3,10 @@
 	hSpeed = 0; // Velocidad horizontal.
 	vSpeed = 0; // Velocidad vertical.
 	dSpeed = 0; // Velocidad profunda.
-	maxSpeed = 100; // Velocidad de movimiento.
+	maxSpeed = 10; // Velocidad de movimiento.
+	maxSpeedWaves = 1; // Velocidad de los tentáculos al ondear.
 	acceleration = 2; // Acceleración we.
-	brake = 1; // Freno we.
+	brake = 0.3; // Freno we.
 	dirPhiLook = 0; // Dirección phi a la que miras.
 	dirThetaLook = 0; // Dirección theta a la que miras.
 	dirSpeed = 0; // Dirección para senos por velocidad.
@@ -14,26 +15,27 @@
 	dirPhiMoving = 0; // Dirección phi a la que te mueves.
 	dirThetaMoving = 0; // Dirección theta a la que te mueves.
 #endregion
+#region Estado.
+	radius = 50; // Radio de la medusa.
+#endregion
 #region Los tentáculos.
 	for (var i = 0; i < 5; ++i)
 	{
+		var _coords = getCoordsBaseTentacle(i,radius,dirPhiLook,dirThetaLook);
+		var _arrXBolas = [
+			x+_coords[0]-000, x+_coords[0]-025, x+_coords[0]-050, x+_coords[0]-075, x+_coords[0]-100,
+			x+_coords[0]-125, x+_coords[0]-150, x+_coords[0]-175, x+_coords[0]-200, x+_coords[0]-225,
+			x+_coords[0]-250
+		];
 		arrTentaculo[i] = {
-			arrDirPhi: array_create(10,0),
-			arrDirPhiDifference: array_create(10,0),
-			arrOffsetPhi: array_create(10,0),
-			arrOffsetPhiDraw: array_create(10,0),
-			arrDirTheta: array_create(10,0),
-			arrDirThetaDifference: array_create(10,0),
-			arrOffsetTheta: array_create(10,0),
-			arrOffsetThetaDraw: array_create(10,0),
-			arrXBase: array_create(10,0),
-			arrYBase: array_create(10,0),
-			arrZBase: array_create(10,0)
+			arrXBolas: _arrXBolas,
+			arrYBolas: array_create(11,y+_coords[1]),
+			arrZBolas: array_create(11,z+_coords[2]),
+			arrHSpeed: array_create(11,0),
+			arrVSpeed: array_create(11,0),
+			arrDSpeed: array_create(11,0)
 		}
 	}
-#endregion
-#region Estado.
-	radius = 50; // Radio de la medusa.
 #endregion
 #region Vertex buffers.
 	vertexJellyfishHead = noone; // La cabeza de la medusa.

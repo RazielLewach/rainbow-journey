@@ -128,11 +128,11 @@
 			{
 				var _alphaBase = i/51;
 				var _alphaTop = (i+1)/51;
-				setArrD3dOpciones(-i*_r*0.1,0,0,0,_dir,0,0,1,1,0.35);
+				setArrD3dOpciones(+i*_r*0.1,0,0,0,-_dir,0,180,1,1,0.35);
 				d3dAddPipe(_v,0,0,0,_rat,_rat,_r*0.1,true,false,90,_c,_alphaBase,_alphaTop,0.0,0.0,0.5,1.0);
 			}
 		
-			setArrD3dOpciones(-_r*5,0,0,0,_dir,0,0,1,1,0.35);
+			setArrD3dOpciones(+_r*5,0,0,0,_dir,0,0,1,1,0.35);
 			d3dAddSphere(_v,0,0,0,_rat,-90,+90,true,90,_c,1,0.0,0.0,0.5,1.0);
 		
 			vertex_end(vertexJellyfishTentacle[t]);
@@ -142,29 +142,17 @@
 #region Dibuja los modelos de los tentáculos de la medusa.
 	for (var i = 0; i < array_length(arrTentaculo); ++i)
 		if (vertexJellyfishTentacle[i] != noone) {
-			var _lon = radius*0.45;
 			with(arrTentaculo[i])
 			{
-				var _dirPhi = i*72-18;
-				var _coords = matrix_transform_vertex(
-					matrixBuildExt(0,0,0,0,other.dirThetaLook,other.dirPhiLook,_scH,_scH,_scV),
-					0,+_lon*dcos(_dirPhi),-_lon*dsin(_dirPhi)
-				);
-				var _xDraw = other.x+_coords[0];
-				var _yDraw = other.y+_coords[1];
-				var _zDraw = other.z+_coords[2];
-				
 				shader_set(shJellyfishTentacle);
-				setShaderParameterVec(shJellyfishTentacle,"uLight",[oLight.x, oLight.y, oLight.z]);
-				setShaderParameterVec(shJellyfishTentacle,"uOrigin",[_xDraw, _yDraw, _zDraw]);
+				setShaderParameterVec(shJellyfishTentacle,"uArrLight",[oLight.x, oLight.y, oLight.z]);
 				setShaderParameterFloat(shJellyfishTentacle,"uRatLight",other.ratLight);
-				setShaderParameterVec(shJellyfishTentacle,"uArrPhi",arrDirPhiDifference);
-				setShaderParameterVec(shJellyfishTentacle,"uArrTheta",arrDirThetaDifference);
-				setShaderParameterVec(shJellyfishTentacle,"uArrXBase",arrXBase);
-				setShaderParameterVec(shJellyfishTentacle,"uArrYBase",arrYBase);
-				setShaderParameterVec(shJellyfishTentacle,"uArrZBase",arrZBase);
+				setShaderParameterVec(shJellyfishTentacle,"uArrPlayer",[other.x, other.y, other.z]);
+				setShaderParameterVec(shJellyfishTentacle,"uArrXBolas",arrXBolas);
+				setShaderParameterVec(shJellyfishTentacle,"uArrYBolas",arrYBolas);
+				setShaderParameterVec(shJellyfishTentacle,"uArrZBolas",arrZBolas);
 				
-				matrix_set(matrix_world,matrixBuildExt(_xDraw, _yDraw, _zDraw, 0, other.dirThetaLook, other.dirPhiLook,1,1,1));
+				matrix_set(matrix_world,matrixBuildExt(arrXBolas[0], arrYBolas[0], arrZBolas[0], 0, 0, 0, 1,1,1));
 				vertex_submit(other.vertexJellyfishTentacle[i],pr_trianglelist,other.txJellyfishTentacle);
 				
 				shader_reset();
