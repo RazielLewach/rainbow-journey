@@ -25,15 +25,15 @@
 				// TRIANGULITO TAPAR AGUJERO
 				// Left top
 				d3dAddTrioVertex(_v,_c,1,
-					-_r*0.60,-_r*0.200,+_r*0.00,0.00,0.50, +0,+0,+1,
-					-_r*0.30,-_r*0.043,-_r*0.00,0.25,0.50, +0,+0,+1,
-					+_r*0.00,-_r*0.000,+_r*0.00,0.50,0.50, +0,+0,+1
+					-_r*0.60,-_r*0.200,+_r*0.00,0.00,0.50, +0,+1,+0,
+					-_r*0.30,-_r*0.043,-_r*0.00,0.25,0.50, +0,+1,+0,
+					+_r*0.00,-_r*0.000,+_r*0.00,0.50,0.50, +0,+1,+0
 				);
 				// Right top.
 				d3dAddTrioVertex(_v,_c,1,
-					+_r*0.30,-_r*0.043,-_r*0.00,0.75,0.50, +0,+0,+1,
-					+_r*0.60,-_r*0.200,+_r*0.00,1.00,0.50, +0,+0,+1,
-					+_r*0.00,-_r*0.000,+_r*0.00,0.50,0.50, +0,+0,+1
+					+_r*0.30,-_r*0.043,-_r*0.00,0.75,0.50, +0,+1,+0,
+					+_r*0.60,-_r*0.200,+_r*0.00,1.00,0.50, +0,+1,+0,
+					+_r*0.00,-_r*0.000,+_r*0.00,0.50,0.50, +0,+1,+0
 				);
 				
 				// FRONT
@@ -120,46 +120,43 @@
 #endregion
 #region Crea los modelos de los tentáculos de la medusa.
 	for (var t = 0; t < array_length(arrTentaculo); ++t)
-		if (vertexJellyfishTentacle[t] == noone) {
-			vertexJellyfishTentacle[t] = vertex_create_buffer();
+		if (vertexJellyfishTentacle == noone) {
+			vertexJellyfishTentacle = vertex_create_buffer();
 		
-			vertex_begin(vertexJellyfishTentacle[t],oControl.vertexFormat);
+			vertex_begin(vertexJellyfishTentacle,oControl.vertexFormat);
 		
-			var _r = radius, _v = vertexJellyfishTentacle[t], _c = oControl.colorFinalEssence;
+			var _r = radius, _v = vertexJellyfishTentacle, _c = oControl.colorFinalEssence;
 		
 			// El palo.
-			var _dir = t*72+90-18;
-			var _rat = _r*0.1;
-			for (var i = 0; i <= 50; ++i)
+			for (var i = 0; i < 10; ++i)
 			{
-				var _alphaBase = i/51;
-				var _alphaTop = (i+1)/51;
-				setArrD3dOpciones(+i*_r*0.1,0,0,0,-_dir,0,180,1,1,0.35);
-				d3dAddPipe(_v,0,0,0,_rat,_rat,_r*0.1,true,false,90,_c,_alphaBase,_alphaTop,0.0,0.0,0.5,1.0);
+				var _alpha = i/10;
+				setArrD3dOpciones(i*25,0,0,0,90,0,0,1,1,1);
+				d3dAddPipe(_v,0,0,0,5,5,25,true,false,45,_c,_alpha,_alpha,0.0,0.0,0.5,1.0);
+				d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,_alpha,0.0,0.0,0.5,1.0);
 			}
 		
-			setArrD3dOpciones(+_r*5,0,0,0,_dir,0,0,1,1,0.35);
-			d3dAddSphere(_v,0,0,0,_rat,-90,+90,true,90,_c,1,0.0,0.0,0.5,1.0);
+			setArrD3dOpciones(250,0,0,0,0,0,0,1,1,1);
+			d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,0.9,0.0,0.0,0.5,1.0);
 		
-			vertex_end(vertexJellyfishTentacle[t]);
-			vertex_freeze(vertexJellyfishTentacle[t]);
+			vertex_end(vertexJellyfishTentacle);
+			vertex_freeze(vertexJellyfishTentacle);
 		}
 #endregion
 #region Dibuja los modelos de los tentáculos de la medusa.
 	for (var i = 0; i < array_length(arrTentaculo); ++i)
-		if (vertexJellyfishTentacle[i] != noone) {
+		if (vertexJellyfishTentacle != noone) {
 			with(arrTentaculo[i])
 			{
 				shader_set(shJellyfishTentacle);
 				setShaderParameterVec(shJellyfishTentacle,"uArrLight",[oLight.x, oLight.y, oLight.z]);
 				setShaderParameterFloat(shJellyfishTentacle,"uRatLight",other.ratLight);
-				setShaderParameterVec(shJellyfishTentacle,"uArrPlayer",[other.x, other.y, other.z]);
 				setShaderParameterVec(shJellyfishTentacle,"uArrXBolas",arrXBolas);
 				setShaderParameterVec(shJellyfishTentacle,"uArrYBolas",arrYBolas);
 				setShaderParameterVec(shJellyfishTentacle,"uArrZBolas",arrZBolas);
 				
-				matrix_set(matrix_world,matrixBuildExt(arrXBolas[0], arrYBolas[0], arrZBolas[0], 0, 0, 0, 1,1,1));
-				vertex_submit(other.vertexJellyfishTentacle[i],pr_trianglelist,other.txJellyfishTentacle);
+				matrix_set(matrix_world,matrixBuildExt(arrXBolas[0],arrYBolas[0],arrZBolas[0], 0, 0, 0, 1,1,1));
+				vertex_submit(other.vertexJellyfishTentacle,pr_trianglelist,other.txJellyfishTentacle);
 				
 				shader_reset();
 			}

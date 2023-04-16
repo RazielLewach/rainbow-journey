@@ -22,11 +22,8 @@
 	for (var i = 0; i < 5; ++i)
 	{
 		var _coords = getCoordsBaseTentacle(i,radius,dirPhiLook,dirThetaLook);
-		var _arrXBolas = [
-			x+_coords[0]-000, x+_coords[0]-025, x+_coords[0]-050, x+_coords[0]-075, x+_coords[0]-100,
-			x+_coords[0]-125, x+_coords[0]-150, x+_coords[0]-175, x+_coords[0]-200, x+_coords[0]-225,
-			x+_coords[0]-250
-		];
+		var _arrXBolas = [];
+		for (var j = 0; j <= 10; ++j) array_push(_arrXBolas, x+_coords[0]-25*j);
 		arrTentaculo[i] = {
 			arrXBolas: _arrXBolas,
 			arrYBolas: array_create(11,y+_coords[1]),
@@ -40,6 +37,6 @@
 #region Vertex buffers.
 	vertexJellyfishHead = noone; // La cabeza de la medusa.
 	txJellyfishSkin = sprite_get_texture(sJellyfishSkin,0); // La piel de la cabeza.
-	for (var i = 0; i < array_length(arrTentaculo); ++i) vertexJellyfishTentacle[i] = noone; // El tentáculo de la medusa.
+	vertexJellyfishTentacle = noone; // El tentáculo de la medusa.
 	txJellyfishTentacle = sprite_get_texture(sJellyfishTentacle,0); // El tentáculo.
 #endregion

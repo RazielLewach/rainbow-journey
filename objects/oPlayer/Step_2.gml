@@ -90,7 +90,7 @@
 						// La otra mitad vuelve a la posición alineada para no irse a la verga.
 						else
 						{
-							var _lon = 25*j;
+							var _lon = SEP_NODE_TENTACLE*j;
 							var _xTo = arrXBolas[0] - _lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook);
 							var _yTo = arrYBolas[0] + _lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook);
 							var _zTo = arrZBolas[0] + _lon*dsin(oPlayer.dirThetaLook);
@@ -112,9 +112,9 @@
 					arrHSpeed[j] = tiendeAX(arrHSpeed[j],0,_spdSlow*abs(dcos(_phiSlow)*dcos(_thetaSlow)));
 					arrVSpeed[j] = tiendeAX(arrVSpeed[j],0,_spdSlow*abs(dsin(_phiSlow)*dcos(_thetaSlow)));
 					arrDSpeed[j] = tiendeAX(arrDSpeed[j],0,_spdSlow*abs(dsin(_thetaSlow)));
-					arrXBolas[j] += arrHSpeed[j];
+					/*arrXBolas[j] += arrHSpeed[j];
 					arrYBolas[j] += arrVSpeed[j];
-					arrZBolas[j] += arrDSpeed[j];
+					arrZBolas[j] += arrDSpeed[j];*/
 					
 					// Se ajusta al padre.
 					var _xParent = arrXBolas[j-1];
@@ -138,7 +138,7 @@
 						arrYBolas[j] += _maxSpd*dsin(_phi)*dcos(_theta);
 						arrZBolas[j] += _maxSpd*dsin(_theta);
 					}
-				}		
+				}
 			}
 		}
 #endregion
