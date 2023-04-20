@@ -1,3 +1,9 @@
+- Físicas de colisión con suelo.
+- Modelo tentaculo que no sea un cilindro.
+- Que al estar moviéndote, el vaivén de los tentáculos se note, ahora sólo aplica si está quieto. Al moverse ese "vaivén caos" sea más intenso.
+- Quitar todos los if-else de ambos shaders.
+- Normales tentaculo roten.
+- Secciones tentáculos según la dirección se "retuercen" y se notan las divisiones.
 - Triangulito en cabeza unión a brazos.
 - Tentáculos se rayan y hacen "teleport" al forzar mucho.
 - Que al dejar de pulsar el boton de moverte, mientras esté en movimiento, se siga rotando todo el modelo acorde, lentamente hasta dejar de girarse. ¿O rework?

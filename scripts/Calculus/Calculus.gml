@@ -71,3 +71,15 @@ function dirTiendeAX(_valor,_obj,_inc) {
 		return _ret;
 	}
 #endregion
+#region getPhiFromCoords
+	/// @func  getPhiFromCoords(x1,y1,x2,y2)
+	function getPhiFromCoords(_x1,_y1,_x2,_y2) {
+		return point_direction(_x1,_y1,_x2,_y2);
+	}
+#endregion
+#region getThetaFromCoords
+	/// @func  getThetaFromCoords(x1,y1,z1,x2,y2,z2)
+	function getThetaFromCoords(_x1,_y1,_z1,_x2,_y2,_z2) {
+		return point_direction(0,_z1,point_distance(_x1,_y1,_x2,_y2),_z2);
+	}
+#endregion

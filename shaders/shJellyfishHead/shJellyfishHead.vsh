@@ -30,17 +30,17 @@ void main()
 	}
 
 	float _dir = -atan(in_Position.y,in_Position.x);
-	vec4 object_space_pos = vec4(
+	vec4 _objectSpacePos = vec4(
 		+_lon*cos(_dir),
 		-_lon*sin(_dir),
 		in_Position.z-_prof*_scaling*1.0,
 	1.0);
-    gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*object_space_pos;
+    gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*_objectSpacePos;
 	
     v_vColour = in_Colour;
 	v_vColour.rgb *= max(uRatLight, min(1.0,max(0.0, dot(
 		normalize((gm_Matrices[MATRIX_WORLD]*vec4(in_Normal,1.0)).xyz - uOrigin),
-		normalize(uLight-(gm_Matrices[MATRIX_WORLD]*object_space_pos).xyz)
+		normalize(uLight-(gm_Matrices[MATRIX_WORLD]*_objectSpacePos).xyz)
 	))));
     v_vTexcoord = in_TextureCoord;
 }

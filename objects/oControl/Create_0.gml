@@ -65,6 +65,8 @@
 	colorFinalEssence = make_color_hsv(colorHueEssence,255,255);
 #endregion
 #region Vertex y textures.
-	txBlank = sprite_get_texture(sBlank,0); // Blanco.
+	//txBlank = sprite_get_texture(sBlank,0); // Blanco.
 	vertexSphere = noone; // Esfera.
+	vertexEscenarioRoca = noone; // Pos nomás el escenario con todos los solids de roca.
+	for (var i = 0; i < sprite_get_number(sEscenarios); ++i) txEscenarios[i] = sprite_get_texture(sEscenarios,i); // Texturas de los escenarios.
 #endregion

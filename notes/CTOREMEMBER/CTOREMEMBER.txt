@@ -1,1 +1,1 @@
-- Quitar todos los if-else de ambos shaders.
+- Burbujitas con los movimientos como las primeras temporadas de bob esponja.

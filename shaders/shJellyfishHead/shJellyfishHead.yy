@@ -1,7 +1,7 @@
 {
   "resourceType": "GMShader",
   "resourceVersion": "1.0",
-  "name": "shJellyfishFlux",
+  "name": "shJellyfishHead",
   "parent": {
     "name": "Shaders",
     "path": "folders/Shaders.yy",

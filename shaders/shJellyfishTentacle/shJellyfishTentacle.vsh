@@ -23,7 +23,7 @@ void main()
 	float _phiBolaVertex   = - atan(_ySoporteBola, _xSoporteBola);
 	float _thetaBolaVertex = - atan(_zSoporteBola, sqrt(_xSoporteBola*_xSoporteBola + _ySoporteBola*_ySoporteBola));
 	
-	vec4 _posFinal = mat4(
+	mat4 _transformMatrix = mat4(
 		vec4(cos(_phiBolaVertex), -sin(_phiBolaVertex), 0.0, 0.0),
 		vec4(sin(_phiBolaVertex),  cos(_phiBolaVertex), 0.0, 0.0),
 		vec4(0.0                , 0.0                 , 1.0, 0.0),
@@ -33,7 +33,9 @@ void main()
 		vec4(0.0                   , 1.0, 0.0                  , 0.0),
 		vec4(-sin(-_thetaBolaVertex), 0.0, cos(-_thetaBolaVertex), 0.0),
 		vec4(0.0                   , 0.0, 0.0                  , 1.0)
-	) * vec4(0.0, in_Position.y, in_Position.z, 1.0);
+	);
+	
+	vec4 _posFinal = _transformMatrix * vec4(0.0, in_Position.y, in_Position.z, 1.0);
 	
 	vec4 _objectSpacePos = vec4(
 		uArrXBolas[_i]-uArrXBolas[0] + _posFinal.x + _xPositionOffset*cos(_phiBolaVertex)*cos(_thetaBolaVertex),
@@ -45,7 +47,7 @@ void main()
 	
     v_vColour = vec4(in_Colour.rgb, 1.0);
 	v_vColour.rgb *= max(uRatLight, min(1.0,max(0.0, dot(
-		normalize((gm_Matrices[MATRIX_WORLD]*vec4(in_Normal,1.0)).xyz - vec3(uArrXBolas[0], uArrYBolas[0], uArrZBolas[0])),
+		normalize((gm_Matrices[MATRIX_WORLD]*_transformMatrix*vec4(in_Normal,1.0)).xyz - vec3(uArrXBolas[0], uArrYBolas[0], uArrZBolas[0])),
 		normalize(uArrLight-(gm_Matrices[MATRIX_WORLD]*_objectSpacePos).xyz)
 	))));
     v_vTexcoord = in_TextureCoord;

@@ -1,13 +1,13 @@
 {
   "resourceType": "GMRoom",
   "resourceVersion": "1.0",
-  "name": "Room1",
+  "name": "rTesting",
   "creationCodeFile": "",
   "inheritCode": false,
   "inheritCreationOrder": false,
   "inheritLayers": false,
   "instanceCreationOrder": [
-    {"name":"inst_84FA3C6","path":"rooms/Room1/Room1.yy",},
+    {"name":"inst_84FA3C6","path":"rooms/rTesting/rTesting.yy",},
   ],
   "isDnd": false,
   "layers": [
