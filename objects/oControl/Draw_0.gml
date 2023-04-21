@@ -1,7 +1,4 @@
 #region Dibuja suelo de testeo (TESTING).
-	//var _w = 512*20;
-	//for (var i = -_w*10; i <= _w*10; i += _w)
-		//for (var j = -_w*10; j <= _w*10; j += _w)
 	var _w = 512;
 	for (var i = _w/2; i < room_width-_w/2; i += _w)
 		for (var j = _w/2; j < room_height-_w/2; j += _w)
@@ -25,7 +22,8 @@
 	if (vertexEscenarioRoca != noone)
 	{
 		shader_set(shLighting);
-		setShaderParameterVec(shLighting,"uLight",[oLight.x, oLight.y, oLight.z]);
+		setShaderParameterVec(shLighting,"uMatLight",matLights);
+		setShaderParameterInt(shLighting,"uNLights",nLights);
 		setShaderParameterVec(shLighting,"uOrigin",[0,0,0]);
 		setShaderParameterFloat(shLighting,"uRatLight",oPlayer.ratLight);
 		

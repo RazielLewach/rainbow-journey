@@ -44,6 +44,14 @@
 		shader_set_uniform_f(_uniform, _value);
 	}
 #endregion
+#region setShaderParameterInt
+	/// @func  setShaderParameterInt(shader,key,value)
+	function setShaderParameterInt(_shader,_key,_value)
+	{
+		var _uniform = shader_get_uniform(_shader, _key);
+		shader_set_uniform_i(_uniform, _value);
+	}
+#endregion
 #region setShaderParameterVec
 	/// @func  setShaderParameterVec(shader,key,value)
 	function setShaderParameterVec(_shader,_key,_value)
@@ -52,8 +60,6 @@
 		shader_set_uniform_f_array(_uniform, _value);
 	}
 #endregion
-
-
 
 
 

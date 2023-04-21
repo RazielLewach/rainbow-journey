@@ -9,6 +9,8 @@
 		createSolidMorphed(room_width,0,0,500,[]);
 		createSolidMorphed(0,room_height,0,500,[]);
 		createSolidMorphed(room_width,room_height,0,500,[]);
+		
+		createLight(0,room_height/2,0,1500);
 	}
 #endregion
 #region Crea el vertex del escenario (General).

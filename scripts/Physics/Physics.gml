@@ -34,3 +34,11 @@
 		return point_distance_3d(_x, _y, _z, _sol.x, _sol.y, _sol.z) > _sol.radius*1.1 + oPlayer.radius;
 	}
 #endregion
+#region createLight
+	/// @func  createLight(x,y,z,radius)
+	function createLight(_x,_y,_z,_radius) {
+		var _lig = create(_x,_y,_z,oLight);
+		_lig.radius = _radius;
+		return _lig;
+	}
+#endregion

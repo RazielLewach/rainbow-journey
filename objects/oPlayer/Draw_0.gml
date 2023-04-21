@@ -107,7 +107,8 @@
 	var _scV = 1.0+0.4*dsin(dirSpeed);
 	if (vertexJellyfishHead != noone) {
 		shader_set(shJellyfishHead);
-		setShaderParameterVec(shJellyfishHead,"uLight",[oLight.x, oLight.y, oLight.z]);
+		setShaderParameterVec(shJellyfishHead,"uMatLight",oControl.matLights);
+		setShaderParameterInt(shJellyfishHead,"uNLights",oControl.nLights);
 		setShaderParameterVec(shJellyfishHead,"uOrigin",[x, y, z]);
 		setShaderParameterFloat(shJellyfishHead,"uDirSpeed",dirSpeed);
 		setShaderParameterFloat(shJellyfishHead,"uRatLight",ratLight);
@@ -149,7 +150,8 @@
 			with(arrTentaculo[i])
 			{
 				shader_set(shJellyfishTentacle);
-				setShaderParameterVec(shJellyfishTentacle,"uArrLight",[oLight.x, oLight.y, oLight.z]);
+				setShaderParameterVec(shJellyfishTentacle,"uMatLight",oControl.matLights);
+				setShaderParameterInt(shJellyfishTentacle,"uNLights",oControl.nLights);
 				setShaderParameterFloat(shJellyfishTentacle,"uRatLight",other.ratLight);
 				setShaderParameterVec(shJellyfishTentacle,"uArrXBolas",arrXBolas);
 				setShaderParameterVec(shJellyfishTentacle,"uArrYBolas",arrYBolas);

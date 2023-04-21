@@ -1,3 +1,5 @@
+- Distancia máxima de iluminación gradual.
+- Sistema para X luces, que los 3 shaders lo tengan en cuenta.
 - Físicas de colisión con suelo.
 - Modelo tentaculo que no sea un cilindro.
 - Que al estar moviéndote, el vaivén de los tentáculos se note, ahora sólo aplica si está quieto. Al moverse ese "vaivén caos" sea más intenso.

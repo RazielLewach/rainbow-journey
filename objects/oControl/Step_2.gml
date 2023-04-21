@@ -19,3 +19,20 @@
 	nStep++;
 	if (nStep >= 600*FPS) nStep = 0;
 #endregion
+#region Array de luces.
+	var _lon = 1000;
+	matLights[0] = oPlayer.x+_lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook);
+	matLights[1] = oPlayer.y-_lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook);
+	matLights[2] = oPlayer.z-_lon*dsin(oPlayer.dirThetaLook);
+	matLights[3] = _lon;
+	nLights = 1;
+	for (var i = 0; i < instance_number(oLight); ++i)
+	{
+		var _lig = instance_find(oLight,i);
+		matLights[nLights*4 + 0] = _lig.x;
+		matLights[nLights*4 + 1] = _lig.y;
+		matLights[nLights*4 + 2] = _lig.z;
+		matLights[nLights*4 + 3] = _lig.radius;
+		++nLights;
+	}
+#endregion

@@ -1,2 +1,9 @@
-- Sistema para X luces, que los 3 shaders lo tengan en cuenta.
-- Experimentar/perfeccionar el sistema de esferas con holes, ¿sirve? Aplicarle colisiones.
+- Luz cónica con bordes graduales (las luces normales tendrán un cono de 360º).
+- Poner una luz conal en la parte frontal de la medusa que salga de su centro, además de otra pequeña esférica para iluminar su cabeza.
+
+- Cámara más arriba para que la medusa no tape la visión.
+
+- Sistema de holes, perfeccionar: que la profundidad sea gradual y encajando al radio del hole en vez de 0.5 fijo.
+- Sistema de holes, colisiones.
+- Rocas, textura bonita.
+- Probar algún entorno complejo combinando rocas distintas.

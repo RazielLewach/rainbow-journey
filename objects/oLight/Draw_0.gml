@@ -1,3 +1,7 @@
 #region Define la luz.	
-	draw_circle_color(x,y,lonLight,c_white,c_white,false);
+	if (oControl.vertexSphere != noone)
+	{
+		matrix_set(matrix_world,matrixBuildExt(x,y,z, 0, 0, 0, 50,50,50));
+		vertex_submit(oControl.vertexSphere,pr_trianglelist,oControl.txBlank);
+	}
 #endregion
