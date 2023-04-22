@@ -9,23 +9,11 @@
 		);
 	}
 #endregion
-#region createSolidMorphed
-	/// @func  createSolidMorphed(x,y,z,radius,arrHoles)
-	function createSolidMorphed(_x,_y,_z,_radius,_arrHoles) {
-		var _sol = create(_x,_y,_z,oSolid);
-		_sol.radius = _radius;
-		_sol.arrHoles = _arrHoles;
-	}
-#endregion
-#region newHole
-	/// @func  newHole(lon,phi,theta,radius)
-	function newHole(_lon, _phi, _theta, _radius) {
-		return {
-			lon:_lon,
-			phi:_phi,
-			theta:_theta,
-			radius:_radius
-		};
+#region createVacuum
+	/// @func  createVacuum(x,y,z,radius)
+	function createVacuum(_x,_y,_z,_radius) {
+		var _vac = create(_x,_y,_z,oVacuum);
+		_vac.radius = _radius;
 	}
 #endregion
 #region isFreeTo
@@ -40,5 +28,18 @@
 		var _lig = create(_x,_y,_z,oLight);
 		_lig.radius = _radius;
 		return _lig;
+	}
+#endregion
+#region addMatLight
+	/// @func  addMatLight(x,y,z,radius,phi,theta,angCone)
+	function addMatLight(_x,_y,_z,_radius,_phi,_theta,_angCone) {
+		matLights[7*nLights + 0] = _x;
+		matLights[7*nLights + 1] = _y;
+		matLights[7*nLights + 2] = _z;
+		matLights[7*nLights + 3] = _radius;
+		matLights[7*nLights + 4] = _phi;
+		matLights[7*nLights + 5] = _theta;
+		matLights[7*nLights + 6] = _angCone;
+		++nLights;
 	}
 #endregion

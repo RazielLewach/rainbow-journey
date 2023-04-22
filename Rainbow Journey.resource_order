@@ -7,7 +7,6 @@
     {"name":"Objects","order":9,"path":"folders/Objects.yy",},
     {"name":"Artifacts","order":2,"path":"folders/Objects/Artifacts.yy",},
     {"name":"General","order":1,"path":"folders/Objects/General.yy",},
-    {"name":"Solids","order":3,"path":"folders/Objects/Solids.yy",},
     {"name":"Particle Systems","order":15,"path":"folders/Particle Systems.yy",},
     {"name":"Paths","order":4,"path":"folders/Paths.yy",},
     {"name":"Rooms","order":10,"path":"folders/Rooms.yy",},
@@ -25,6 +24,7 @@
   "ResourceOrderSettings": [
     {"name":"oPlayer","order":2,"path":"objects/oPlayer/oPlayer.yy",},
     {"name":"oCamera","order":3,"path":"objects/oCamera/oCamera.yy",},
+    {"name":"oVacuum","order":1,"path":"objects/oVacuum/oVacuum.yy",},
     {"name":"Physics","order":3,"path":"scripts/Physics/Physics.yy",},
     {"name":"Tridimensional","order":4,"path":"scripts/Tridimensional/Tridimensional.yy",},
     {"name":"shJellyfishHead","order":1,"path":"shaders/shJellyfishHead/shJellyfishHead.yy",},

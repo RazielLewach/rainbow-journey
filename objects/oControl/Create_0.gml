@@ -42,6 +42,9 @@
 #region Parámetros a guardar (async).
 	colorHueEssence = 255; // Tu color de esencia.
 	scCameraPrecision = 0.07; // Velocidad de movimiento de la cámara.
+	lonLight = 1500; // Longitud del cono de luz.
+	angLight = 50; // Ángulo del cono de luz.
+	scCalidad = 0.5; // Calidad de los modelos 3D.
 #endregion
 #region Estado.
 	dirAngular0001 = 0; // Dirección angular de incremento 0001.
@@ -62,7 +65,7 @@
 	dirAngular12 = 0; // Dirección angular de incremento 15.
 	nStep = 0; // Contadores.
 	colorFinalEssence = make_color_hsv(colorHueEssence,255,255);
-	matLights = array_create(40,0); // Array de luces.
+	matLights = array_create(70,0); // Array de luces.
 	nLights = 0; // Cuántas luces.
 #endregion
 #region Vertex y textures.

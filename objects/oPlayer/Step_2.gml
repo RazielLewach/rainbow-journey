@@ -21,24 +21,23 @@
 		dirThetaMoving = _theta;
 	}
 	
-	// Ángulos de movimiento.
-	var _isRotating = dirPhiMoving != dirPhiLook or dirThetaMoving != dirThetaLook;
-	if (_isRotating)
-	{
-		var _spdRota = acceleration*2;
-		dirPhiLook = dirTiendeAX(dirPhiLook,dirPhiMoving,_spdRota);
-		dirThetaLook = dirTiendeAX(dirThetaLook,dirThetaMoving,_spdRota);
-	}
+	// Mira a donde se mueve.
+	var _scSpd = point_distance_3d(0,0,0,hSpeed,vSpeed,dSpeed)/maxSpeed;
+	var _spdRota = acceleration*2*(0.0001 + _scSpd);
+	dirPhiLook = dirTiendeAX(dirPhiLook,dirPhiMoving,_spdRota);
+	dirThetaLook = dirTiendeAX(dirThetaLook,dirThetaMoving,_spdRota);
+	
+	// Se ajusta gradualmente hacia donde miras a más parado estás.
+	var _spd = 0.0001 + 3*(1-_scSpd);
+	dirPhiLook = dirTiendeAX(dirPhiLook,oCamera.dirCamPhi,_spd);
+	dirThetaLook = dirTiendeAX(dirThetaLook,oCamera.dirCamTheta,_spd);
 #endregion
 #region Tiende a frenarse y caer.
-	if (!_isRotating)
-	{
-		var _phi = getPhiFromCoords(0,0,hSpeed,vSpeed);
-		var _theta = getThetaFromCoords(0,0,0,hSpeed,vSpeed,dSpeed);
-		hSpeed = tiendeAX(hSpeed,0,abs(dcos(_phi)*dcos(_theta))*brake);
-		vSpeed = tiendeAX(vSpeed,0,abs(dsin(_phi)*dcos(_theta))*brake);
-		dSpeed = tiendeAX(dSpeed,0,abs(dsin(_theta))*brake);
-	}
+	var _phi = getPhiFromCoords(0,0,hSpeed,vSpeed);
+	var _theta = getThetaFromCoords(0,0,0,hSpeed,vSpeed,dSpeed);
+	hSpeed = tiendeAX(hSpeed,0,abs(dcos(_phi)*dcos(_theta))*brake);
+	vSpeed = tiendeAX(vSpeed,0,abs(dsin(_phi)*dcos(_theta))*brake);
+	dSpeed = tiendeAX(dSpeed,0,abs(dsin(_theta))*brake);
 #endregion
 #region Ajusta la velocidad máxima.
 	var _phi = getPhiFromCoords(0,0,hSpeed,vSpeed);
@@ -49,19 +48,6 @@
 	dSpeed = -_lon*dsin(_theta);
 #endregion
 #region Ejecuta el movimiento.
-	// Detectamos el sólido más cercano.
-	var _near = noone, _distMin = INFINITE;
-	for (var i = 0; i < instance_number(oSolid); ++i)
-	{
-		var _sol = instance_find(oSolid,i);
-		var _dist = point_distance_3d(x, y, z, _sol.x, _sol.y, _sol.z);
-		if (_dist < _distMin)
-		{
-			_distMin = _dist;
-			_near = _sol;
-		}
-	}
-	
 	// Nos movemos o frenamos ante colisión.
 	/*if (isFreeTo(x+hSpeed,y,z,_near)) x += hSpeed;
 	else hSpeed = 0;
@@ -76,22 +62,11 @@
 	y += vSpeed;
 	z += dSpeed;
 	
-	// Re-posiciona saliendo de los sólidos.
 	// Choca con el suelo.
 	if (z+radius*1.1 > 0)
 	{
 		z -= dSpeed;
 		dSpeed = 0;
-	}
-	
-	// Entra en sólido.
-	if (point_distance_3d(x, y, z, _sol.x, _sol.y, _sol.z) < _sol.radius+radius*1.1)
-	{
-		var _phi = getPhiFromCoords(_sol.x,_sol.y,x,y);
-		var _theta = getThetaFromCoords(_sol.x,_sol.y,_sol.z,x,y,z);
-		x += maxSpeed*dcos(_phi)*dcos(_theta);
-		y -= maxSpeed*dsin(_phi)*dcos(_theta);
-		z -= maxSpeed*dsin(_theta);
 	}
 	
 	// Animaciones varias.

@@ -1,3 +1,6 @@
+- Luz cónica con bordes graduales (las luces normales tendrán un cono de 360º).
+- Poner una luz conal en la parte frontal de la medusa que salga de su centro, además de otra pequeña esférica para iluminar su cabeza.
+- Cámara más arriba para que la medusa no tape la visión.
 - Distancia máxima de iluminación gradual.
 - Sistema para X luces, que los 3 shaders lo tengan en cuenta.
 - Físicas de colisión con suelo.

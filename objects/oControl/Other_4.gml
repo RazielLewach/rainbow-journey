@@ -2,15 +2,11 @@
 	// Sala de testing.
 	if (room == rTesting)
 	{
-		createSolidMorphed(0,0,0,500,[
-			newHole(500, 0, 0, 300)
-		]);
+		var _RAD = room_width/2;
+		createVacuum(+0,+0,-_RAD,_RAD);
+		createVacuum(+_RAD*1.5,+0,-_RAD,_RAD);
 		
-		createSolidMorphed(room_width,0,0,500,[]);
-		createSolidMorphed(0,room_height,0,500,[]);
-		createSolidMorphed(room_width,room_height,0,500,[]);
-		
-		createLight(0,room_height/2,0,1500);
+		createLight(-_RAD,0,-_RAD,2000);
 	}
 #endregion
 #region Crea el vertex del escenario (General).
@@ -18,11 +14,16 @@
 	vertexEscenarioRoca = vertex_create_buffer();
 		
 	vertex_begin(vertexEscenarioRoca, vertexFormat);
-		
-	with(oSolid)
+	
+	// Todos los sólidos.
+	with(oVacuum)
 	{
 		setArrD3dOpciones(x,y,z,0,0,0,0,radius,radius,radius);
-		d3dAddSphere(oControl.vertexEscenarioRoca,0,0,0,1,-90,+90,true,10,c_white,1,0.0,0.0,1.0,1.0,arrHoles);
+		var _maxText = round(radius/100);
+		var _cal = 10 - 10*oControl.scCalidad;
+		if (_cal == 4) _cal = 5;
+		else if (_cal == 7 or _cal == 8) _cal = 9;
+		d3dAddSphere(oControl.vertexEscenarioRoca,0,0,0,1,-90,+90,false,_cal,c_white,1,0.0,0.0,_maxText,_maxText);
 	}
 		
 	vertex_end(vertexEscenarioRoca);

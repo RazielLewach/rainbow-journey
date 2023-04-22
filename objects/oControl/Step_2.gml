@@ -20,19 +20,33 @@
 	if (nStep >= 600*FPS) nStep = 0;
 #endregion
 #region Array de luces.
-	var _lon = 1000;
-	matLights[0] = oPlayer.x+_lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook);
-	matLights[1] = oPlayer.y-_lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook);
-	matLights[2] = oPlayer.z-_lon*dsin(oPlayer.dirThetaLook);
-	matLights[3] = _lon;
-	nLights = 1;
+	nLights = 0;
+	
+	// Luz esférica en tu jeto pa alumbrarlo.
+	var _lon = 100;
+	addMatLight(
+		oPlayer.x+_lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
+		oPlayer.y-_lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
+		oPlayer.z-_lon*dsin(oPlayer.dirThetaLook),
+		_lon, 0, 0, INFINITE
+	);
+	
+	// Luz esférica dentro de ti pa verte.
+	_lon = 60;
+	addMatLight(
+		oPlayer.x-_lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
+		oPlayer.y+_lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
+		oPlayer.z+_lon*dsin(oPlayer.dirThetaLook),
+		_lon*3, 0, 0, INFINITE
+	);
+	
+	// Luz conal que sale de ti.
+	addMatLight(oPlayer.x, oPlayer.y,oPlayer.z, lonLight, oPlayer.dirPhiLook, oPlayer.dirThetaLook, angLight);
+	
+	// Todas las luces nomás.
 	for (var i = 0; i < instance_number(oLight); ++i)
 	{
 		var _lig = instance_find(oLight,i);
-		matLights[nLights*4 + 0] = _lig.x;
-		matLights[nLights*4 + 1] = _lig.y;
-		matLights[nLights*4 + 2] = _lig.z;
-		matLights[nLights*4 + 3] = _lig.radius;
-		++nLights;
+		addMatLight(_lig.x, _lig.y, _lig.z, _lig.radius, 0, 0, INFINITE);
 	}
 #endregion

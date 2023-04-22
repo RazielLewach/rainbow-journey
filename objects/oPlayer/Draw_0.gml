@@ -5,13 +5,13 @@
 			// El núcleo.
 			var _r = radius, _v = vertexJellyfishHead, _c = oControl.colorFinalEssence;
 			setArrD3dOpciones(0,0,0,0,0,180,0,1,1,1);
-			d3dAddSphere(_v,0,0,0,_r*0.6,-90,+90,true,9,oControl.colorFinalEssence,1,0.0,0.0,0.01,0.01,[]);
+			d3dAddSphere(_v,0,0,0,_r*0.6,-90,+90,true,9,oControl.colorFinalEssence,1,0.0,0.0,0.01,0.01);
 			
 			// La cáscara.
 			setArrD3dOpciones(0,0,0,0,0,0,0,1,1,1);
-			d3dAddSphere(_v,0,0,0,_r*1.0,-90,+0,false,18,c_gray,1,0.0,0.0,5.0,1.0,[]);
+			d3dAddSphere(_v,0,0,0,_r*1.0,-90,+0,false,18,c_gray,1,0.0,0.0,5.0,1.0);
 			setArrD3dOpciones(0,0,0,0,0,0,0,1,1,1);
-			d3dAddSphere(_v,0,0,0,_r*1.0,-90,+0,true,18,_c,1,0.0,0.0,5.0,1.0,[]);
+			d3dAddSphere(_v,0,0,0,_r*1.0,-90,+0,true,18,_c,1,0.0,0.0,5.0,1.0);
 			
 			// Los 5 brazos exteriores.
 			for (var i = 0; i < 360; i += 360/5)
@@ -134,11 +134,11 @@
 				var _alpha = i/10;
 				setArrD3dOpciones(i*25,0,0,0,0,0,0,1,1.0,1.0);
 				d3dAddPipe(_v,0,0,0,5,5,25,true,false,45,_c,_alpha,_alpha,0.0,0.0,0.5,1.0);
-				d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,_alpha,0.0,0.0,0.5,1.0,[]);
+				d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,_alpha,0.0,0.0,0.5,1.0);
 			}
 		
 			setArrD3dOpciones(250,0,0,0,0,0,0,1,1,1.0);
-			d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,0.9,0.0,0.0,0.5,1.0,[]);
+			d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,0.9,0.0,0.0,0.5,1.0);
 		
 			vertex_end(vertexJellyfishTentacle);
 			vertex_freeze(vertexJellyfishTentacle);

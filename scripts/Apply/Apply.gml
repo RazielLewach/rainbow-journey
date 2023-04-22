@@ -2,7 +2,7 @@
 	/// @func  create(x,y,object)
 	function create(){
 		var _ins = instance_create_depth(argument[0],argument[1],argument_count == 4 ? argument[3] : 0,argument_count == 3 ? argument[2] : argument[3]);
-		if (argument_count == 4) _ins.z = argument[3];
+		if (argument_count == 4) _ins.z = argument[2];
 		return _ins;
 	}
 #endregion

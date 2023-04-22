@@ -31,31 +31,37 @@
 		vertex_normal(_vtx, _nor[0]/_lon, _nor[1]/_lon, _nor[2]/_lon);
 	}
 #endregion
-#region d3dAddVertexCalcHoles
-	/// @func  d3dAddVertexCalcHoles(vertex,xBase,yBase,zBase,lon,phi,theta,color,alpha,itexture,jtexture,n,_arrHoles)
-	function d3dAddVertexCalcHoles(_vtx,_xBase,_yBase,_zBase,_lon,_phi,_theta,_col,_alp,_i_tex,_j_tex,_n,_arrHoles) {
-		var _lonCalc = _lon;
-		for (var k = 0; k < array_length(_arrHoles); ++k)
+#region d3dAddVertexCalcSphere
+	/// @func  d3dAddVertexCalcSphere(vertex,xBase,yBase,zBase,lon,phi,theta,color,alpha,itexture,jtexture,n,arrVacuums)
+	function d3dAddVertexCalcSphere(_vtx,_xBase,_yBase,_zBase,_lon,_phi,_theta,_col,_alp,_i_tex,_j_tex,_n,_arrVacuums) {
+		// Para el caso de muros desiguales...
+		var _lonFinal = _lon, _colFinal = _col;
+		if (object_get_name(object_index) ==  "oVacuum")
 		{
-			if (point_distance_3d(
-				+radius*dcos(_phi)*dcos(_theta),
-				-radius*dsin(_phi)*dcos(_theta),
-				+radius*dsin(_theta),
-				+_arrHoles[k].lon*dcos(_arrHoles[k].phi)*dcos(_arrHoles[k].theta),
-				-_arrHoles[k].lon*dsin(_arrHoles[k].phi)*dcos(_arrHoles[k].theta),
-				+_arrHoles[k].lon*dsin(_arrHoles[k].theta),
-			) < _arrHoles[k].radius)
+			var _ang = power(_phi, abs(_theta))*sqrt(_phi)*abs(ln(power(_phi, abs(_theta))));
+			_lonFinal *= 1 + 0.05*dcos(_ang);
+			var _c = 205 + 50*dsin(_ang);
+			_colFinal = make_color_rgb(_c,_c,_c);
+		}
+		
+		// Calcula la posición del vértice.
+		var _x = _xBase+_lonFinal*dcos(_phi)*dcos(_theta);
+		var _y = _yBase-_lonFinal*dsin(_phi)*dcos(_theta);
+		var _z = _zBase+_lonFinal*dsin(_theta);
+		
+		// Comprueba si colisiona con algún otro vacuum de los vacuums colisionantes.
+		var _isCol = false;
+		for (var i = 0; i < array_length(_arrVacuums); ++i)
+			if (point_distance_3d(_x, _y, _z, _arrVacuums[i].x, _arrVacuums[i].y, _arrVacuums[i].z) < _arrVacuums[i].radius)
 			{
-				_lonCalc = 0.5;
+				_isCol = true;
 				break;
 			}
-		}
-				
-		d3dAddVertex(_vtx,
-			_xBase+_lonCalc*dcos(_phi)*dcos(_theta),
-			_yBase-_lonCalc*dsin(_phi)*dcos(_theta),
-			_zBase+_lonCalc*dsin(_theta),
-			_col,_alp,_i_tex,_j_tex,
+		
+		// Lo añade si aplica.
+		if (!_isCol) d3dAddVertex(_vtx,
+			_x,_y,_z,
+			_colFinal,_alp,_i_tex,_j_tex,
 			+_n*dcos(_phi)*dcos(_theta),
 			-_n*dsin(_phi)*dcos(_theta),
 			+_n*dsin(_theta)
@@ -117,9 +123,10 @@
 	}
 #endregion
 #region d3dAddSphere
-	/// @func  d3dAddSphere(vertex,x,y,z,radius,dirBase,dirTop,outside,steps,color,alpha,leftTexture,topTexture,rightTexture,botTexture,arrHoles)
-	function d3dAddSphere(_vtx,_x,_y,_z,_rad,_dirBase,_dirTop,_out,_ste,_col,_alp,_leftt,_topt,_rightt,_bott,_arrHoles) {
+	/// @func  d3dAddSphere(vertex,x,y,z,radius,dirBase,dirTop,outside,steps,color,alpha,leftTexture,topTexture,rightTexture,botTexture)
+	function d3dAddSphere(_vtx,_x,_y,_z,_rad,_dirBase,_dirTop,_out,_ste,_col,_alp,_leftt,_topt,_rightt,_bott) {
 		// "steps" debe ser divisible de 90
+		// Init.
 		var _ini = 0,_fin = 360,_inc = 1;
 		var _n = _out ? 1 : -1;
 		if (!_out) {
@@ -129,6 +136,17 @@
 		}
 		var _s = _ste;
 		var _inc = _s*_inc;
+		
+		// Obtenemos la lista de vacuums con los que colisiona.
+		var _arrVacuums = [];
+		if (object_get_name(object_index) ==  "oVacuum")
+			for (var i = 0; i < instance_number(oVacuum); ++i)
+			{
+				var _vac = instance_find(oVacuum,i);
+				if (id != _vac.id and point_distance_3d(x, y, z, _vac.x, _vac.y, _vac.z) < radius+_vac.radius) array_push(_arrVacuums,_vac.id);
+			}
+		
+		// Añadimos los vértices teniendo en cuenta los vacuums.
 		for (var i = _dirBase; i < _dirTop; i += _s) {
 			for (var j = _ini; j != _fin; j += _inc) {
 				var _itex0 = _leftt+(_rightt-_leftt)*j/360;
@@ -136,19 +154,19 @@
 				var _jtex0 = _topt+(_bott-_topt)*(i+90+_s)/180;
 				var _jtex1 = _topt+(_bott-_topt)*(i+90)/180;
 				
-				d3dAddVertexCalcHoles(_vtx,_x,_y,_z,_rad,j,i,_col,_alp,_itex0,_jtex1,_n,_arrHoles);
-				d3dAddVertexCalcHoles(_vtx,_x,_y,_z,_rad,j+_inc,i,_col,_alp,_itex1,_jtex1,_n,_arrHoles);
-				d3dAddVertexCalcHoles(_vtx,_x,_y,_z,_rad,j,i+_s,_col,_alp,_itex0,_jtex0,_n,_arrHoles);
-				d3dAddVertexCalcHoles(_vtx,_x,_y,_z,_rad,j,i+_s,_col,_alp,_itex0,_jtex0,_n,_arrHoles);
-				d3dAddVertexCalcHoles(_vtx,_x,_y,_z,_rad,j+_inc,i,_col,_alp,_itex1,_jtex1,_n,_arrHoles);
-				d3dAddVertexCalcHoles(_vtx,_x,_y,_z,_rad,j+_inc,i+_s,_col,_alp,_itex1,_jtex0,_n,_arrHoles);
+				d3dAddVertexCalcSphere(_vtx,_x,_y,_z,_rad,j,i,_col,_alp,_itex0,_jtex1,_n,_arrVacuums);
+				d3dAddVertexCalcSphere(_vtx,_x,_y,_z,_rad,j+_inc,i,_col,_alp,_itex1,_jtex1,_n,_arrVacuums);
+				d3dAddVertexCalcSphere(_vtx,_x,_y,_z,_rad,j,i+_s,_col,_alp,_itex0,_jtex0,_n,_arrVacuums);
+				d3dAddVertexCalcSphere(_vtx,_x,_y,_z,_rad,j,i+_s,_col,_alp,_itex0,_jtex0,_n,_arrVacuums);
+				d3dAddVertexCalcSphere(_vtx,_x,_y,_z,_rad,j+_inc,i,_col,_alp,_itex1,_jtex1,_n,_arrVacuums);
+				d3dAddVertexCalcSphere(_vtx,_x,_y,_z,_rad,j+_inc,i+_s,_col,_alp,_itex1,_jtex0,_n,_arrVacuums);
 			}
 		}
 	}
 #endregion
 #region d3dAddPlane
 	/// @func  d3dAddPlane(vertex,x,y,z,width,height,color,alpha,leftTexture,topTexture,rightTexture,botTexture)
-	function d3dAddPlane(_vtx,_x,_y,_z,_w,_h,_col,_alp,_leftt,_topt,_rightt,_bott) {
+	/*function d3dAddPlane(_vtx,_x,_y,_z,_w,_h,_col,_alp,_leftt,_topt,_rightt,_bott) {
 		var _clb, _clt, _crb, _crt;
 		if (is_array(_col))
 		{
@@ -170,11 +188,11 @@
 		d3dAddVertex(_vtx,_x,_y+_w/2,_z+_h/2,_crb,_alp,_rightt,_bott, -1,0,0);
 		d3dAddVertex(_vtx,_x,_y-_w/2,_z-_h/2,_clt,_alp,_leftt,_topt, -1,0,0);
 		d3dAddVertex(_vtx,_x,_y+_w/2,_z-_h/2,_crt,_alp,_rightt,_topt, -1,0,0);
-	}
+	}*/
 #endregion
 #region d3dAddCube
 	/// @func d3dAddCube(vertex,x,y,z,width,height,depth,color,alpha,leftTexture,topTexture,rightTexture,botTexture)
-	function d3dAddCube(_vtx,_x,_y,_z,_w,_h,_d,_col,_alp,_leftt,_topt,_rightt,_bott) {
+	/*function d3dAddCube(_vtx,_x,_y,_z,_w,_h,_d,_col,_alp,_leftt,_topt,_rightt,_bott) {
 		// Left
 		d3dAddVertex(_vtx,_x-_w/2,_y-_h/2,_z+_d/2,_col,_alp,_leftt,_bott, 1,0,0); //1
 		d3dAddVertex(_vtx,_x-_w/2,_y-_h/2,_z-_d/2,_col,_alp,_leftt,_topt, 1,0,0); //2
@@ -217,8 +235,7 @@
 		d3dAddVertex(_vtx,_x+_w/2,_y-_h/2,_z+_d/2,_col,_alp,_rightt,_bott, 1,0,0); //3
 		d3dAddVertex(_vtx,_x-_w/2,_y+_h/2,_z+_d/2,_col,_alp,_leftt,_topt, 1,0,0); //2
 		d3dAddVertex(_vtx,_x+_w/2,_y+_h/2,_z+_d/2,_col,_alp,_rightt,_topt, 1,0,0); //4
-	}
-		
+	}*/
 #endregion
 #region d3dAddQuadraVertexArray
 	/// @func d3dAddQuadraVertexArray(vertex,color,alpha,v1,v2,v3,v4)
