@@ -9,12 +9,6 @@
 		);
 	}
 #endregion
-#region isFreeTo
-	/// @func  isFreeTo(x,y,z,solid)
-	function isFreeTo(_x,_y,_z,_sol) {
-		return point_distance_3d(_x, _y, _z, _sol.x, _sol.y, _sol.z) > _sol.radius*1.1 + oPlayer.radius;
-	}
-#endregion
 #region createLight
 	/// @func  createLight(x,y,z,radius)
 	function createLight(_x,_y,_z,_radius) {
@@ -34,5 +28,14 @@
 		matLights[7*nLights + 5] = _theta;
 		matLights[7*nLights + 6] = _angCone;
 		++nLights;
+	}
+#endregion
+#region solidMeeting
+	/// @func  solidMeeting(x,y,z)
+	function solidMeeting(_x,_y,_z) {
+		var _zOff = -getMultCercanoOffset(abs(_z),L,L/2);
+		if (_zOff == -0.5*L) return instance_place(_x,_y,oSolid0);
+		else if (_zOff == -1.5*L) return instance_place(_x,_y,oSolid1);
+		return noone;
 	}
 #endregion

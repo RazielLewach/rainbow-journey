@@ -34,18 +34,26 @@
 #region d3dAddVertexSolid
 	/// @func  d3dAddVertexSolid(vertex,x,y,z,itexture,jtexture,iNormal,jNormal,kNormal)
 	function d3dAddVertexSolid(_vtx,_x,_y,_z,_i_tex,_j_tex,_iNormal,_jNormal,_kNormal) {
-		var _ang = _x + power(_x,_y);
-		if (
-			(_kNormal != 0 and (_x == x-L/2 or _x == x+L/2 or _y == y-L/2 or _y == y+L/2)) or
-			(_iNormal != 0 and (_y == y-L/2 or _y == y+L/2 or _z == z-L/2 or _z == z+L/2)) or
-			(_jNormal != 0 and (_x == x-L/2 or _x == x+L/2 or _z == z-L/2 or _z == z+L/2))
-		) _ang = 90;
+		var _ang = 90;
+		if	    (_iNormal != 0 and _y != y-L/2 and _y != y+L/2 and _z != z-L/2 and _z != z+L/2) _ang = _z*_y
+		else if (_jNormal != 0 and _x != x-L/2 and _x != x+L/2 and _z != z-L/2 and _z != z+L/2) _ang = _z*_x;
+		else if (_kNormal != 0 and _x != x-L/2 and _x != x+L/2 and _y != y-L/2 and _y != y+L/2) _ang = _x*_y;
+		
+		var _inc = 0;
+		if (_kNormal != 0)
+		{
+			if (solidMeeting(x+L,y,z-L)) _inc = _x-(x-L/2);
+			else if (solidMeeting(x-L,y,z-L)) _inc = -(_x-(x+L/2));
+			else if (solidMeeting(x,y-L,z-L)) _inc = -(_y-(y+L/2));
+			else if (solidMeeting(x,y+L,z-L)) _inc = _y-(y-L/2);
+		}
+		var _lon = 10+_inc*1;
 		vertex_position_3d(_vtx,
-			_x + 20*(_iNormal != 0)*dcos(_ang),
-			_y + 20*(_jNormal != 0)*dcos(_ang),
-			_z + 20*(_kNormal != 0)*dcos(_ang)
+			_x + _lon*(_iNormal != 0)*dcos(_ang),
+			_y + _lon*(_jNormal != 0)*dcos(_ang),
+			_z + _lon*(_kNormal != 0)*dcos(_ang)
 		);
-		var _c = 200+55*dsin(_ang);
+		var _c = 200-55*dcos(_ang);
 	    vertex_colour(_vtx,make_color_rgb(_c,_c,_c),1);
 	    vertex_texcoord(_vtx,_i_tex,_j_tex);
 		vertex_normal(_vtx, _iNormal, _jNormal, _kNormal);

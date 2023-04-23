@@ -1,5 +1,2 @@
-- Rugosidad semialeatoria consistente para phi,theta que no deje huecos al cambiar de 0 a 360 en phi (j).
-
-- Sistema de vacuum para escenarios.
-- Rocas, textura bonita.
-- Probar algún entorno complejo combinando rocas distintas.
+- Sistema de creación de escenario por cubos que no parezcan cubos detectando cubos cercanos para crear más estalagmitas.
+- No dibujar caras que están pegadas a otros cubos, usando funciones de detección de colisión 3D (crearlas).

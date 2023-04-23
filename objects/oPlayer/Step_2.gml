@@ -49,18 +49,14 @@
 #endregion
 #region Ejecuta el movimiento.
 	// Nos movemos o frenamos ante colisión.
-	/*if (isFreeTo(x+hSpeed,y,z,_near)) x += hSpeed;
+	if (!solidMeeting(x+hSpeed,y,z)) x += hSpeed;
 	else hSpeed = 0;
 	
-	if (isFreeTo(x,y+vSpeed,z,_near)) y += vSpeed;
+	if (!solidMeeting(x,y+vSpeed,z)) y += vSpeed;
 	else vSpeed = 0;
 	
-	if (isFreeTo(x,y,z+dSpeed,_near) and z+dSpeed+radius*1.1 < 0) z += dSpeed;
-	else dSpeed = 0;*/
-	
-	x += hSpeed;
-	y += vSpeed;
-	z += dSpeed;
+	if (!solidMeeting(x,y,z+dSpeed+L/2) and z+dSpeed+radius*1.1 < 0) z += dSpeed;
+	else dSpeed = 0;
 	
 	// Choca con el suelo.
 	if (z+radius*1.1 > 0)
