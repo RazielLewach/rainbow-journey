@@ -7,9 +7,9 @@
 	vertexFormat = vertex_format_end();
 #endregion
 #region Inicialización.
-	create(room_width/2,room_height/2,oPlayer);
-	create(room_width/2,room_height/2,oCamera);
-	create(room_width/2,room_height/2,oTrucos);
+	create(x,y,oPlayer);
+	create(x,y,oCamera);
+	create(x,y,oTrucos);
 	window_set_fullscreen(true);
 	gpu_set_texrepeat(true);
 	randomize();
@@ -35,6 +35,7 @@
 	
 	// Escenario.
 	#macro MAX_WATER_HEIGHT 100000 // Altura máxima.
+	#macro L 100 // Longitud de los tiles.
 	
 	// Player.
 	#macro SEP_NODE_TENTACLE 25 // Separación entre nodos del tentáculo.
@@ -44,7 +45,6 @@
 	scCameraPrecision = 0.07; // Velocidad de movimiento de la cámara.
 	lonLight = 1500; // Longitud del cono de luz.
 	angLight = 50; // Ángulo del cono de luz.
-	scCalidad = 0.5; // Calidad de los modelos 3D.
 #endregion
 #region Estado.
 	dirAngular0001 = 0; // Dirección angular de incremento 0001.

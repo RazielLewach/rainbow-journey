@@ -27,3 +27,6 @@
 		shader_reset();
 	}
 #endregion
+#region Ajustar matrix.
+	matrix_set(matrix_world,matrixBuildExt(0,0,0,0,0,0,1,1,1));
+#endregion

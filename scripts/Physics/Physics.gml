@@ -9,13 +9,6 @@
 		);
 	}
 #endregion
-#region createVacuum
-	/// @func  createVacuum(x,y,z,radius)
-	function createVacuum(_x,_y,_z,_radius) {
-		var _vac = create(_x,_y,_z,oVacuum);
-		_vac.radius = _radius;
-	}
-#endregion
 #region isFreeTo
 	/// @func  isFreeTo(x,y,z,solid)
 	function isFreeTo(_x,_y,_z,_sol) {

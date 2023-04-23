@@ -1,31 +1,45 @@
-#region Crea los solids (Sala de testing).
-	// Sala de testing.
-	if (room == rTesting)
-	{
-		var _RAD = room_width/2;
-		createVacuum(+0,+0,-_RAD,_RAD);
-		createVacuum(+_RAD*1.5,+0,-_RAD,_RAD);
-		
-		createLight(-_RAD,0,-_RAD,2000);
-	}
-#endregion
 #region Crea el vertex del escenario (General).
 	if (vertexEscenarioRoca != noone) vertex_delete_buffer(vertexEscenarioRoca);
 	vertexEscenarioRoca = vertex_create_buffer();
+	var _vtx = vertexEscenarioRoca;
 		
-	vertex_begin(vertexEscenarioRoca, vertexFormat);
+	vertex_begin(_vtx, vertexFormat);
 	
 	// Todos los sólidos.
-	with(oVacuum)
+	var _Lv = L*0.05, _Lt = 1/20;
+	
+	with(oSolid)
 	{
-		setArrD3dOpciones(x,y,z,0,0,0,0,radius,radius,radius);
-		var _maxText = round(radius/100);
-		var _cal = 10 - 10*oControl.scCalidad;
-		if (_cal == 4) _cal = 5;
-		else if (_cal == 7 or _cal == 8) _cal = 9;
-		d3dAddSphere(oControl.vertexEscenarioRoca,0,0,0,1,-90,+90,false,_cal,c_white,1,0.0,0.0,_maxText,_maxText);
+		// Cada cara mide L y está formada por 10 secciones.
+		for (var i = -L*0.45; i <= +L*0.45; i += L*0.1)
+			for (var j = -L*0.45; j <= +L*0.45; j += L*0.1)
+			{
+				// Superior.
+				var _lefttt = 0.5+i/L-_Lt;
+				var _topt = 0.5+j/L-_Lt;
+				var _rightt = 0.5+i/L+_Lt;
+				var _bott = 0.5+j/L+_Lt;
+				d3dAddQuadraVertexArraySolid(_vtx,
+					[x+i-_Lv, y+j+_Lv, z-L/2, _lefttt, _bott, 0,0,-1],
+					[x+i-_Lv, y+j-_Lv, z-L/2, _lefttt, _topt, 0,0,-1],
+					[x+i+_Lv, y+j+_Lv, z-L/2, _rightt, _bott, 0,0,-1],
+					[x+i+_Lv, y+j-_Lv, z-L/2, _rightt, _topt, 0,0,-1]
+				);
+				
+				// Frontal.
+				var _lefttt = 0.5+i/L-_Lt;
+				var _topt = 0.5+j/L-_Lt;
+				var _rightt = 0.5+i/L+_Lt;
+				var _bott = 0.5+j/L+_Lt;
+				d3dAddQuadraVertexArraySolid(_vtx,
+					[x+i-_Lv, y+j+_Lv, z-L/2, _lefttt, _bott, 0,0,-1],
+					[x+i-_Lv, y+j-_Lv, z-L/2, _lefttt, _topt, 0,0,-1],
+					[x+i+_Lv, y+j+_Lv, z-L/2, _rightt, _bott, 0,0,-1],
+					[x+i+_Lv, y+j-_Lv, z-L/2, _rightt, _topt, 0,0,-1]
+				);
+			}
 	}
 		
-	vertex_end(vertexEscenarioRoca);
-	vertex_freeze(vertexEscenarioRoca);
+	vertex_end(_vtx);
+	vertex_freeze(_vtx);
 #endregion
