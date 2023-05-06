@@ -31,34 +31,6 @@
 		vertex_normal(_vtx, _nor[0]/_lon, _nor[1]/_lon, _nor[2]/_lon);
 	}
 #endregion
-#region d3dAddVertexSolid
-	/// @func  d3dAddVertexSolid(vertex,x,y,z,itexture,jtexture,iNormal,jNormal,kNormal)
-	function d3dAddVertexSolid(_vtx,_x,_y,_z,_i_tex,_j_tex,_iNormal,_jNormal,_kNormal) {
-		var _ang = 90;
-		if	    (_iNormal != 0 and _y != y-L/2 and _y != y+L/2 and _z != z-L/2 and _z != z+L/2) _ang = _z*_y
-		else if (_jNormal != 0 and _x != x-L/2 and _x != x+L/2 and _z != z-L/2 and _z != z+L/2) _ang = _z*_x;
-		else if (_kNormal != 0 and _x != x-L/2 and _x != x+L/2 and _y != y-L/2 and _y != y+L/2) _ang = _x*_y;
-		
-		var _inc = 0;
-		if (_kNormal != 0)
-		{
-			if (solidMeeting(x+L,y,z-L)) _inc = _x-(x-L/2);
-			else if (solidMeeting(x-L,y,z-L)) _inc = -(_x-(x+L/2));
-			else if (solidMeeting(x,y-L,z-L)) _inc = -(_y-(y+L/2));
-			else if (solidMeeting(x,y+L,z-L)) _inc = _y-(y-L/2);
-		}
-		var _lon = 10+_inc*1;
-		vertex_position_3d(_vtx,
-			_x + _lon*(_iNormal != 0)*dcos(_ang),
-			_y + _lon*(_jNormal != 0)*dcos(_ang),
-			_z + _lon*(_kNormal != 0)*dcos(_ang)
-		);
-		var _c = 200-55*dcos(_ang);
-	    vertex_colour(_vtx,make_color_rgb(_c,_c,_c),1);
-	    vertex_texcoord(_vtx,_i_tex,_j_tex);
-		vertex_normal(_vtx, _iNormal, _jNormal, _kNormal);
-	}
-#endregion
 #region d3dAddVertexCalcSphere
 	/// @func  d3dAddVertexCalcSphere(vertex,xBase,yBase,zBase,lon,phi,theta,color,alpha,itexture,jtexture,n)
 	function d3dAddVertexCalcSphere(_vtx,_xBase,_yBase,_zBase,_lon,_phi,_theta,_col,_alp,_i_tex,_j_tex,_n) {
@@ -220,21 +192,6 @@
 		d3dAddVertex(argument[0],_v3[0],_v3[1],_v3[2],_vCol[2],argument[2],_v3[3],_v3[4],_v3[5],_v3[6],_v3[7]); //3
 		d3dAddVertex(argument[0],_v2[0],_v2[1],_v2[2],_vCol[1],argument[2],_v2[3],_v2[4],_v2[5],_v2[6],_v2[7]); //2
 		d3dAddVertex(argument[0],_v4[0],_v4[1],_v4[2],_vCol[3],argument[2],_v4[3],_v4[4],_v4[5],_v4[6],_v4[7]); //3
-	}
-#endregion
-#region d3dAddQuadraVertexArraySolid
-	/// @func d3dAddQuadraVertexArraySolid(vertex,v1,v2,v3,v4)
-	function d3dAddQuadraVertexArraySolid() {
-		var _v1 = argument[1];
-		var _v2 = argument[2];
-		var _v3 = argument[3];
-		var _v4 = argument[4];
-		d3dAddVertexSolid(argument[0],_v1[0],_v1[1],_v1[2],_v1[3],_v1[4],_v1[5],_v1[6],_v1[7]); //1
-		d3dAddVertexSolid(argument[0],_v2[0],_v2[1],_v2[2],_v2[3],_v2[4],_v2[5],_v2[6],_v2[7]); //2
-		d3dAddVertexSolid(argument[0],_v3[0],_v3[1],_v3[2],_v3[3],_v3[4],_v3[5],_v3[6],_v3[7]); //3
-		d3dAddVertexSolid(argument[0],_v3[0],_v3[1],_v3[2],_v3[3],_v3[4],_v3[5],_v3[6],_v3[7]); //3
-		d3dAddVertexSolid(argument[0],_v2[0],_v2[1],_v2[2],_v2[3],_v2[4],_v2[5],_v2[6],_v2[7]); //2
-		d3dAddVertexSolid(argument[0],_v4[0],_v4[1],_v4[2],_v4[3],_v4[4],_v4[5],_v4[6],_v4[7]); //4
 	}
 #endregion
 #region d3dAddTrioVertex

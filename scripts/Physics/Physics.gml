@@ -30,12 +30,22 @@
 		++nLights;
 	}
 #endregion
-#region solidMeeting
-	/// @func  solidMeeting(x,y,z)
-	function solidMeeting(_x,_y,_z) {
-		var _zOff = -getMultCercanoOffset(abs(_z),L,L/2);
-		if (_zOff == -0.5*L) return instance_place(_x,_y,oSolid0);
-		else if (_zOff == -1.5*L) return instance_place(_x,_y,oSolid1);
-		return noone;
+#region getNearestVacuum
+	/// @func  getNearestVacuum(x,y,z)
+	function getNearestVacuum(_x,_y,_z) {
+		var _ratMin = INFINITE, _vac = noone;
+		
+		for (var i = 0; i < instance_number(oVacuum); ++i)
+		{
+			var _iVac = instance_find(oVacuum, i);
+			var _rat = point_distance_3d(_x, _y, _z, _iVac.x, _iVac.y, _iVac.z)/_iVac.radius;
+			if (_rat < _ratMin)
+			{
+				_ratMin = _rat;
+				_vac = _iVac;
+			}
+		}
+		
+		return _vac;
 	}
 #endregion

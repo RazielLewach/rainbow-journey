@@ -34,8 +34,8 @@
 	#macro INFINITE 9999999 // Pos el infinito.
 	
 	// Escenario.
-	#macro MAX_WATER_HEIGHT 100000 // Altura máxima.
-	#macro L 100 // Longitud de los tiles.
+	#macro MAX_WATER_HEIGHT 3000 // Altura máxima.
+	#macro L 50 // Longitud de los tiles.
 	
 	// Player.
 	#macro SEP_NODE_TENTACLE 25 // Separación entre nodos del tentáculo.

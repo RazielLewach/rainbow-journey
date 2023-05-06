@@ -5,70 +5,98 @@
 		
 	vertex_begin(_vtx, vertexFormat);
 	
-	// Todos los sólidos.
-	var _Lv = L*0.05, _Lt = 1/20;
+	// Creamos un array 3D de falses (¿Tiene sólido en esa posición?)
+	var _wSize = room_width/L;
+	var _hSize = room_height/L;
+	var _dSize = MAX_WATER_HEIGHT/L;
+	var _arrSolids = array_create(_wSize, array_create(_hSize, array_create(_dSize, false)));
 	
-	with(oSolid)
-	{
-		// Cada cara mide L y está formada por 10 secciones.
-		for (var i = -L*0.45; i <= +L*0.45; i += L*0.1)
-			for (var j = -L*0.45; j <= +L*0.45; j += L*0.1)
+	// Informamos el array 3D chequeando vacuums.
+	for (var i = 0; i < _wSize; i++)
+		for (var j = 0; j < _hSize; j++)
+			for (var k = 0; k < _dSize; k++)
 			{
-				var _lefttt = 0.5+i/L-_Lt;
-				var _topt = 0.5+j/L-_Lt;
-				var _rightt = 0.5+i/L+_Lt;
-				var _bott = 0.5+j/L+_Lt;
-				
-				// Superior.
-				if (!solidMeeting(x,y,z-1)) d3dAddQuadraVertexArraySolid(_vtx,
-					[x+i-_Lv, y+j+_Lv, z-L/2, _lefttt, _bott, 0,0,-1],
-					[x+i-_Lv, y+j-_Lv, z-L/2, _lefttt, _topt, 0,0,-1],
-					[x+i+_Lv, y+j+_Lv, z-L/2, _rightt, _bott, 0,0,-1],
-					[x+i+_Lv, y+j-_Lv, z-L/2, _rightt, _topt, 0,0,-1]
-				);
-				
-				// Inferior.
-				if (!solidMeeting(x,y,z+1)) d3dAddQuadraVertexArraySolid(_vtx,
-					[x+i-_Lv, y-j-_Lv, z+L/2, _lefttt, _bott, 0,0,+1],
-					[x+i-_Lv, y-j+_Lv, z+L/2, _lefttt, _topt, 0,0,+1],
-					[x+i+_Lv, y-j-_Lv, z+L/2, _rightt, _bott, 0,0,+1],
-					[x+i+_Lv, y-j+_Lv, z+L/2, _rightt, _topt, 0,0,+1]
-				);
-				
-				// Frontal.
-				if (!solidMeeting(x,y+1,z)) d3dAddQuadraVertexArraySolid(_vtx,
-					[x+i-_Lv, y+L/2, z+j+_Lv, _lefttt, _bott, 0,+1,0],
-					[x+i-_Lv, y+L/2, z+j-_Lv, _lefttt, _topt, 0,+1,0],
-					[x+i+_Lv, y+L/2, z+j+_Lv, _rightt, _bott, 0,+1,0],
-					[x+i+_Lv, y+L/2, z+j-_Lv, _rightt, _topt, 0,+1,0]
-				);
-				
-				// Trasera.
-				if (!solidMeeting(x,y-1,z)) d3dAddQuadraVertexArraySolid(_vtx,
-					[x-i+_Lv, y-L/2, z+j+_Lv, _lefttt, _bott, 0,-1,0],
-					[x-i+_Lv, y-L/2, z+j-_Lv, _lefttt, _topt, 0,-1,0],
-					[x-i-_Lv, y-L/2, z+j+_Lv, _rightt, _bott, 0,-1,0],
-					[x-i-_Lv, y-L/2, z+j-_Lv, _rightt, _topt, 0,-1,0]
-				);
-				
-				// Derecha.
-				if (!solidMeeting(x+1,y,z)) d3dAddQuadraVertexArraySolid(_vtx,
-					[x+L/2, y-i+_Lv, z+j+_Lv, _lefttt, _bott, +1,0,0],
-					[x+L/2, y-i+_Lv, z+j-_Lv, _lefttt, _topt, +1,0,0],
-					[x+L/2, y-i-_Lv, z+j+_Lv, _rightt, _bott, +1,0,0],
-					[x+L/2, y-i-_Lv, z+j-_Lv, _rightt, _topt, +1,0,0]
-				);
-				
-				// Izquierda.
-				if (!solidMeeting(x-1,y,z)) d3dAddQuadraVertexArraySolid(_vtx,
-					[x-L/2, y+i-_Lv, z+j+_Lv, _lefttt, _bott, -1,0,0],
-					[x-L/2, y+i-_Lv, z+j-_Lv, _lefttt, _topt, -1,0,0],
-					[x-L/2, y+i+_Lv, z+j+_Lv, _rightt, _bott, -1,0,0],
-					[x-L/2, y+i+_Lv, z+j-_Lv, _rightt, _topt, -1,0,0]
-				);
+				var _vac = getNearestVacuum(i*L, j*L, -k*L);
+				if (point_distance_3d(i*L, j*L, -k*L, _vac.x, _vac.y, _vac.z) > _vac.radius) _arrSolids[i][j][k] = true;
 			}
-	}
-		
+	db("_arrSolids",_arrSolids)
+			
+	// Dibujamos un cubo donde diga el array de solids, pero sólo caras visibles.
+	/*for (var i = 0; i < _wSize; i++)
+		for (var j = 0; j < _hSize; j++)
+			for (var k = 0; k < _dSize; k++)
+			{
+				setArrD3dOpciones(i*L,j*L,-k*L,0,0,0,0,1,1,1);
+				
+				// Cara frontal, sólo si no hay otro solid en esa dirección.
+				if (j != _hSize-1 and !_arrSolids[i][j+1][k])
+					d3dAddQuadraVertexArray(_vtx, [c_white, c_white, c_white, c_white], 1,
+						[-L/2, +L/2, +L/2, 0.0, 1.0, 0, +1, 0],
+						[-L/2, +L/2, -L/2, 0.0, 0.0, 0, +1, 0],
+						[+L/2, +L/2, +L/2, 1.0, 1.0, 0, +1, 0],
+						[+L/2, +L/2, -L/2, 1.0, 0.0, 0, +1, 0]
+					)
+				
+				// Cara trasera, sólo si no hay otro solid en esa dirección.
+				if (j != 0 and !_arrSolids[i][j-1][k])
+					d3dAddQuadraVertexArray(_vtx, [c_white, c_white, c_white, c_white], 1,
+						[+L/2, -L/2, +L/2, 0.0, 1.0, 0, -1, 0],
+						[+L/2, -L/2, -L/2, 0.0, 0.0, 0, -1, 0],
+						[-L/2, -L/2, +L/2, 1.0, 1.0, 0, -1, 0],
+						[-L/2, -L/2, -L/2, 1.0, 0.0, 0, -1, 0]
+					)
+				
+				// Cara derecha, sólo si no hay otro solid en esa dirección.
+				if (i != _wSize-1 and !_arrSolids[i+1][j][k])
+					d3dAddQuadraVertexArray(_vtx, [c_white, c_white, c_white, c_white], 1,
+						[+L/2, +L/2, +L/2, 0.0, 1.0, +1, 0, 0],
+						[+L/2, +L/2, -L/2, 0.0, 0.0, +1, 0, 0],
+						[+L/2, -L/2, +L/2, 1.0, 1.0, +1, 0, 0],
+						[+L/2, -L/2, -L/2, 1.0, 0.0, +1, 0, 0]
+					)
+				
+				// Cara izquierda, sólo si no hay otro solid en esa dirección.
+				if (i != 0 and !_arrSolids[i-1][j][k])
+					d3dAddQuadraVertexArray(_vtx, [c_white, c_white, c_white, c_white], 1,
+						[-L/2, -L/2, +L/2, 0.0, 1.0, -1, 0, 0],
+						[-L/2, -L/2, -L/2, 0.0, 0.0, -1, 0, 0],
+						[-L/2, +L/2, +L/2, 1.0, 1.0, -1, 0, 0],
+						[-L/2, +L/2, -L/2, 1.0, 0.0, -1, 0, 0]
+					)
+					
+				// Cara superior, sólo si no hay otro solid en esa dirección.
+				if (k != _dSize-1 and !_arrSolids[i][j][k+1])
+					d3dAddQuadraVertexArray(_vtx, [c_white, c_white, c_white, c_white], 1,
+						[-L/2, +L/2, -L/2, 0.0, 1.0, 0, 0, -1],
+						[-L/2, -L/2, -L/2, 0.0, 0.0, 0, 0, -1],
+						[+L/2, +L/2, -L/2, 1.0, 1.0, 0, 0, -1],
+						[+L/2, -L/2, -L/2, 1.0, 0.0, 0, 0, -1]
+					)
+				
+				// Cara inferior, sólo si no hay otro solid en esa dirección.
+				if (k != 0 and !_arrSolids[i][j][k-1])
+					d3dAddQuadraVertexArray(_vtx, [c_white, c_white, c_white, c_white], 1,
+						[-L/2, -L/2, +L/2, 0.0, 1.0, 0, 0, +1],
+						[-L/2, +L/2, +L/2, 0.0, 0.0, 0, 0, +1],
+						[+L/2, -L/2, +L/2, 1.0, 1.0, 0, 0, +1],
+						[+L/2, +L/2, +L/2, 1.0, 0.0, 0, 0, +1]
+					)
+			}*/
+			
 	vertex_end(_vtx);
 	vertex_freeze(_vtx);
 #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
