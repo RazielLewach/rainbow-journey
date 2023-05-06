@@ -1,3 +1,5 @@
+- Sistema de colisión al movimiento perfecto.
+- Sistema de vacuums esféricos pero con sistema de cubizar todo el escenario excepto los vacuums.
 - Luz cónica con bordes graduales (las luces normales tendrán un cono de 360º).
 - Poner una luz conal en la parte frontal de la medusa que salga de su centro, además de otra pequeña esférica para iluminar su cabeza.
 - Cámara más arriba para que la medusa no tape la visión.

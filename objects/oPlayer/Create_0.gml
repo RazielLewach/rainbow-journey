@@ -3,10 +3,10 @@
 	hSpeed = 0; // Velocidad horizontal.
 	vSpeed = 0; // Velocidad vertical.
 	dSpeed = 0; // Velocidad profunda.
-	maxSpeed = 10; // Velocidad de movimiento.
-	maxSpeedWaves = 1; // Velocidad de los tentáculos al ondear.
-	acceleration = 2; // Acceleración we.
-	brake = 0.3; // Freno we.
+	maxSpeed = 3; // Velocidad de movimiento.
+	maxSpeedWaves = 0.3; // Velocidad de los tentáculos al ondear.
+	acceleration = 1; // Acceleración we.
+	brake = 0.1; // Freno we.
 	dirPhiLook = 0; // Dirección phi a la que miras.
 	dirThetaLook = 0; // Dirección theta a la que miras.
 	dirSpeed = 0; // Dirección para senos por velocidad.

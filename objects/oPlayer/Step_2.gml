@@ -60,8 +60,20 @@
 		dSpeed = 0;
 	}
 	
+	// Ajústate a la vacuum más cercana.
+	var _vac = getNearestVacuum(x, y, z);
+	var _lon = _vac.radius-radius;
+	if (point_distance_3d(x, y, z, _vac.x, _vac.y, _vac.z) > _lon)
+	{
+		var _phi = getPhiFromCoords(_vac.x, _vac.y, x, y);
+		var _theta = getThetaFromCoords(_vac.x, _vac.y, _vac.z, x, y, z, );
+		x = _vac.x + _lon*dcos(_phi)*dcos(_theta);
+		y = _vac.y - _lon*dsin(_phi)*dcos(_theta);
+		z = _vac.z - _lon*dsin(_theta);
+	}
+	
 	// Animaciones varias.
-	spdDirSpeed = tiendeAX(spdDirSpeed,point_distance_3d(0,0,0,hSpeed,vSpeed,dSpeed)/5,1*_isMoving);
+	spdDirSpeed = tiendeAX(spdDirSpeed,point_distance_3d(0,0,0,hSpeed,vSpeed,dSpeed)/2,1*_isMoving);
 	var _spd = spdDirSpeed;
 	if (_spd == 0) _spd = brake/5;
 	dirSpeed = angular(dirSpeed+_spd);
@@ -130,7 +142,7 @@
 					var _yParent = arrYBolas[j-1];
 					var _zParent = arrZBolas[j-1];
 					var _dist = point_distance_3d(arrXBolas[j],arrYBolas[j],arrZBolas[j],_xParent,_yParent,_zParent);
-					var _maxSpd = other.maxSpeed*_dist/30;
+					var _maxSpd = other.maxSpeed*_dist/10;
 					var _phi = getPhiFromCoords(_xParent,_yParent,arrXBolas[j],arrYBolas[j]);
 					var _theta = getThetaFromCoords(_xParent,_yParent,_zParent,arrXBolas[j],arrYBolas[j],arrZBolas[j]);
 					

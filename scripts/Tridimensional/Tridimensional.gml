@@ -31,6 +31,32 @@
 		vertex_normal(_vtx, _nor[0]/_lon, _nor[1]/_lon, _nor[2]/_lon);
 	}
 #endregion
+#region d3dAddSolidVertex
+	/// @func  d3dAddSolidVertex(vertex,x,y,z,color,alpha,itexture,jtexture)
+	function d3dAddSolidVertex(_vtx,_x,_y,_z,_col,_alp,_i_tex,_j_tex) {
+		// Buscamos el vacuum más cercano y, si estamos en el borde, nos ajustamos a su radio para quitar el voxel.
+		var _xPos = _x, _yPos = _y, _zPos = _z;
+		var _vac = getNearestVacuum(_x, _y, _z);
+		var _phi = getPhiFromCoords(_x, _y, _vac.x, _vac.y);
+		var _theta = getThetaFromCoords(_x, _y, _z, _vac.x, _vac.y, _vac.z);
+		var _colFinal = _col;
+		if (inRange(point_distance_3d(_x, _y, _z, _vac.x, _vac.y, _vac.z), _vac.radius-L, _vac.radius+L))
+		{
+			var _lon = _vac.radius + L*dcos(_x*_y*_z);
+			_xPos = _vac.x - _lon*dcos(_phi)*dcos(_theta);
+			_yPos = _vac.y + _lon*dsin(_phi)*dcos(_theta);
+			_zPos = _vac.z + _lon*dsin(_theta);
+			_colFinal = make_color_hsv(0, 0, 175-80*dcos(_x*_y*_z));
+		}
+		
+		// Enviamos la llamada a vertex.
+		d3dAddVertex(_vtx,_xPos,_yPos,_zPos,_colFinal,_alp,_i_tex,_j_tex,
+			+dcos(_phi)*dcos(_theta),
+			-dsin(_phi)*dcos(_theta),
+			-dsin(_theta)
+		);
+	}
+#endregion
 #region d3dAddVertexCalcSphere
 	/// @func  d3dAddVertexCalcSphere(vertex,xBase,yBase,zBase,lon,phi,theta,color,alpha,itexture,jtexture,n)
 	function d3dAddVertexCalcSphere(_vtx,_xBase,_yBase,_zBase,_lon,_phi,_theta,_col,_alp,_i_tex,_j_tex,_n) {
@@ -192,6 +218,22 @@
 		d3dAddVertex(argument[0],_v3[0],_v3[1],_v3[2],_vCol[2],argument[2],_v3[3],_v3[4],_v3[5],_v3[6],_v3[7]); //3
 		d3dAddVertex(argument[0],_v2[0],_v2[1],_v2[2],_vCol[1],argument[2],_v2[3],_v2[4],_v2[5],_v2[6],_v2[7]); //2
 		d3dAddVertex(argument[0],_v4[0],_v4[1],_v4[2],_vCol[3],argument[2],_v4[3],_v4[4],_v4[5],_v4[6],_v4[7]); //3
+	}
+#endregion
+#region d3dAddSolidArray
+	/// @func d3dAddSolidArray(vertex,color,alpha,i,j,k,v1,v2,v3,v4)
+	function d3dAddSolidArray() {
+		var _v1 = argument[6];
+		var _v2 = argument[7];
+		var _v3 = argument[8];
+		var _v4 = argument[9];
+		var _vCol = argument[1];
+		d3dAddSolidVertex(argument[0],_v1[0]+argument[3]*L,_v1[1]+argument[4]*L,_v1[2]-argument[5]*L,_vCol[0],argument[2],_v1[3],_v1[4]); //1
+		d3dAddSolidVertex(argument[0],_v2[0]+argument[3]*L,_v2[1]+argument[4]*L,_v2[2]-argument[5]*L,_vCol[1],argument[2],_v2[3],_v2[4]); //2
+		d3dAddSolidVertex(argument[0],_v3[0]+argument[3]*L,_v3[1]+argument[4]*L,_v3[2]-argument[5]*L,_vCol[2],argument[2],_v3[3],_v3[4]); //3
+		d3dAddSolidVertex(argument[0],_v3[0]+argument[3]*L,_v3[1]+argument[4]*L,_v3[2]-argument[5]*L,_vCol[2],argument[2],_v3[3],_v3[4]); //3
+		d3dAddSolidVertex(argument[0],_v2[0]+argument[3]*L,_v2[1]+argument[4]*L,_v2[2]-argument[5]*L,_vCol[1],argument[2],_v2[3],_v2[4]); //2
+		d3dAddSolidVertex(argument[0],_v4[0]+argument[3]*L,_v4[1]+argument[4]*L,_v4[2]-argument[5]*L,_vCol[3],argument[2],_v4[3],_v4[4]); //3
 	}
 #endregion
 #region d3dAddTrioVertex

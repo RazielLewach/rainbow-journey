@@ -1,1 +1,1 @@
-- Sistema de vacuums esféricos pero con sistema de cubizar todo el escenario excepto los vacuums.
+- Que la cámara no salga fuera, colisione.
