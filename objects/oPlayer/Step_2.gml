@@ -61,16 +61,7 @@
 	}
 	
 	// Ajústate a la vacuum más cercana.
-	var _vac = getNearestVacuum(x, y, z);
-	var _lon = _vac.radius-radius;
-	if (point_distance_3d(x, y, z, _vac.x, _vac.y, _vac.z) > _lon)
-	{
-		var _phi = getPhiFromCoords(_vac.x, _vac.y, x, y);
-		var _theta = getThetaFromCoords(_vac.x, _vac.y, _vac.z, x, y, z, );
-		x = _vac.x + _lon*dcos(_phi)*dcos(_theta);
-		y = _vac.y - _lon*dsin(_phi)*dcos(_theta);
-		z = _vac.z - _lon*dsin(_theta);
-	}
+	adjustInsideNearestVacuum(radius);
 	
 	// Animaciones varias.
 	spdDirSpeed = tiendeAX(spdDirSpeed,point_distance_3d(0,0,0,hSpeed,vSpeed,dSpeed)/2,1*_isMoving);
