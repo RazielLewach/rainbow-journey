@@ -1,7 +1,7 @@
 {
   "resourceType": "GMShader",
   "resourceVersion": "1.0",
-  "name": "shLighting",
+  "name": "shDefaults",
   "parent": {
     "name": "Shaders",
     "path": "folders/Shaders.yy",

@@ -8,10 +8,12 @@ varying vec4 v_vColour;
 
 uniform float uMatLight[70]; // Posición de la luz.
 uniform int uNLights; // Número de luces.
-uniform float uRatLight;
+uniform float uRatLight; // Oscuridad por profundidad.
+uniform float uDirWaterWave; // Ondea el agua.
 uniform float uArrXBolas[11]; // Posiciones de las bolas en x.
 uniform float uArrYBolas[11]; // Posiciones de las bolas en y.
 uniform float uArrZBolas[11]; // Posiciones de las bolas en z.
+uniform float uExtraOrigin[3]; // Desplazamiento extra origen.
 
 void main()
 {
@@ -44,9 +46,12 @@ void main()
 		uArrZBolas[_i]-uArrZBolas[0] + _posFinal.z - _xPositionOffset*sin(_thetaBolaVertex),
 	1.0);
 	
-    gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*_objectSpacePos;
+	// Ondeo del agua.
+	vec4 _worldViewSpacePos = gm_Matrices[MATRIX_WORLD_VIEW]*_objectSpacePos;
+	_worldViewSpacePos.x += 5.0*cos(radians(uDirWaterWave + _worldViewSpacePos.y));
 	
 	// Inicializa.
+    gl_Position = gm_Matrices[MATRIX_PROJECTION]*_worldViewSpacePos;
     v_vColour = vec4(in_Colour.rgb, 1.0);
 	float _maxRat = uRatLight;
 	
@@ -63,7 +68,9 @@ void main()
 		_maxRat +=
 			// Ángulo incidencia de la luz al vértice.
 			min(1.0,max(0.0, dot(
-				normalize((gm_Matrices[MATRIX_WORLD]*_transformMatrix*vec4(in_Normal,1.0)).xyz - vec3(uArrXBolas[0], uArrYBolas[0], uArrZBolas[0])),
+				normalize((	gm_Matrices[MATRIX_WORLD]*_transformMatrix*vec4(in_Normal,1.0)).xyz -
+							vec3(uArrXBolas[0]+uExtraOrigin[0], uArrYBolas[0]+uExtraOrigin[1], uArrZBolas[0]+uExtraOrigin[2]
+				)),
 				normalize(vec3(uMatLight[7*i + 0],uMatLight[7*i + 1],uMatLight[7*i + 2])-(gm_Matrices[MATRIX_WORLD]*_objectSpacePos).xyz)
 			)))
 			*
@@ -81,7 +88,12 @@ void main()
 			)))/uMatLight[7*i + 6]));
 	}
 	
-	// Aplica.
-	v_vColour.rgb *= min(_maxRat,1.0);
+	// Coordenadas de textura.
     v_vTexcoord = in_TextureCoord;
+	
+	// Colorea el tono del agua y la luz.
+	v_vColour.rgb += vec3(0.0, 0.5, 0.5);
+	float _max = max(v_vColour.r, max(v_vColour.g, v_vColour.b));
+	v_vColour.rgb /= _max;
+	v_vColour.rgb *= min(_maxRat,1.0);
 }

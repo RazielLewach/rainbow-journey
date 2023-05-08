@@ -1,3 +1,14 @@
+#region Desplazamiento adicional para no atravesar muros.
+	// Atrae hacia el vacuum.
+	var _vac = getNearestVacuum(x, y, z);
+	var _phi = getPhiFromCoords(x, y, _vac.x, _vac.y);
+	var _theta = getThetaFromCoords(x, y, z, _vac.x, _vac.y, _vac.z);
+	var _lon = radius*2*point_distance_3d(x, y, z, _vac.x, _vac.y, _vac.z)/_vac.radius;
+	var _spd = maxSpeed*0.2;
+	xDraw = tiendeAX(xDraw, +_lon*dcos(_phi)*dcos(_theta), _spd*abs(dcos(_phi)*dcos(_theta)));
+	yDraw = tiendeAX(yDraw, -_lon*dsin(_phi)*dcos(_theta), _spd*abs(dsin(_phi)*dcos(_theta)));
+	zDraw = tiendeAX(zDraw, -_lon*dsin(_theta), _spd*abs(dsin(_theta)));
+#endregion
 #region Crea el modelo de la cabeza de la medusa.
 	if (vertexJellyfishHead == noone) {
 		vertexJellyfishHead = vertex_create_buffer();
@@ -109,11 +120,12 @@
 		shader_set(shJellyfishHead);
 		setShaderParameterVec(shJellyfishHead,"uMatLight",oControl.matLights);
 		setShaderParameterInt(shJellyfishHead,"uNLights",oControl.nLights);
-		setShaderParameterVec(shJellyfishHead,"uOrigin",[x, y, z]);
+		setShaderParameterVec(shJellyfishHead,"uOrigin",[x+xDraw, y+yDraw, z+zDraw]);
 		setShaderParameterFloat(shJellyfishHead,"uDirSpeed",dirSpeed);
 		setShaderParameterFloat(shJellyfishHead,"uRatLight",ratLight);
+		setShaderParameterFloat(shJellyfishHead,"uDirWaterWave",oControl.dirWaterWave);
 		
-		matrix_set(matrix_world,matrixBuildExt(x,y,z,0,dirThetaLook-90,dirPhiLook,_scH,_scH,_scV));
+		matrix_set(matrix_world,matrixBuildExt(x+xDraw,y+yDraw,z+zDraw,0,dirThetaLook-90,dirPhiLook,_scH,_scH,_scV));
 		vertex_submit(vertexJellyfishHead,pr_trianglelist,txJellyfishSkin);
 		
 		shader_reset();
@@ -156,8 +168,14 @@
 				setShaderParameterVec(shJellyfishTentacle,"uArrXBolas",arrXBolas);
 				setShaderParameterVec(shJellyfishTentacle,"uArrYBolas",arrYBolas);
 				setShaderParameterVec(shJellyfishTentacle,"uArrZBolas",arrZBolas);
+				setShaderParameterVec(shJellyfishTentacle,"uExtraOrigin",[other.xDraw, other.yDraw, other.zDraw]);
+				setShaderParameterFloat(shJellyfishTentacle,"uDirWaterWave",oControl.dirWaterWave);
 				
-				matrix_set(matrix_world,matrixBuildExt(arrXBolas[0],arrYBolas[0],arrZBolas[0], 0, 0, 0, 1,1,1));
+				matrix_set(matrix_world,matrixBuildExt(
+					arrXBolas[0]+oPlayer.xDraw,
+					arrYBolas[0]+oPlayer.yDraw,
+					arrZBolas[0]+oPlayer.zDraw,
+				0, 0, 0, 1,1,1));
 				vertex_submit(other.vertexJellyfishTentacle,pr_trianglelist,other.txJellyfishTentacle);
 				
 				shader_reset();

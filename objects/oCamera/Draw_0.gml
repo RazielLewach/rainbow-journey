@@ -1,6 +1,6 @@
 #region Setea la cámara 3D.
 	// Setea a dónde apunta la cámara.
-	var _lon = 400;
+	var _lon = 600;
 	var _xLon = +_lon*dcos(dirCamPhi)*dcos(dirCamTheta);
 	var _yLon = -_lon*dsin(dirCamPhi)*dcos(dirCamTheta);
 	var _zLon = -_lon*dsin(dirCamTheta);
@@ -10,9 +10,6 @@
 	x = oPlayer.x-_xLon+_coords[0];
 	y = oPlayer.y-_yLon+_coords[1];
 	z = oPlayer.z-_zLon+_coords[2];
-	
-	// Ajústate a la vacuum más cercana.
-	adjustInsideNearestVacuum(L);
 	
 	// Procede.
 	camera_set_view_mat(view_camera[0],matrix_build_lookat(x,y,z,x+_xLon,y+_yLon,z+_zLon,0,0,1));

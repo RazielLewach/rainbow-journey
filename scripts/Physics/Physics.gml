@@ -53,7 +53,7 @@
 	/// @func  adjustInsideNearestVacuum(radius)
 	function adjustInsideNearestVacuum(_radius) {
 		var _vac = getNearestVacuum(x, y, z);
-		var _lon = _vac.radius-_radius;
+		var _lon = _vac.radius - _radius;
 		if (point_distance_3d(x, y, z, _vac.x, _vac.y, _vac.z) > _lon)
 		{
 			var _phi = getPhiFromCoords(_vac.x, _vac.y, x, y);

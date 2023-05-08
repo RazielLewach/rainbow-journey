@@ -1,3 +1,9 @@
+- Cámara brusca incómoda.
+- Bugs visuales diseñar escenario.
+- Posición cámara mal.
+- Movimiento sin estancarse hasta por tunel pequeño.
+- Paredes menos puntiagudas, demasiado random????? O bien así
+- Efecto ondeo agua y color.
 - Que la cámara no salga fuera, colisione.
 - Sistema de colisión al movimiento perfecto.
 - Sistema de vacuums esféricos pero con sistema de cubizar todo el escenario excepto los vacuums.

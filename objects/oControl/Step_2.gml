@@ -22,26 +22,30 @@
 #region Array de luces.
 	nLights = 0;
 	
+	var _xPlayer = oPlayer.x+oPlayer.xDraw;
+	var _yPlayer = oPlayer.y+oPlayer.yDraw;
+	var _zPlayer = oPlayer.z+oPlayer.zDraw;
+	
 	// Luz esférica en tu jeto pa alumbrarlo.
 	var _lon = 100;
 	addMatLight(
-		oPlayer.x+_lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
-		oPlayer.y-_lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
-		oPlayer.z-_lon*dsin(oPlayer.dirThetaLook),
+		_xPlayer+_lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
+		_yPlayer-_lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
+		_zPlayer-_lon*dsin(oPlayer.dirThetaLook),
 		_lon, 0, 0, INFINITE
 	);
 	
 	// Luz esférica dentro de ti pa verte.
 	_lon = 60;
 	addMatLight(
-		oPlayer.x-_lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
-		oPlayer.y+_lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
-		oPlayer.z+_lon*dsin(oPlayer.dirThetaLook),
+		_xPlayer-_lon*dcos(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
+		_yPlayer+_lon*dsin(oPlayer.dirPhiLook)*dcos(oPlayer.dirThetaLook),
+		_zPlayer+_lon*dsin(oPlayer.dirThetaLook),
 		_lon*3, 0, 0, INFINITE
 	);
 	
 	// Luz conal que sale de ti.
-	addMatLight(oPlayer.x, oPlayer.y,oPlayer.z, lonLight, oPlayer.dirPhiLook, oPlayer.dirThetaLook, angLight);
+	addMatLight(_xPlayer, _yPlayer,_zPlayer, lonLight, oPlayer.dirPhiLook, oPlayer.dirThetaLook, angLight);
 	
 	// Todas las luces nomás.
 	for (var i = 0; i < instance_number(oLight); ++i)
@@ -49,4 +53,7 @@
 		var _lig = instance_find(oLight,i);
 		addMatLight(_lig.x, _lig.y, _lig.z, _lig.radius, 0, 0, INFINITE);
 	}
+#endregion
+#region Gestión de ondas del agua.
+	dirWaterWave = angular(dirWaterWave+1);
 #endregion

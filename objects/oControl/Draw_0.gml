@@ -15,11 +15,12 @@
 #region Dibuja el modelo del escenario.
 	if (vertexEscenarioRoca != noone)
 	{
-		shader_set(shLighting);
-		setShaderParameterVec(shLighting,"uMatLight",matLights);
-		setShaderParameterInt(shLighting,"uNLights",nLights);
-		setShaderParameterVec(shLighting,"uOrigin",[0,0,0]);
-		setShaderParameterFloat(shLighting,"uRatLight",oPlayer.ratLight);
+		shader_set(shDefaults);
+		setShaderParameterVec(shDefaults,"uMatLight",matLights);
+		setShaderParameterInt(shDefaults,"uNLights",nLights);
+		setShaderParameterVec(shDefaults,"uOrigin",[0,0,0]);
+		setShaderParameterFloat(shDefaults,"uRatLight",oPlayer.ratLight);
+		setShaderParameterFloat(shDefaults,"uDirWaterWave",dirWaterWave);
 		
 		matrix_set(matrix_world,matrixBuildExt(0,0,0, 0, 0, 0, 1,1,1));
 		vertex_submit(vertexEscenarioRoca,pr_trianglelist,txEscenarios[0]);

@@ -41,12 +41,13 @@
 		var _theta = getThetaFromCoords(_x, _y, _z, _vac.x, _vac.y, _vac.z);
 		var _colFinal = _col;
 		if (inRange(point_distance_3d(_x, _y, _z, _vac.x, _vac.y, _vac.z), _vac.radius-L, _vac.radius+L))
-		{
-			var _lon = _vac.radius + L*dcos(_x*_y*_z);
+		{			
+			var _dcos = dcos(_x*_y*_z);
+			var _lon = _vac.radius + L*_dcos;
 			_xPos = _vac.x - _lon*dcos(_phi)*dcos(_theta);
 			_yPos = _vac.y + _lon*dsin(_phi)*dcos(_theta);
 			_zPos = _vac.z + _lon*dsin(_theta);
-			_colFinal = make_color_hsv(0, 0, 175-80*dcos(_x*_y*_z));
+			_colFinal = make_color_hsv(0, 0, 130-125*_dcos);
 		}
 		
 		// Enviamos la llamada a vertex.

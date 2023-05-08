@@ -38,7 +38,7 @@
     {"name":"sJellyfishTentacle","order":1,"path":"sprites/sJellyfishTentacle/sJellyfishTentacle.yy",},
     {"name":"BDONE","order":1,"path":"notes/BDONE/BDONE.yy",},
     {"name":"sBlank","order":1,"path":"sprites/sBlank/sBlank.yy",},
-    {"name":"shLighting","order":2,"path":"shaders/shLighting/shLighting.yy",},
+    {"name":"shDefaults","order":2,"path":"shaders/shDefaults/shDefaults.yy",},
     {"name":"Controls","order":2,"path":"scripts/Controls/Controls.yy",},
     {"name":"CTOREMEMBER","order":2,"path":"notes/CTOREMEMBER/CTOREMEMBER.yy",},
   ],

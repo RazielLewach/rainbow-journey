@@ -16,7 +16,7 @@
 	draw_set_color(c_white);
 	draw_set_circle_precision(60);
 	window_set_cursor(cr_none);
-	depth = 10;
+	depth = -10;
 	gpu_set_cullmode(cull_counterclockwise);
 	gpu_set_alphatestenable(true);
 	gpu_set_alphatestref(0);
@@ -43,8 +43,6 @@
 #region Parámetros a guardar (async).
 	colorHueEssence = 255; // Tu color de esencia.
 	scCameraPrecision = 0.07; // Velocidad de movimiento de la cámara.
-	lonLight = 1500; // Longitud del cono de luz.
-	angLight = 50; // Ángulo del cono de luz.
 #endregion
 #region Estado.
 	dirAngular0001 = 0; // Dirección angular de incremento 0001.
@@ -67,6 +65,9 @@
 	colorFinalEssence = make_color_hsv(colorHueEssence,255,255);
 	matLights = array_create(70,0); // Array de luces.
 	nLights = 0; // Cuántas luces.
+	dirWaterWave = 0; // Ondas del agua.
+	lonLight = 1000; // Longitud del cono de luz.
+	angLight = 40; // Ángulo del cono de luz.
 #endregion
 #region Vertex y textures.
 	txBlank = sprite_get_texture(sBlank,0); // Blanco.

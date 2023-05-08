@@ -1,5 +1,5 @@
 #region Físicas.
-	z = -1000; // Altura.
+	z = -300; // Altura.
 	hSpeed = 0; // Velocidad horizontal.
 	vSpeed = 0; // Velocidad vertical.
 	dSpeed = 0; // Velocidad profunda.
@@ -17,6 +17,10 @@
 #endregion
 #region Estado.
 	radius = 50; // Radio de la medusa.
+	xDraw = 0; // x extra al chocar con el muro para no atravesar.
+	yDraw = 0; // y extra al chocar con el muro para no atravesar.
+	zDraw = 0; // z extra al chocar con el muro para no atravesar.
+	depth = 10;
 #endregion
 #region Los tentáculos.
 	for (var i = 0; i < 5; ++i)

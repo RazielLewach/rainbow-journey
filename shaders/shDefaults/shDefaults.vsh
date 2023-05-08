@@ -9,14 +9,19 @@ varying vec4 v_vColour;
 uniform float uMatLight[70]; // Posición de la luz.
 uniform int uNLights; // Número de luces.
 uniform vec3 uOrigin; // Posición del objeto.
-uniform float uRatLight;
+uniform float uRatLight; // Oscuridad por profundidad.
+uniform float uDirWaterWave; // Ondea el agua.
 
 void main()
 {
 	vec4 _objectSpacePos = vec4(in_Position.x,in_Position.y,in_Position.z,1.0);
-    gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION]*_objectSpacePos;
+	
+	// Ondeo del agua.
+	vec4 _worldViewSpacePos = gm_Matrices[MATRIX_WORLD_VIEW]*_objectSpacePos;
+	_worldViewSpacePos.x += 5.0*cos(radians(uDirWaterWave + _worldViewSpacePos.y));
 	
     // Inicializa.
+    gl_Position = gm_Matrices[MATRIX_PROJECTION]*_worldViewSpacePos;
     v_vColour = in_Colour;
 	float _maxRat = uRatLight;
 	
@@ -51,7 +56,15 @@ void main()
 			)))/uMatLight[7*i + 6]));
 	}
 	
-	// Aplica.
-	v_vColour.rgb *= min(_maxRat,1.0);
+	// Coordenadas de textura.
     v_vTexcoord = in_TextureCoord;
+	
+	// Colorea el tono del agua y la luz.
+	v_vColour.rgb += vec3(0.0, 0.5, 0.5);
+	float _max = max(v_vColour.r, max(v_vColour.g, v_vColour.b));
+	v_vColour.rgb /= _max;
+	v_vColour.rgb *= min(_maxRat,1.0);
+	
+	// Lo demasiado cercano desaparece.
+	if (length(_worldViewSpacePos) < 50.0) v_vColour.a = 0.0;
 }

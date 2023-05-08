@@ -61,7 +61,7 @@
 	}
 	
 	// Ajústate a la vacuum más cercana.
-	adjustInsideNearestVacuum(radius);
+	adjustInsideNearestVacuum(0);
 	
 	// Animaciones varias.
 	spdDirSpeed = tiendeAX(spdDirSpeed,point_distance_3d(0,0,0,hSpeed,vSpeed,dSpeed)/2,1*_isMoving);
@@ -69,7 +69,7 @@
 	if (_spd == 0) _spd = brake/5;
 	dirSpeed = angular(dirSpeed+_spd);
 	
-	ratLight = min(1, abs(z)/MAX_WATER_HEIGHT)*0.67;
+	ratLight = 0; // min(1, abs(z)/MAX_WATER_HEIGHT)*0.67;
 #endregion
 #region Lógica de los tentáculos.
 	for (var i = 0; i < array_length(arrTentaculo); ++i)

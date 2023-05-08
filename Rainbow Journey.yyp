@@ -64,7 +64,7 @@
     {"id":{"name":"ATODO","path":"notes/ATODO/ATODO.yy",},},
     {"id":{"name":"BDONE","path":"notes/BDONE/BDONE.yy",},},
     {"id":{"name":"sBlank","path":"sprites/sBlank/sBlank.yy",},},
-    {"id":{"name":"shLighting","path":"shaders/shLighting/shLighting.yy",},},
+    {"id":{"name":"shDefaults","path":"shaders/shDefaults/shDefaults.yy",},},
     {"id":{"name":"sGrid","path":"sprites/sGrid/sGrid.yy",},},
     {"id":{"name":"Controls","path":"scripts/Controls/Controls.yy",},},
     {"id":{"name":"CTOREMEMBER","path":"notes/CTOREMEMBER/CTOREMEMBER.yy",},},
