@@ -1,12 +1,12 @@
 #region Setea la cámara 3D.
 	// Setea a dónde apunta la cámara.
-	var _lon = 600;
+	var _lon = 400;
 	var _xLon = +_lon*dcos(dirCamPhi)*dcos(dirCamTheta);
 	var _yLon = -_lon*dsin(dirCamPhi)*dcos(dirCamTheta);
 	var _zLon = -_lon*dsin(dirCamTheta);
 	
 	// Setea las coordenadas de la cámara.
-	var _coords = matrix_transform_vertex(matrixBuildExt(0,0,0,0,dirCamTheta,dirCamPhi,1,1,1),0,0,-150);
+	var _coords = matrix_transform_vertex(matrixBuildExt(0,0,0,0,dirCamTheta,dirCamPhi,1,1,1),0,0,-200);
 	x = oPlayer.x-_xLon+_coords[0];
 	y = oPlayer.y-_yLon+_coords[1];
 	z = oPlayer.z-_zLon+_coords[2];

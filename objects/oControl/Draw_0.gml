@@ -21,6 +21,7 @@
 		setShaderParameterVec(shDefaults,"uOrigin",[0,0,0]);
 		setShaderParameterFloat(shDefaults,"uRatLight",oPlayer.ratLight);
 		setShaderParameterFloat(shDefaults,"uDirWaterWave",dirWaterWave);
+		setShaderParameterVec(shDefaults,"uPosPlayer",[oPlayer.x+oPlayer.xDraw, oPlayer.y+oPlayer.yDraw, oPlayer.z+oPlayer.zDraw]);
 		
 		matrix_set(matrix_world,matrixBuildExt(0,0,0, 0, 0, 0, 1,1,1));
 		vertex_submit(vertexEscenarioRoca,pr_trianglelist,txEscenarios[0]);

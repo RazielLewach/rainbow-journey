@@ -1,3 +1,4 @@
+- Que al tener la cámara fuera, desaparezca todo entre el player y la cámara para no bloquear la visión.
 - Cámara brusca incómoda.
 - Bugs visuales diseñar escenario.
 - Posición cámara mal.

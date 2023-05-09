@@ -11,6 +11,7 @@ uniform int uNLights; // Número de luces.
 uniform vec3 uOrigin; // Posición del objeto.
 uniform float uRatLight; // Oscuridad por profundidad.
 uniform float uDirWaterWave; // Ondea el agua.
+uniform vec3 uPosPlayer; // Posición del player.
 
 void main()
 {
@@ -65,6 +66,13 @@ void main()
 	v_vColour.rgb /= _max;
 	v_vColour.rgb *= min(_maxRat,1.0);
 	
-	// Lo demasiado cercano desaparece.
-	if (length(_worldViewSpacePos) < 50.0) v_vColour.a = 0.0;
+	// Los vértices en dirección al player se ocultan.
+	vec4 _vecPlayerToEye = gm_Matrices[MATRIX_WORLD_VIEW]*vec4(uPosPlayer, 1.0);
+	vec4 _vecVertexToPlayer = _vecPlayerToEye - _worldViewSpacePos;
+	float _ang = degrees(acos(dot(_vecPlayerToEye, _vecVertexToPlayer)/(length(_vecPlayerToEye)*length(_vecVertexToPlayer))));
+	if (_ang < 40.0)
+	{
+		gl_Position.z = 9999999.9;
+		v_vColour.a = 0.0;
+	}
 }

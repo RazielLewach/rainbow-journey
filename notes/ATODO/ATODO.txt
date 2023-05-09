@@ -1,3 +1,1 @@
-- Que al tener la cámara fuera, desaparezca todo entre el player y la cámara para no bloquear la visión.
-- Que la cámara fuera no te permita ver fuera (crear una mini cúpula?)
 - Hacer algo interesante para testear explorar.
