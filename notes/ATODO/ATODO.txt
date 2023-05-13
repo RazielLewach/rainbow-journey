@@ -1,1 +1,10 @@
-- Hacer algo interesante para testear explorar.
+- Testear que se estén creando bien conexiones para no dejar ninguna sala aislada, así como todos los vacuums formando los túneles.
+
+- No permitir ver a través de los muros. Semiesfera bloqueante. Ahora ta fea. ARREGLAR CÁMARA DE UNA VEZ.
+- Pantalla de carga. OPTIMIZARLA, DEMASIADO LENTA.
+
+- Exploración + Rogelite.
+- El mapa se genera aleatoriamente.
+- Habrá una serie de elementos interactivos en plan puzzle, en posiciones aleatorias.
+- En cada partida se decidirá qué hace cada elemento, así que en cada partida deberás descubrirlo (como las pociones).
+- Pantalla de carga dinámica: darte algo para prepararte para el nivel y hacer mientras carga sin esperar "al ascensor".

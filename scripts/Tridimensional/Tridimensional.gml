@@ -205,36 +205,38 @@
 		d3dAddVertex(_vtx,_x+_w/2,_y+_h/2,_z+_d/2,_col,_alp,_rightt,_topt, 1,0,0); //4
 	}*/
 #endregion
-#region d3dAddQuadraVertexArray
-	/// @func d3dAddQuadraVertexArray(vertex,color,alpha,v1,v2,v3,v4)
-	function d3dAddQuadraVertexArray() {
-		var _v1 = argument[3];
-		var _v2 = argument[4];
-		var _v3 = argument[5];
-		var _v4 = argument[6];
-		var _vCol = argument[1];
-		d3dAddVertex(argument[0],_v1[0],_v1[1],_v1[2],_vCol[0],argument[2],_v1[3],_v1[4],_v1[5],_v1[6],_v1[7]); //1
-		d3dAddVertex(argument[0],_v2[0],_v2[1],_v2[2],_vCol[1],argument[2],_v2[3],_v2[4],_v2[5],_v2[6],_v2[7]); //2
-		d3dAddVertex(argument[0],_v3[0],_v3[1],_v3[2],_vCol[2],argument[2],_v3[3],_v3[4],_v3[5],_v3[6],_v3[7]); //3
-		d3dAddVertex(argument[0],_v3[0],_v3[1],_v3[2],_vCol[2],argument[2],_v3[3],_v3[4],_v3[5],_v3[6],_v3[7]); //3
-		d3dAddVertex(argument[0],_v2[0],_v2[1],_v2[2],_vCol[1],argument[2],_v2[3],_v2[4],_v2[5],_v2[6],_v2[7]); //2
-		d3dAddVertex(argument[0],_v4[0],_v4[1],_v4[2],_vCol[3],argument[2],_v4[3],_v4[4],_v4[5],_v4[6],_v4[7]); //3
+#region d3dAddQuadraVertex
+	/// @func d3dAddQuadraVertex(vertex,color,alpha,x1,y1,z1,it1,jt1,i1,j1,k1,x2,y2,z2,it2,jt2,i2,j2,k2,x3,y3,z3,it3,jt3,i3,j3,k3,x4,y4,z4,it4,jt4,i4,j4,k4)
+	function d3dAddQuadraVertex() {		
+		d3dAddVertex(	argument[0], argument[3], argument[4], argument[5],
+							argument[1], argument[2], argument[6], argument[7], argument[8], argument[9], argument[10]); //1
+		d3dAddVertex(	argument[0], argument[11], argument[12], argument[13],
+							argument[1], argument[2], argument[14], argument[15], argument[16], argument[17], argument[18]); //2
+		d3dAddVertex(	argument[0], argument[19], argument[20], argument[21],
+							argument[1], argument[2], argument[22], argument[23], argument[24], argument[25], argument[26]); //3
+		d3dAddVertex(	argument[0], argument[19], argument[20], argument[21],
+							argument[1], argument[2], argument[22], argument[23], argument[24], argument[25], argument[26]); //3
+		d3dAddVertex(	argument[0], argument[11], argument[12], argument[13],
+							argument[1], argument[2], argument[14], argument[15], argument[16], argument[17], argument[18]); //2
+		d3dAddVertex(	argument[0], argument[27], argument[28], argument[29],
+							argument[1], argument[2], argument[30], argument[31], argument[32], argument[33], argument[34]); //4
 	}
 #endregion
 #region d3dAddSolidArray
-	/// @func d3dAddSolidArray(vertex,color,alpha,i,j,k,v1,v2,v3,v4)
+	/// @func d3dAddSolidArray(vertex,color,alpha,i,j,k,x1,y1,z1,i1,j1,x2,y2,z2,i2,j2,x3,y3,z3,i3,j3,x4,y4,z4,i4,j4)
 	function d3dAddSolidArray() {
-		var _v1 = argument[6];
-		var _v2 = argument[7];
-		var _v3 = argument[8];
-		var _v4 = argument[9];
-		var _vCol = argument[1];
-		d3dAddSolidVertex(argument[0],_v1[0]+argument[3]*L,_v1[1]+argument[4]*L,_v1[2]-argument[5]*L,_vCol[0],argument[2],_v1[3],_v1[4]); //1
-		d3dAddSolidVertex(argument[0],_v2[0]+argument[3]*L,_v2[1]+argument[4]*L,_v2[2]-argument[5]*L,_vCol[1],argument[2],_v2[3],_v2[4]); //2
-		d3dAddSolidVertex(argument[0],_v3[0]+argument[3]*L,_v3[1]+argument[4]*L,_v3[2]-argument[5]*L,_vCol[2],argument[2],_v3[3],_v3[4]); //3
-		d3dAddSolidVertex(argument[0],_v3[0]+argument[3]*L,_v3[1]+argument[4]*L,_v3[2]-argument[5]*L,_vCol[2],argument[2],_v3[3],_v3[4]); //3
-		d3dAddSolidVertex(argument[0],_v2[0]+argument[3]*L,_v2[1]+argument[4]*L,_v2[2]-argument[5]*L,_vCol[1],argument[2],_v2[3],_v2[4]); //2
-		d3dAddSolidVertex(argument[0],_v4[0]+argument[3]*L,_v4[1]+argument[4]*L,_v4[2]-argument[5]*L,_vCol[3],argument[2],_v4[3],_v4[4]); //3
+		d3dAddSolidVertex(	argument[0], argument[6]+argument[3]*L, argument[7]+argument[4]*L, argument[8]-argument[5]*L,
+							argument[1], argument[2], argument[9], argument[10]); //1
+		d3dAddSolidVertex(	argument[0], argument[11]+argument[3]*L, argument[12]+argument[4]*L, argument[13]-argument[5]*L,
+							argument[1], argument[2], argument[14], argument[15]); //2
+		d3dAddSolidVertex(	argument[0], argument[16]+argument[3]*L, argument[17]+argument[4]*L, argument[18]-argument[5]*L,
+							argument[1], argument[2], argument[19], argument[20]); //3
+		d3dAddSolidVertex(	argument[0], argument[16]+argument[3]*L, argument[17]+argument[4]*L, argument[18]-argument[5]*L,
+							argument[1], argument[2], argument[19], argument[20]); //3
+		d3dAddSolidVertex(	argument[0], argument[11]+argument[3]*L, argument[12]+argument[4]*L, argument[13]-argument[5]*L,
+							argument[1], argument[2], argument[14], argument[15]); //2
+		d3dAddSolidVertex(	argument[0], argument[21]+argument[3]*L, argument[22]+argument[4]*L, argument[23]-argument[5]*L,
+							argument[1], argument[2], argument[24], argument[25]); //4
 	}
 #endregion
 #region d3dAddTrioVertex

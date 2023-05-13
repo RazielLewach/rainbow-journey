@@ -5,3 +5,6 @@
 	dirCamTheta = 0; // Dirección theta de la cámara.
 	z = 0; // Altura.
 #endregion
+#region Vertex y textures.
+	vertexOcclusion = noone; // La semiesfera de oclusión.
+#endregion

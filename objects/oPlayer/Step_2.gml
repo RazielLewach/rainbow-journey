@@ -1,8 +1,11 @@
+#region ¿Te puedes mover?
+	canMove = true;
+#endregion
 #region Calcula el movimiento.
 	// Calcula direcciones.
-	var _hTo = 0 + 1*(keyMoveFront()) - 1*(keyMoveBack());
-	var _vTo = 0 + 1*(keyMoveRight()) - 1*(keyMoveLeft());
-	var _dTo = 0 - 1*(keyMoveUp());
+	var _hTo = 0 + 1*(keyMoveFront() and canMove) - 1*(keyMoveBack() and canMove);
+	var _vTo = 0 + 1*(keyMoveRight() and canMove) - 1*(keyMoveLeft() and canMove);
+	var _dTo = 0;
 	var _isMoving = _hTo != 0 or _vTo != 0 or _dTo != 0;
 	var _coords = matrix_transform_vertex(matrixBuildExt(0,0,0,0,oCamera.dirCamTheta,oCamera.dirCamPhi,1,1,1),_hTo,_vTo,_dTo);
 	_hTo = _coords[0];
@@ -28,9 +31,9 @@
 	dirThetaLook = dirTiendeAX(dirThetaLook,dirThetaMoving,_spdRota);
 	
 	// Se ajusta gradualmente hacia donde miras a más parado estás.
-	var _spd = 0.0001 + 3*(1-_scSpd);
+	/*var _spd = 0.0001 + 3*(1-_scSpd);
 	dirPhiLook = dirTiendeAX(dirPhiLook,oCamera.dirCamPhi,_spd);
-	dirThetaLook = dirTiendeAX(dirThetaLook,oCamera.dirCamTheta,_spd);
+	dirThetaLook = dirTiendeAX(dirThetaLook,oCamera.dirCamTheta,_spd);*/
 #endregion
 #region Tiende a frenarse y caer.
 	var _phi = getPhiFromCoords(0,0,hSpeed,vSpeed);
@@ -61,15 +64,13 @@
 	}
 	
 	// Ajústate a la vacuum más cercana.
-	adjustInsideNearestVacuum(0);
+	if (oControl.iProgressLoad == -1 or oControl.iProgressLoad > oControl.nVacuums+2) adjustInsideNearestVacuum(0);
 	
 	// Animaciones varias.
 	spdDirSpeed = tiendeAX(spdDirSpeed,point_distance_3d(0,0,0,hSpeed,vSpeed,dSpeed)/2,1*_isMoving);
 	var _spd = spdDirSpeed;
 	if (_spd == 0) _spd = brake/5;
 	dirSpeed = angular(dirSpeed+_spd);
-	
-	ratLight = 0; // min(1, abs(z)/MAX_WATER_HEIGHT)*0.67;
 #endregion
 #region Lógica de los tentáculos.
 	for (var i = 0; i < array_length(arrTentaculo); ++i)
@@ -153,4 +154,10 @@
 				}
 			}
 		}
+#endregion
+#region Crea luces estáticas.
+	if (mouseP(mb_right))
+	{
+		createLight(x+xDraw, y+yDraw, z+zDraw, 200);
+	}
 #endregion

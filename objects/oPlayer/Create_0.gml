@@ -21,6 +21,7 @@
 	yDraw = 0; // y extra al chocar con el muro para no atravesar.
 	zDraw = 0; // z extra al chocar con el muro para no atravesar.
 	depth = 10;
+	canMove = true; // ¿Te puedes mover?
 #endregion
 #region Los tentáculos.
 	for (var i = 0; i < 5; ++i)

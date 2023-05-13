@@ -1,3 +1,9 @@
+- Que se creen conexiones entre ellos sin que nadie quede sin conexión. A veces múltiples conexiones.
+- Crear los vacuum tunel uniendo las salas cuando las conexiones estén establecidas.
+- Generar mapa aleatorio: que los vacuums salas no choquen entre ellos y estén lejitos.
+- Los vacuums no están bien, sólo veo uno y hace cosas raras.
+- A veces el vacuum tiene un agujero.
+- ¿Mucha carga azul mientras crea los vertex? (Garbage collector, estructuras innecesarias creadas cada step).
 - Que al tener la cámara fuera, desaparezca todo entre el player y la cámara para no bloquear la visión.
 - Cámara brusca incómoda.
 - Bugs visuales diseñar escenario.

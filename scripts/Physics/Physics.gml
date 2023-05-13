@@ -64,6 +64,27 @@
 		}
 	}
 #endregion
+#region canReachThisVacuum
+	/// @func  canReachThisVacuum(idVacuumCurrent, idVacuumObjective, depth)
+	function canReachThisVacuum(_vacCur, _vacObj, _depth) {
+		// Caso base: lo hemos encontrado.
+		if (_vacCur.id == _vacObj.id) return true;
+		
+		// Caso base: a profundidad mayor al número de vacuums nos paramos, pues nos hemos embuclado.
+		if (_depth > oControl.nVacuums) return false;
+		
+		// Caso recursivo: llamamos a todas las conexiones.
+		for (var i = 0; i < array_length(_vacCur.arrIdConnectedTo); ++i)
+			if (canReachThisVacuum(_vacCur.arrIdConnectedTo[i], _vacObj, _depth+1)) return true;
+		
+		// Caso final: ni lo hemos encontrado, ni ninguna conexión lo encontró.
+		return false;
+	}
+#endregion
+
+
+
+
 
 
 

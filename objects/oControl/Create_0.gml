@@ -34,8 +34,9 @@
 	#macro INFINITE 9999999 // Pos el infinito.
 	
 	// Escenario.
-	#macro MAX_WATER_HEIGHT 3000 // Altura máxima.
+	#macro ROOM_SIZE 5000 // Ancho, altura y profundidad máxima.
 	#macro L 50 // Longitud de los tiles.
+	#macro N_TILES 100 // Número de tiles.
 	
 	// Player.
 	#macro SEP_NODE_TENTACLE 25 // Separación entre nodos del tentáculo.
@@ -74,4 +75,19 @@
 	vertexSphere = noone; // Esfera.
 	vertexEscenarioRoca = noone; // Pos nomás el escenario con todos los solids de roca.
 	for (var i = 0; i < sprite_get_number(sEscenarios); ++i) txEscenarios[i] = sprite_get_texture(sEscenarios,i); // Texturas de los escenarios.
+#endregion
+#region Loading screen.
+	iProgressLoad = -1; // Al ponerse a 0, va haciendo ++ para cargar las fases. Esto marcará el %.
+	iFinalProgress = 0; // Hasta dónde carga la barra.
+	iLoopLoad = 0; // Iterador de bucles en i para loads.
+	jLoopLoad = 0; // Iterador de bucles en j para loads.
+	kLoopLoad = 0; // Iterador de bucles en k para loads.
+	arrSolids = []; // Array de dónde hay sólidos.
+	textLoading = ""; // ¿Qué está loading?
+	iIteratsLoad = 1; // Número de iteraciones según carga.
+	arrVacuums = []; // Array de vacuums.
+	nVacuums = 0; // Número de vacuums.
+	nConnections = 0; // Número de conexiones a modular.
+	alphaDarkness = 1; // Aparece gradualmente.
+	iRoomSeeksConnection = 0; // Room que vamos buscando para conectar.
 #endregion

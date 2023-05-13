@@ -13,7 +13,7 @@
 	}
 #endregion
 #region Dibuja el modelo del escenario.
-	if (vertexEscenarioRoca != noone)
+	if (vertexEscenarioRoca != noone and iProgressLoad == -1)
 	{
 		shader_set(shDefaults);
 		setShaderParameterVec(shDefaults,"uMatLight",matLights);
