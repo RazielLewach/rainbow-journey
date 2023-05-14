@@ -35,7 +35,7 @@
 	dirPhiLook = dirTiendeAX(dirPhiLook,oCamera.dirCamPhi,_spd);
 	dirThetaLook = dirTiendeAX(dirThetaLook,oCamera.dirCamTheta,_spd);*/
 #endregion
-#region Tiende a frenarse y caer.
+#region Tiende a frenarse.
 	var _phi = getPhiFromCoords(0,0,hSpeed,vSpeed);
 	var _theta = getThetaFromCoords(0,0,0,hSpeed,vSpeed,dSpeed);
 	hSpeed = tiendeAX(hSpeed,0,abs(dcos(_phi)*dcos(_theta))*brake);
@@ -56,21 +56,32 @@
 	y += vSpeed;
 	z += dSpeed;
 	
-	// Choca con el suelo.
-	if (z+radius*1.1 > 0)
+	// Choca con el suelo o techo.
+	if (!isInDungeon)
 	{
-		z -= dSpeed;
-		dSpeed = 0;
+		if (z+radius*1.1 > -ROOM_SIZE)
+		{
+			z -= dSpeed;
+			dSpeed = 0;
+		}
+		else if (z-radius*1.1 < -ROOM_SIZE*2)
+		{
+			z += dSpeed;
+			dSpeed = 0;
+		}
 	}
-	
 	// Ajústate a la vacuum más cercana.
-	if (oControl.iProgressLoad == -1 or oControl.iProgressLoad > oControl.nVacuums+2) adjustInsideNearestVacuum(0);
+	else adjustInsideNearestVacuum(0);
 	
 	// Animaciones varias.
 	spdDirSpeed = tiendeAX(spdDirSpeed,point_distance_3d(0,0,0,hSpeed,vSpeed,dSpeed)/2,1*_isMoving);
 	var _spd = spdDirSpeed;
 	if (_spd == 0) _spd = brake/5;
 	dirSpeed = angular(dirSpeed+_spd);
+	
+	// En el exterior hay más luz.
+	ratLight = 0;
+	if (z < -ROOM_SIZE) ratLight = 0.1 + 0.9*(abs(z)-ROOM_SIZE)/ROOM_SIZE;
 #endregion
 #region Lógica de los tentáculos.
 	for (var i = 0; i < array_length(arrTentaculo); ++i)

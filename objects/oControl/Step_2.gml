@@ -18,6 +18,7 @@
 	dirAngular12 = angular(dirAngular12+12);
 	nStep++;
 	if (nStep >= 600*FPS) nStep = 0;
+	canCreateVertex = true;
 #endregion
 #region Array de luces.
 	nLights = 0;
@@ -62,7 +63,7 @@
 		if (inRange(iProgressLoad, 0, 9))
 		{
 			// Preparamos los datos del vacuum aleatorio y sus coordenadas.
-			var _scale = random_range(3, 5);
+			var _scale = random_range(3, 4);
 			var _radius = _scale*sprite_get_width(sVacuum)/2;
 			var _maxRadius = 5*sprite_get_width(sVacuum)/2 + L;
 			var _phi = random(360);
@@ -84,15 +85,12 @@
 			}
 		
 			// Creamos ahí.
-			if (iProgressLoad <= 1) // TEST, quitar
-			{
-				var _vac = create(_xPos, _yPos, _zPos, oVacuum);
-				_vac.image_xscale = _scale;
-				_vac.image_yscale = _scale;
-				_vac.radius = _radius;
-				array_push(arrVacuums, _vac);
-				nVacuums++;
-			}
+			var _vac = create(_xPos, _yPos, _zPos, oVacuum);
+			_vac.image_xscale = _scale;
+			_vac.image_yscale = _scale;
+			_vac.radius = _radius;
+			array_push(arrVacuums, _vac);
+			nVacuums++;
 			
 			iProgressLoad++;
 			textLoading = "Creating vacuums for main rooms";
@@ -207,37 +205,59 @@
 			textLoading = "Creating vacuums for tunnels";
 		}
 #endregion
-#region Pantalla de carga: posiciona el player.
+#region Pantalla de carga: posiciona el player por encima del jaleo.
 	if (iProgressLoad == 11+nConnections)
 	{
 		iProgressLoad++;
-		var _vac = arrVacuums[irandom(9)];
 		var _xPre = oPlayer.x, _yPre = oPlayer.y, _zPre = oPlayer.z;
-		oPlayer.x = _vac.x;
-		oPlayer.y = _vac.y;
-		oPlayer.z = _vac.z;
-		with(oPlayer) adjustInsideNearestVacuum(0);
-		
-		for (var i = 0; i < 5; ++i)
-			with(oPlayer.arrTentaculo[i])
-				for (var j = 0; j <= 10; ++j)
-				{
-					arrXBolas[j] += (oPlayer.x-_xPre);
-					arrYBolas[j] += (oPlayer.y-_yPre);
-					arrZBolas[j] += (oPlayer.z-_zPre);
-				}		
+		oPlayer.x = ROOM_SIZE/2;
+		oPlayer.y = ROOM_SIZE/2;
+		oPlayer.z = -ROOM_SIZE-oPlayer.radius*2;
+		adjustPlayerTentacles(_xPre, _yPre, _zPre);
 	
 		textLoading = "Starting environment model";
 	}
 #endregion
-#region Pantalla de carga: crea el vertex del escenario, init.
+#region Pantalla de carga: crea vacuums adicionales a las 10 salas para hacerlas más orgánicas.
 	if (iProgressLoad == 12+nConnections)
 	{
 		iProgressLoad++;
-		if (vertexEscenarioRoca != noone) vertex_delete_buffer(vertexEscenarioRoca);
-		vertexEscenarioRoca = vertex_create_buffer();
 		
-		vertex_begin(vertexEscenarioRoca, vertexFormat);
+		for (var i = 0; i < 10; ++i)
+		{
+			var _vac = arrVacuums[i];
+			repeat(irandom_range(2,6))
+			{
+				var _scale = random_range(1, 2);
+				var _radius = _scale*sprite_get_width(sVacuum)/2;
+				var _phi = random(360);
+				var _theta = random_range(-90, 90);
+				var _lon = random_range(_vac.radius-L*2, _vac.radius+L*2);
+		
+				var _vacCrea = create(
+					_vac.x + _lon*dcos(_phi)*dcos(_theta),
+					_vac.y - _lon*dsin(_phi)*dcos(_theta),
+					_vac.z - _lon*dsin(_theta),
+				oVacuum);
+				_vacCrea.image_xscale = _scale;
+				_vacCrea.image_yscale = _scale;
+				_vacCrea.radius = _radius;
+				array_push(arrVacuums, _vacCrea);
+				nVacuums++;
+			}
+		}
+		
+		textLoading = "Creating more organic rooms";
+	}
+#endregion
+#region Pantalla de carga: crea el vertex del escenario, init.
+	if (iProgressLoad == 13+nConnections)
+	{
+		iProgressLoad++;
+		if (vertexEnvironmentRock != noone) vertex_delete_buffer(vertexEnvironmentRock);
+		vertexEnvironmentRock = vertex_create_buffer();
+		
+		vertex_begin(vertexEnvironmentRock, vertexFormat);
 		
 		iLoopLoad = 0;
 		jLoopLoad = 0;
@@ -248,19 +268,29 @@
 			arrSolids[i] = array_create(N_TILES, false);
 			for (var j = 0; j < N_TILES; j++) arrSolids[i][j] = array_create(N_TILES, false);
 		}
+		
+		// Reduce los datos de los vacuums para trabajar con unidades.
+		with(oVacuum)
+		{
+			x /= L;
+			y /= L;
+			z /= L;
+			radius /= L;
+		}
+		
 		textLoading = "Calculating solid and vacuum tiles";
 	}
 #endregion
-#region Pantalla de carga: crea el vertex del escenario, colisiones.
-	var _iProgressAfterCalculatingSolids = 13+nConnections-1+N_TILES*N_TILES*N_TILES;
+#region Pantalla de carga: crea el vertex del escenario, colisiones (75% del coste, escala con los vacuums muchísimo).
+	var _iProgressAfterCalculatingSolids = 14+nConnections-1+N_TILES*N_TILES*N_TILES;
 	repeat(iIteratsLoad)
-		if (iProgressLoad >= 13+nConnections and iProgressLoad <= _iProgressAfterCalculatingSolids)
+		if (iProgressLoad >= 14+nConnections and iProgressLoad <= _iProgressAfterCalculatingSolids)
 		{
 			var _ratAux = INFINITE;
 			for (var i = 0; i < nVacuums; ++i)
 			{
 				var _iVac = arrVacuums[i];
-				var _rat = point_distance_3d(iLoopLoad*L, jLoopLoad*L, -kLoopLoad*L, _iVac.x, _iVac.y, _iVac.z)/_iVac.radius;
+				var _rat = point_distance_3d(iLoopLoad, jLoopLoad, -kLoopLoad, _iVac.x, _iVac.y, _iVac.z)/_iVac.radius;
 				if (_rat < _ratAux) _ratAux = _rat;
 			}
 			if (_ratAux > 1) arrSolids[iLoopLoad][jLoopLoad][kLoopLoad] = true;
@@ -280,12 +310,21 @@
 						iLoopLoad = 0;
 						textLoading = "Creating tile 3D model";
 						setArrD3dOpciones(0,0,0,0,0,0,0,1,1,1);
+						
+						// Recupera los datos de los vacuums para no trabajar con unidades.
+						with(oVacuum)
+						{
+							x *= L;
+							y *= L;
+							z *= L;
+							radius *= L;
+						}
 					}
 				}
 			}
 		}
 #endregion
-#region Pantalla de carga: crea el vertex del escenario, construcción.
+#region Pantalla de carga: crea el vertex del escenario, construcción (25% del coste).
 	// Dibujamos un cubo donde diga el array de solids, pero sólo caras visibles.
 	var _iProgressAfterCreatingSolids = _iProgressAfterCalculatingSolids+1-1+N_TILES*N_TILES*N_TILES;
 	repeat(iIteratsLoad)
@@ -295,7 +334,7 @@
 			{
 				// Cara frontal, sólo si no hay otro solid en esa dirección.
 				if (jLoopLoad != N_TILES-1 and !arrSolids[iLoopLoad][jLoopLoad+1][kLoopLoad])
-					d3dAddSolidArray(vertexEscenarioRoca, c_white, 1, iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
 						-L/2, +L/2, +L/2, 0.0, 1.0,
 						-L/2, +L/2, -L/2, 0.0, 0.0,
 						+L/2, +L/2, +L/2, 1.0, 1.0,
@@ -304,7 +343,7 @@
 				
 				// Cara trasera, sólo si no hay otro solid en esa dirección.
 				if (jLoopLoad != 0 and !arrSolids[iLoopLoad][jLoopLoad-1][kLoopLoad])
-					d3dAddSolidArray(vertexEscenarioRoca, c_white, 1, iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
 						+L/2, -L/2, +L/2, 0.0, 1.0,
 						+L/2, -L/2, -L/2, 0.0, 0.0,
 						-L/2, -L/2, +L/2, 1.0, 1.0,
@@ -313,7 +352,7 @@
 				
 				// Cara derecha, sólo si no hay otro solid en esa dirección.
 				if (iLoopLoad != N_TILES-1 and !arrSolids[iLoopLoad+1][jLoopLoad][kLoopLoad])
-					d3dAddSolidArray(vertexEscenarioRoca, c_white, 1, iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
 						+L/2, +L/2, +L/2, 0.0, 1.0,
 						+L/2, +L/2, -L/2, 0.0, 0.0,
 						+L/2, -L/2, +L/2, 1.0, 1.0,
@@ -322,7 +361,7 @@
 				
 				// Cara izquierda, sólo si no hay otro solid en esa dirección.
 				if (iLoopLoad != 0 and !arrSolids[iLoopLoad-1][jLoopLoad][kLoopLoad])
-					d3dAddSolidArray(vertexEscenarioRoca, c_white, 1, iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
 						-L/2, -L/2, +L/2, 0.0, 1.0,
 						-L/2, -L/2, -L/2, 0.0, 0.0,
 						-L/2, +L/2, +L/2, 1.0, 1.0,
@@ -331,7 +370,7 @@
 					
 				// Cara superior, sólo si no hay otro solid en esa dirección.
 				if (kLoopLoad != N_TILES-1 and !arrSolids[iLoopLoad][jLoopLoad][kLoopLoad+1])
-					d3dAddSolidArray(vertexEscenarioRoca, c_white, 1, iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
 						-L/2, +L/2, -L/2, 0.0, 1.0,
 						-L/2, -L/2, -L/2, 0.0, 0.0,
 						+L/2, +L/2, -L/2, 1.0, 1.0,
@@ -340,7 +379,7 @@
 				
 				// Cara inferior, sólo si no hay otro solid en esa dirección.
 				if (kLoopLoad != 0 and !arrSolids[iLoopLoad][jLoopLoad][kLoopLoad-1])
-					d3dAddSolidArray(vertexEscenarioRoca, c_white, 1, iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
 						-L/2, -L/2, +L/2, 0.0, 1.0,
 						-L/2, +L/2, +L/2, 0.0, 0.0,
 						+L/2, -L/2, +L/2, 1.0, 1.0,
@@ -372,8 +411,8 @@
 	{
 		iProgressLoad = -1;
 		iIteratsLoad = 1;
-		vertex_end(vertexEscenarioRoca);
-		vertex_freeze(vertexEscenarioRoca);
+		vertex_end(vertexEnvironmentRock);
+		vertex_freeze(vertexEnvironmentRock);
 		textLoading = "Ending 3D environment model creation";
 		gc_collect();
 	}
@@ -383,5 +422,18 @@
 	{
 		if (fps_real > 60) iIteratsLoad += 10;
 		else iIteratsLoad = max(iIteratsLoad-20, 1);
+	}
+#endregion
+#region Teletranspórtate a la cueva cuando ya ha sido cargada.
+	if (nVacuums > 0 and iProgressLoad == -1 and keyP(vk_space))
+	{
+		isInDungeon = true;
+		var _vac = arrVacuums[irandom(9)];
+		var _xPre = oPlayer.x, _yPre = oPlayer.y, _zPre = oPlayer.z;
+		oPlayer.x = _vac.x;
+		oPlayer.y = _vac.y;
+		oPlayer.z = _vac.z;
+		with(oPlayer) adjustInsideNearestVacuum(0);
+		adjustPlayerTentacles(_xPre, _yPre, _zPre);
 	}
 #endregion

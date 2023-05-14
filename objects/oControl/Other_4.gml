@@ -3,4 +3,5 @@
 	nVacuums = 0;
 	arrVacuums = [];
 	nConnections = 0;
+	isInDungeon = false;
 #endregion

@@ -32,30 +32,33 @@
 	}
 #endregion
 #region d3dAddSolidVertex
-	/// @func  d3dAddSolidVertex(vertex,x,y,z,color,alpha,itexture,jtexture)
-	function d3dAddSolidVertex(_vtx,_x,_y,_z,_col,_alp,_i_tex,_j_tex) {
+	/// @func  d3dAddSolidVertex(x,y,z,itexture,jtexture)
+	function d3dAddSolidVertex(_x,_y,_z,_i_tex,_j_tex) {
 		// Buscamos el vacuum más cercano y, si estamos en el borde, nos ajustamos a su radio para quitar el voxel.
-		var _xPos = _x, _yPos = _y, _zPos = _z;
 		var _vac = getNearestVacuum(_x, _y, _z);
 		var _phi = getPhiFromCoords(_x, _y, _vac.x, _vac.y);
 		var _theta = getThetaFromCoords(_x, _y, _z, _vac.x, _vac.y, _vac.z);
-		var _colFinal = _col;
-		if (inRange(point_distance_3d(_x, _y, _z, _vac.x, _vac.y, _vac.z), _vac.radius-L, _vac.radius+L))
-		{			
-			var _dcos = dcos(_x*_y*_z);
-			var _lon = _vac.radius - L*0.5 + L*0.5*_dcos;
-			_xPos = _vac.x - _lon*dcos(_phi)*dcos(_theta);
-			_yPos = _vac.y + _lon*dsin(_phi)*dcos(_theta);
-			_zPos = _vac.z + _lon*dsin(_theta);
-			_colFinal = make_color_hsv(0, 0, 130-125*_dcos);
-		}
+		var _dcos = dcos(_x*_y*_z);
+		var _lon = _vac.radius - L*0.5 + L*0.5*_dcos;
 		
 		// Enviamos la llamada a vertex.
-		d3dAddVertex(_vtx,_xPos,_yPos,_zPos,_colFinal,_alp,_i_tex,_j_tex,
+		d3dAddVertex(oControl.vertexEnvironmentRock,
+			_vac.x - _lon*dcos(_phi)*dcos(_theta),
+			_vac.y + _lon*dsin(_phi)*dcos(_theta),
+			_vac.z + _lon*dsin(_theta),
+			make_color_hsv(0, 0, 130-125*_dcos), 1, _i_tex, _j_tex,
 			+dcos(_phi)*dcos(_theta),
 			-dsin(_phi)*dcos(_theta),
 			-dsin(_theta)
 		);
+	}
+#endregion
+#region d3dAddFloorVertex
+	/// @func  d3dAddFloorVertex(x,y,z,itexture,jtexture)
+	function d3dAddFloorVertex(_x,_y,_z,_i_tex,_j_tex) {
+		var _dcos = dcos(_x*_y);
+		var _int = 1-min(1, max(0, point_distance(_x, _y, ROOM_SIZE/2, ROOM_SIZE/2) - ROOM_SIZE/4)/(ROOM_SIZE/4));
+		d3dAddVertex(oControl.vertexFloorRock, _x, _y, _z + L + L*_dcos, make_color_hsv(0, 0, _int*(130-125*_dcos)), 1, _i_tex, _j_tex, 0, 0, -1);
 	}
 #endregion
 #region d3dAddVertexCalcSphere
@@ -222,21 +225,38 @@
 							argument[1], argument[2], argument[30], argument[31], argument[32], argument[33], argument[34]); //4
 	}
 #endregion
-#region d3dAddSolidArray
-	/// @func d3dAddSolidArray(vertex,color,alpha,i,j,k,x1,y1,z1,i1,j1,x2,y2,z2,i2,j2,x3,y3,z3,i3,j3,x4,y4,z4,i4,j4)
-	function d3dAddSolidArray() {
-		d3dAddSolidVertex(	argument[0], argument[6]+argument[3]*L, argument[7]+argument[4]*L, argument[8]-argument[5]*L,
-							argument[1], argument[2], argument[9], argument[10]); //1
-		d3dAddSolidVertex(	argument[0], argument[11]+argument[3]*L, argument[12]+argument[4]*L, argument[13]-argument[5]*L,
-							argument[1], argument[2], argument[14], argument[15]); //2
-		d3dAddSolidVertex(	argument[0], argument[16]+argument[3]*L, argument[17]+argument[4]*L, argument[18]-argument[5]*L,
-							argument[1], argument[2], argument[19], argument[20]); //3
-		d3dAddSolidVertex(	argument[0], argument[16]+argument[3]*L, argument[17]+argument[4]*L, argument[18]-argument[5]*L,
-							argument[1], argument[2], argument[19], argument[20]); //3
-		d3dAddSolidVertex(	argument[0], argument[11]+argument[3]*L, argument[12]+argument[4]*L, argument[13]-argument[5]*L,
-							argument[1], argument[2], argument[14], argument[15]); //2
-		d3dAddSolidVertex(	argument[0], argument[21]+argument[3]*L, argument[22]+argument[4]*L, argument[23]-argument[5]*L,
-							argument[1], argument[2], argument[24], argument[25]); //4
+#region d3dAddSolidEnvironment
+	/// @func d3dAddSolidEnvironment(i,j,k,x1,y1,z1,i1,j1,x2,y2,z2,i2,j2,x3,y3,z3,i3,j3,x4,y4,z4,i4,j4)
+	function d3dAddSolidEnvironment() {
+		d3dAddSolidVertex(	argument[3]+argument[0]*L, argument[4]+argument[1]*L, argument[5]-argument[2]*L,
+							argument[6], argument[7]); //1
+		d3dAddSolidVertex(	argument[8]+argument[0]*L, argument[9]+argument[1]*L, argument[10]-argument[2]*L,
+							argument[11], argument[12]); //2
+		d3dAddSolidVertex(	argument[13]+argument[0]*L, argument[14]+argument[1]*L, argument[15]-argument[2]*L,
+							argument[16], argument[17]); //3
+		d3dAddSolidVertex(	argument[13]+argument[0]*L, argument[14]+argument[1]*L, argument[15]-argument[2]*L,
+							argument[16], argument[17]); //3
+		d3dAddSolidVertex(	argument[8]+argument[0]*L, argument[9]+argument[1]*L, argument[10]-argument[2]*L,
+							argument[11], argument[12]); //2
+		d3dAddSolidVertex(	argument[18]+argument[0]*L, argument[19]+argument[1]*L, argument[20]-argument[2]*L,
+							argument[21], argument[22]); //4
+	}
+#endregion
+#region d3dAddSolidFloor
+	/// @func d3dAddSolidFloor(i,j,k,x1,y1,z1,i1,j1,x2,y2,z2,i2,j2,x3,y3,z3,i3,j3,x4,y4,z4,i4,j4)
+	function d3dAddSolidFloor() {
+		d3dAddFloorVertex(	argument[3]+argument[0]*L, argument[4]+argument[1]*L, argument[5]-argument[2]*L,
+							argument[6], argument[7]); //1
+		d3dAddFloorVertex(	argument[8]+argument[0]*L, argument[9]+argument[1]*L, argument[10]-argument[2]*L,
+							argument[11], argument[12]); //2
+		d3dAddFloorVertex(	argument[13]+argument[0]*L, argument[14]+argument[1]*L, argument[15]-argument[2]*L,
+							argument[16], argument[17]); //3
+		d3dAddFloorVertex(	argument[13]+argument[0]*L, argument[14]+argument[1]*L, argument[15]-argument[2]*L,
+							argument[16], argument[17]); //3
+		d3dAddFloorVertex(	argument[8]+argument[0]*L, argument[9]+argument[1]*L, argument[10]-argument[2]*L,
+							argument[11], argument[12]); //2
+		d3dAddFloorVertex(	argument[18]+argument[0]*L, argument[19]+argument[1]*L, argument[20]-argument[2]*L,
+							argument[21], argument[22]); //4
 	}
 #endregion
 #region d3dAddTrioVertex

@@ -1,3 +1,4 @@
+- Añadir vacuums al final, adicionles a las 10 salas, para que no sean tan esféricas.
 - Al crear 2 salas a veces no las conecta. ¿Puede ocurrir esto con 10 salas?
 - No permitir ver a través de los muros. Semiesfera bloqueante. Ahora ta fea. ARREGLAR CÁMARA DE UNA VEZ.
 - Testear que se estén creando bien conexiones para no dejar ninguna sala aislada, así como todos los vacuums formando los túneles.

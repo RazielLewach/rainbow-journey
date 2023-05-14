@@ -1,16 +1,27 @@
 #region Desplazamiento adicional para no atravesar muros.
 	// Atrae hacia el vacuum.
-	var _vac = getNearestVacuum(x, y, z);
-	var _phi = getPhiFromCoords(x, y, _vac.x, _vac.y);
-	var _theta = getThetaFromCoords(x, y, z, _vac.x, _vac.y, _vac.z);
-	var _lon = radius*2*point_distance_3d(x, y, z, _vac.x, _vac.y, _vac.z)/_vac.radius;
-	var _spd = maxSpeed*0.2;
-	xDraw = tiendeAX(xDraw, +_lon*dcos(_phi)*dcos(_theta), _spd*abs(dcos(_phi)*dcos(_theta)));
-	yDraw = tiendeAX(yDraw, -_lon*dsin(_phi)*dcos(_theta), _spd*abs(dsin(_phi)*dcos(_theta)));
-	zDraw = tiendeAX(zDraw, -_lon*dsin(_theta), _spd*abs(dsin(_theta)));
+	if (!isInDungeon)
+	{
+		xDraw = 0;
+		yDraw = 0;
+		zDraw = 0;
+	}
+	else
+	{
+		var _vac = getNearestVacuum(x, y, z);
+		var _phi = getPhiFromCoords(x, y, _vac.x, _vac.y);
+		var _theta = getThetaFromCoords(x, y, z, _vac.x, _vac.y, _vac.z);
+		var _lon = radius*2*point_distance_3d(x, y, z, _vac.x, _vac.y, _vac.z)/_vac.radius;
+		var _spd = maxSpeed*0.2;
+		xDraw = tiendeAX(xDraw, +_lon*dcos(_phi)*dcos(_theta), _spd*abs(dcos(_phi)*dcos(_theta)));
+		yDraw = tiendeAX(yDraw, -_lon*dsin(_phi)*dcos(_theta), _spd*abs(dsin(_phi)*dcos(_theta)));
+		zDraw = tiendeAX(zDraw, -_lon*dsin(_theta), _spd*abs(dsin(_theta)));
+	}
 #endregion
 #region Crea el modelo de la cabeza de la medusa.
-	if (vertexJellyfishHead == noone) {
+	if (vertexJellyfishHead == noone and oControl.canCreateVertex)
+	{
+		oControl.canCreateVertex = false;
 		vertexJellyfishHead = vertex_create_buffer();
 		vertex_begin(vertexJellyfishHead,oControl.vertexFormat);
 			// El núcleo.
@@ -132,29 +143,29 @@
 	}
 #endregion
 #region Crea los modelos de los tentáculos de la medusa.
-	for (var t = 0; t < array_length(arrTentaculo); ++t)
-		if (vertexJellyfishTentacle == noone) {
-			vertexJellyfishTentacle = vertex_create_buffer();
+	if (vertexJellyfishTentacle == noone and oControl.canCreateVertex)
+	{
+		oControl.canCreateVertex = false;
+		vertexJellyfishTentacle = vertex_create_buffer();
+		vertex_begin(vertexJellyfishTentacle,oControl.vertexFormat);
 		
-			vertex_begin(vertexJellyfishTentacle,oControl.vertexFormat);
+		var _r = radius, _v = vertexJellyfishTentacle, _c = oControl.colorFinalEssence;
 		
-			var _r = radius, _v = vertexJellyfishTentacle, _c = oControl.colorFinalEssence;
-		
-			// El palo.
-			for (var i = 0; i < 10; ++i)
-			{
-				var _alpha = i/10;
-				setArrD3dOpciones(i*25,0,0,0,0,0,0,1,1.0,1.0);
-				d3dAddPipe(_v,0,0,0,5,5,25,true,false,45,_c,_alpha,_alpha,0.0,0.0,0.5,1.0);
-				d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,_alpha,0.0,0.0,0.5,1.0);
-			}
-		
-			setArrD3dOpciones(250,0,0,0,0,0,0,1,1,1.0);
-			d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,0.9,0.0,0.0,0.5,1.0);
-		
-			vertex_end(vertexJellyfishTentacle);
-			vertex_freeze(vertexJellyfishTentacle);
+		// El palo.
+		for (var i = 0; i < 10; ++i)
+		{
+			var _alpha = i/10;
+			setArrD3dOpciones(i*25,0,0,0,0,0,0,1,1.0,1.0);
+			d3dAddPipe(_v,0,0,0,5,5,25,true,false,45,_c,_alpha,_alpha,0.0,0.0,0.5,1.0);
+			d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,_alpha,0.0,0.0,0.5,1.0);
 		}
+		
+		setArrD3dOpciones(250,0,0,0,0,0,0,1,1,1.0);
+		d3dAddSphere(_v,0,0,0,5.0,-90,+90,true,45,_c,0.9,0.0,0.0,0.5,1.0);
+		
+		vertex_end(vertexJellyfishTentacle);
+		vertex_freeze(vertexJellyfishTentacle);
+	}
 #endregion
 #region Dibuja los modelos de los tentáculos de la medusa.
 	for (var i = 0; i < array_length(arrTentaculo); ++i)

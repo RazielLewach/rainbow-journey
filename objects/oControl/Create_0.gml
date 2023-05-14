@@ -69,12 +69,15 @@
 	dirWaterWave = 0; // Ondas del agua.
 	lonLight = 1000; // Longitud del cono de luz.
 	angLight = 40; // Ángulo del cono de luz.
+	canCreateVertex = false; // Sólo crea uno por step al inicio.
+	isInDungeon = false;
 #endregion
 #region Vertex y textures.
 	txBlank = sprite_get_texture(sBlank,0); // Blanco.
 	vertexSphere = noone; // Esfera.
-	vertexEscenarioRoca = noone; // Pos nomás el escenario con todos los solids de roca.
+	vertexEnvironmentRock = noone; // Pos nomás el escenario con todos los solids de roca.
 	for (var i = 0; i < sprite_get_number(sEscenarios); ++i) txEscenarios[i] = sprite_get_texture(sEscenarios,i); // Texturas de los escenarios.
+	vertexFloorRock = noone; // El suelo en la pantalla de carga.
 #endregion
 #region Loading screen.
 	iProgressLoad = -1; // Al ponerse a 0, va haciendo ++ para cargar las fases. Esto marcará el %.

@@ -12,18 +12,21 @@
 	z = oPlayer.z-_zLon+_coords[2];
 	
 	// La encaja dentro de los sólidos.
-	var _vac = getNearestVacuum(x, y, z);
-	if (_vac != noone)
+	if (oControl.iProgressLoad == -1)
 	{
-		var _lon = point_distance_3d(_vac.x, _vac.y, _vac.z, x, y, z);
-		var _sep = _vac.radius-L*1.1;
-		if (_lon > _sep)
+		var _vac = getNearestVacuum(x, y, z);
+		if (_vac != noone)
 		{
-			var _phi = getPhiFromCoords(_vac.x, _vac.y, x, y);
-			var _theta = getThetaFromCoords(_vac.x, _vac.y, _vac.z, x, y, z);
-			x = _vac.x + _sep*dcos(_phi)*dcos(_theta);
-			y = _vac.y - _sep*dsin(_phi)*dcos(_theta);
-			z = _vac.z - _sep*dsin(_theta);
+			var _lon = point_distance_3d(_vac.x, _vac.y, _vac.z, x, y, z);
+			var _sep = _vac.radius-L*1.1;
+			if (_lon > _sep)
+			{
+				var _phi = getPhiFromCoords(_vac.x, _vac.y, x, y);
+				var _theta = getThetaFromCoords(_vac.x, _vac.y, _vac.z, x, y, z);
+				x = _vac.x + _sep*dcos(_phi)*dcos(_theta);
+				y = _vac.y - _sep*dsin(_phi)*dcos(_theta);
+				z = _vac.z - _sep*dsin(_theta);
+			}
 		}
 	}
 	
@@ -31,32 +34,4 @@
 	camera_set_view_mat(view_camera[0],matrix_build_lookat(x,y,z,x+_xLon,y+_yLon,z+_zLon,0,0,1));
 	camera_set_proj_mat(view_camera[0],matrix_build_projection_perspective_fov(65,window_get_width()/window_get_height(),10,INFINITE*2));
 	camera_apply(view_camera[0]);
-#endregion
-#region Modelo 3D de la occlusion.
-	if (vertexOcclusion == noone) {
-		vertexOcclusion = vertex_create_buffer();
-		vertex_begin(vertexOcclusion, oControl.vertexFormat);
-		
-		setArrD3dOpciones(0,0,0,0,-90,90,0, 1, 1, 1);
-		d3dAddSphere(vertexOcclusion,0,0,0,1,0,+90,false,10,c_green,1,0.0,0.0,1.0,1.0);
-		
-		vertex_end(vertexOcclusion);
-		vertex_freeze(vertexOcclusion);
-	}
-#endregion
-#region Dibuja el occlusion.
-	/*if (vertexOcclusion != noone and !key(vk_space))
-	{
-		var _vac = getNearestVacuum(oPlayer.x, oPlayer.y, oPlayer.z);
-		if (_vac != noone)
-		{
-			var _dist = point_distance_3d(_vac.x, _vac.y, _vac.z, x, y, z);
-			if (_dist > _vac.radius-L*2)
-			{
-				var _sc = point_distance_3d(oPlayer.x, oPlayer.y, oPlayer.z, x, y, z);
-				matrix_set(matrix_world, matrixBuildExt(x, y, z, 0, 0, 0, _sc, _sc, _sc));
-				vertex_submit(vertexOcclusion, pr_trianglelist, oControl.txBlank);
-			}
-		}
-	}*/
 #endregion

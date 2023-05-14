@@ -81,7 +81,19 @@
 		return false;
 	}
 #endregion
-
+#region adjustPlayerTentacles
+	/// @func  adjustPlayerTentacles(xPre, yPre, zPre)
+	function adjustPlayerTentacles(_xPre, _yPre, _zPre) {
+		for (var i = 0; i < 5; ++i)
+			with(oPlayer.arrTentaculo[i])
+				for (var j = 0; j <= 10; ++j)
+				{
+					arrXBolas[j] += (oPlayer.x-_xPre);
+					arrYBolas[j] += (oPlayer.y-_yPre);
+					arrZBolas[j] += (oPlayer.z-_zPre);
+				}
+	}
+#endregion
 
 
 
