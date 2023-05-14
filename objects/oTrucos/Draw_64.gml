@@ -1,5 +1,7 @@
 #region Draw GUI
 	var _text = "";
+	_text += "player: x=" + string(oPlayer.x) + ", y=" + string(oPlayer.y) + ", z=" + string(oPlayer.z) + "\n";
+	_text += "camera: phi=" + string(oCamera.dirCamPhi) + ", theta=" + string(oCamera.dirCamTheta) + "\n";
 	if (aux0 != "NOT-DEFINED") _text += "aux0 = " + string(aux0) + "\n";
 	if (aux1 != "NOT-DEFINED") _text += "aux1 = " + string(aux1) + "\n";
 	if (aux2 != "NOT-DEFINED") _text += "aux2 = " + string(aux2) + "\n";

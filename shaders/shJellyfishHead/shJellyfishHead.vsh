@@ -82,7 +82,7 @@ void main()
     v_vTexcoord = in_TextureCoord;
 	
 	// Colorea el tono del agua y la luz.
-	v_vColour.rgb += vec3(0.0, 0.5, 0.5);
+	v_vColour.rgb += vec3(0.0, 0.3, 0.3);
 	float _max = max(v_vColour.r, max(v_vColour.g, v_vColour.b));
 	v_vColour.rgb /= _max;
 	v_vColour.rgb *= min(_maxRat,1.0);

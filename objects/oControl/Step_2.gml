@@ -66,33 +66,35 @@
 			var _radius = _scale*sprite_get_width(sVacuum)/2;
 			var _maxRadius = 5*sprite_get_width(sVacuum)/2 + L;
 			var _phi = random(360);
-			var _lon = random(ROOM_SIZE-_maxRadius);
-			var _xPos = ROOM_SIZE/2+_lon*dcos(_phi);
-			var _yPos = ROOM_SIZE/2-_lon*dsin(_phi);
-			var _zFloor = -_maxRadius - (ROOM_SIZE-_maxRadius*2)*iProgressLoad/9;
+			var _lon = random(ROOM_SIZE/2-_maxRadius);
+			var _xPos = +_maxRadius + (ROOM_SIZE-_maxRadius*2)*iProgressLoad/9;
+			var _yPos = ROOM_SIZE/2+_lon*dcos(_phi);
+			var _zPos = -ROOM_SIZE/2-_lon*dsin(_phi);
 		
 			// Buscamos un lugar donde no colisione con nadie.
-			var _cnt = INFINITE;
+			var _cnt = 36;
 			while(_cnt > 0)
 			{
 				_phi = angular(_phi + 10);
-				_xPos = ROOM_SIZE/2+_lon*dcos(_phi);
-				_yPos = ROOM_SIZE/2-_lon*dsin(_phi);
+				_yPos = ROOM_SIZE/2+_lon*dcos(_phi);
+				_zPos = -ROOM_SIZE/2-_lon*dsin(_phi);
 				_cnt--;
-				var _vacNear = getNearestVacuum(_xPos, _yPos, _zFloor);
-				if (_vacNear == noone or point_distance_3d(_xPos, _yPos, _zFloor, _vacNear.x, _vacNear.y, _vacNear.z) > _radius+_vacNear.radius) break;
+				var _vacNear = getNearestVacuum(_xPos, _yPos, _zPos);
+				if (_vacNear == noone or point_distance_3d(_xPos, _yPos, _zPos, _vacNear.x, _vacNear.y, _vacNear.z) > _radius+_vacNear.radius) break;
 			}
 		
 			// Creamos ahí.
-			var _vac = create(_xPos, _yPos, _zFloor, oVacuum);
-			_vac.image_xscale = _scale;
-			_vac.image_yscale = _scale;
-			_vac.radius = _radius;
-		
-			// Finalizamos.
-			array_push(arrVacuums, _vac);
+			if (iProgressLoad <= 1) // TEST, quitar
+			{
+				var _vac = create(_xPos, _yPos, _zPos, oVacuum);
+				_vac.image_xscale = _scale;
+				_vac.image_yscale = _scale;
+				_vac.radius = _radius;
+				array_push(arrVacuums, _vac);
+				nVacuums++;
+			}
+			
 			iProgressLoad++;
-			nVacuums++;
 			textLoading = "Creating vacuums for main rooms";
 		}
 #endregion
@@ -148,7 +150,7 @@
 					{
 						// Creamos los vacuums.
 						var _vacTo = arrIdConnectedTo[_iCon];
-						var _radius = sprite_get_width(sVacuum)/2;
+						var _radius = 2*sprite_get_width(sVacuum)/2;
 						var _phi = getPhiFromCoords(x, y, _vacTo.x, _vacTo.y);
 						var _theta = getThetaFromCoords(x, y, z, _vacTo.x, _vacTo.y, _vacTo.z);
 						var _offset = _radius*1.5;
@@ -161,14 +163,16 @@
 						var _lon = point_distance_3d(_xPos, _yPos, _zPos, _vacTo.x, _vacTo.y, _vacTo.z);
 					
 						var _cnt = INFINITE;
-						while(_cnt > 0 and _lon > _vacTo.radius)
+						while(_cnt > 0 and _lon >= _vacTo.radius-_offset)
 						{
 							_cnt--;
 						
 							var _vac = create(_xPos, _yPos, _zPos, oVacuum);
-							_vac.image_xscale = 1;
-							_vac.image_yscale = 1;
+							_vac.image_xscale = 2;
+							_vac.image_yscale = 2;
 							_vac.radius = _radius;
+							oControl.nVacuums++;
+							array_push(oControl.arrVacuums, _vac.id);
 						
 							_xPos += _xOff;
 							_yPos += _yOff;
@@ -207,7 +211,7 @@
 	if (iProgressLoad == 11+nConnections)
 	{
 		iProgressLoad++;
-		var _vac = arrVacuums[array_length(arrVacuums)-1];
+		var _vac = arrVacuums[irandom(9)];
 		var _xPre = oPlayer.x, _yPre = oPlayer.y, _zPre = oPlayer.z;
 		oPlayer.x = _vac.x;
 		oPlayer.y = _vac.y;
@@ -259,7 +263,6 @@
 				var _rat = point_distance_3d(iLoopLoad*L, jLoopLoad*L, -kLoopLoad*L, _iVac.x, _iVac.y, _iVac.z)/_iVac.radius;
 				if (_rat < _ratAux) _ratAux = _rat;
 			}
-			
 			if (_ratAux > 1) arrSolids[iLoopLoad][jLoopLoad][kLoopLoad] = true;
 			
 			iProgressLoad++;

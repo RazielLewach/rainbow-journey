@@ -1,3 +1,6 @@
+- Al crear 2 salas a veces no las conecta. ¿Puede ocurrir esto con 10 salas?
+- No permitir ver a través de los muros. Semiesfera bloqueante. Ahora ta fea. ARREGLAR CÁMARA DE UNA VEZ.
+- Testear que se estén creando bien conexiones para no dejar ninguna sala aislada, así como todos los vacuums formando los túneles.
 - Que se creen conexiones entre ellos sin que nadie quede sin conexión. A veces múltiples conexiones.
 - Crear los vacuum tunel uniendo las salas cuando las conexiones estén establecidas.
 - Generar mapa aleatorio: que los vacuums salas no choquen entre ellos y estén lejitos.

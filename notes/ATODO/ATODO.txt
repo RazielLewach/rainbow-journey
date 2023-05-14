@@ -1,6 +1,5 @@
-- Testear que se estén creando bien conexiones para no dejar ninguna sala aislada, así como todos los vacuums formando los túneles.
-
-- No permitir ver a través de los muros. Semiesfera bloqueante. Ahora ta fea. ARREGLAR CÁMARA DE UNA VEZ.
+- Añadir vacuums al final, adicionles a las 10 salas, para que no sean tan esféricas.
+- Si creo muchas luces se rompe las anteriores y mi linterna.
 - Pantalla de carga. OPTIMIZARLA, DEMASIADO LENTA.
 
 - Exploración + Rogelite.
