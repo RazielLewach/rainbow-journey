@@ -205,15 +205,17 @@
 			textLoading = "Creating vacuums for tunnels";
 		}
 #endregion
-#region Pantalla de carga: posiciona el player por encima del jaleo.
+#region Pantalla de carga: posiciona el player y el lover por encima del jaleo.
 	if (iProgressLoad == 11+nConnections)
 	{
 		iProgressLoad++;
-		var _xPre = oPlayer.x, _yPre = oPlayer.y, _zPre = oPlayer.z;
-		oPlayer.x = ROOM_SIZE/2;
-		oPlayer.y = ROOM_SIZE/2;
-		oPlayer.z = -ROOM_SIZE-oPlayer.radius*2;
-		adjustPlayerTentacles(_xPre, _yPre, _zPre);
+		
+		// Tú normal, estirado.
+		setJellyfishAndTentacles(oPlayer, ROOM_SIZE/2-700, ROOM_SIZE/2, -ROOM_SIZE-oLover.radius*5, 0, 0, 0, 0);
+		
+		// El lover acurrucado y herido.
+		setJellyfishAndTentacles(oLover, ROOM_SIZE/2, ROOM_SIZE/2, -ROOM_SIZE-oLover.radius, 180, 0, -50, 50);
+		oLover.isHurt = true;
 	
 		textLoading = "Starting environment model";
 	}
@@ -281,7 +283,7 @@
 		textLoading = "Calculating solid and vacuum tiles";
 	}
 #endregion
-#region Pantalla de carga: crea el vertex del escenario, colisiones (75% del coste, escala con los vacuums muchísimo).
+#region Pantalla de carga: crea el vertex del escenario, colisiones.
 	var _iProgressAfterCalculatingSolids = 14+nConnections-1+N_TILES*N_TILES*N_TILES;
 	repeat(iIteratsLoad)
 		if (iProgressLoad >= 14+nConnections and iProgressLoad <= _iProgressAfterCalculatingSolids)
@@ -324,7 +326,7 @@
 			}
 		}
 #endregion
-#region Pantalla de carga: crea el vertex del escenario, construcción (25% del coste).
+#region Pantalla de carga: crea el vertex del escenario, construcción.
 	// Dibujamos un cubo donde diga el array de solids, pero sólo caras visibles.
 	var _iProgressAfterCreatingSolids = _iProgressAfterCalculatingSolids+1-1+N_TILES*N_TILES*N_TILES;
 	repeat(iIteratsLoad)
@@ -334,7 +336,7 @@
 			{
 				// Cara frontal, sólo si no hay otro solid en esa dirección.
 				if (jLoopLoad != N_TILES-1 and !arrSolids[iLoopLoad][jLoopLoad+1][kLoopLoad])
-					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad*L, jLoopLoad*L, -kLoopLoad*L,
 						-L/2, +L/2, +L/2, 0.0, 1.0,
 						-L/2, +L/2, -L/2, 0.0, 0.0,
 						+L/2, +L/2, +L/2, 1.0, 1.0,
@@ -343,7 +345,7 @@
 				
 				// Cara trasera, sólo si no hay otro solid en esa dirección.
 				if (jLoopLoad != 0 and !arrSolids[iLoopLoad][jLoopLoad-1][kLoopLoad])
-					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad*L, jLoopLoad*L, -kLoopLoad*L,
 						+L/2, -L/2, +L/2, 0.0, 1.0,
 						+L/2, -L/2, -L/2, 0.0, 0.0,
 						-L/2, -L/2, +L/2, 1.0, 1.0,
@@ -352,7 +354,7 @@
 				
 				// Cara derecha, sólo si no hay otro solid en esa dirección.
 				if (iLoopLoad != N_TILES-1 and !arrSolids[iLoopLoad+1][jLoopLoad][kLoopLoad])
-					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad*L, jLoopLoad*L, -kLoopLoad*L,
 						+L/2, +L/2, +L/2, 0.0, 1.0,
 						+L/2, +L/2, -L/2, 0.0, 0.0,
 						+L/2, -L/2, +L/2, 1.0, 1.0,
@@ -361,7 +363,7 @@
 				
 				// Cara izquierda, sólo si no hay otro solid en esa dirección.
 				if (iLoopLoad != 0 and !arrSolids[iLoopLoad-1][jLoopLoad][kLoopLoad])
-					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad*L, jLoopLoad*L, -kLoopLoad*L,
 						-L/2, -L/2, +L/2, 0.0, 1.0,
 						-L/2, -L/2, -L/2, 0.0, 0.0,
 						-L/2, +L/2, +L/2, 1.0, 1.0,
@@ -370,7 +372,7 @@
 					
 				// Cara superior, sólo si no hay otro solid en esa dirección.
 				if (kLoopLoad != N_TILES-1 and !arrSolids[iLoopLoad][jLoopLoad][kLoopLoad+1])
-					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad*L, jLoopLoad*L, -kLoopLoad*L,
 						-L/2, +L/2, -L/2, 0.0, 1.0,
 						-L/2, -L/2, -L/2, 0.0, 0.0,
 						+L/2, +L/2, -L/2, 1.0, 1.0,
@@ -379,7 +381,7 @@
 				
 				// Cara inferior, sólo si no hay otro solid en esa dirección.
 				if (kLoopLoad != 0 and !arrSolids[iLoopLoad][jLoopLoad][kLoopLoad-1])
-					d3dAddSolidEnvironment(iLoopLoad, jLoopLoad, kLoopLoad,
+					d3dAddSolidEnvironment(iLoopLoad*L, jLoopLoad*L, -kLoopLoad*L,
 						-L/2, -L/2, +L/2, 0.0, 1.0,
 						-L/2, +L/2, +L/2, 0.0, 0.0,
 						+L/2, -L/2, +L/2, 1.0, 1.0,
@@ -424,16 +426,22 @@
 		else iIteratsLoad = max(iIteratsLoad-20, 1);
 	}
 #endregion
-#region Teletranspórtate a la cueva cuando ya ha sido cargada.
+#region Teletranspórtate a ti y al lover a la cueva cuando ya ha sido cargada.
 	if (nVacuums > 0 and iProgressLoad == -1 and keyP(vk_space))
 	{
 		isInDungeon = true;
 		var _vac = arrVacuums[irandom(9)];
-		var _xPre = oPlayer.x, _yPre = oPlayer.y, _zPre = oPlayer.z;
 		oPlayer.x = _vac.x;
 		oPlayer.y = _vac.y;
 		oPlayer.z = _vac.z;
 		with(oPlayer) adjustInsideNearestVacuum(0);
-		adjustPlayerTentacles(_xPre, _yPre, _zPre);
+		setJellyfishAndTentacles(oPlayer, oPlayer.x, oPlayer.y, oPlayer.z, 0, 0, 0, 0);
+		
+		oLover.x = _vac.x+300;
+		oLover.y = _vac.y;
+		oLover.z = _vac.z;
+		with(oLover) adjustInsideNearestVacuum(0);
+		setJellyfishAndTentacles(oLover, oLover.x, oLover.y, oLover.z, 0, 0, 0, 0);
+		oLover.isHurt = false;
 	}
 #endregion

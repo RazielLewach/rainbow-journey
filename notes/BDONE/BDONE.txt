@@ -1,3 +1,10 @@
+- ¿Tentáculos más fluidos?
+- Medusa aparece con tentáculos mirando al suelo.
+- Cámara enloquece al acercarme a love en escena.
+- Giro brusco de cámara tras dejar de mirar a love.
+- Escenario exterior para hacer algo mientras carga el interior (randomizador mejor que x*y...)
+- Escenario exterior para hacer algo mientras carga el interior (no dejarte salir)
+- Escenario exterior para hacer algo mientras carga el interior (gradual a negro en círculo en los bordes)
 - Añadir vacuums al final, adicionles a las 10 salas, para que no sean tan esféricas.
 - Al crear 2 salas a veces no las conecta. ¿Puede ocurrir esto con 10 salas?
 - No permitir ver a través de los muros. Semiesfera bloqueante. Ahora ta fea. ARREGLAR CÁMARA DE UNA VEZ.

@@ -8,24 +8,47 @@ varying vec4 v_vColour;
 
 uniform float uMatLight[70]; // Posición de la luz.
 uniform int uNLights; // Número de luces.
-uniform float uRatLight; // Oscuridad por profundidad.
 uniform float uDirWaterWave; // Ondea el agua.
 uniform float uArrXBolas[11]; // Posiciones de las bolas en x.
 uniform float uArrYBolas[11]; // Posiciones de las bolas en y.
 uniform float uArrZBolas[11]; // Posiciones de las bolas en z.
+uniform float uPhiBase; // Dir phi base del tentáculo.
+uniform float uThetaBase; // Dir theta base del tentáculo.
 uniform float uExtraOrigin[3]; // Desplazamiento extra origen.
 
 void main()
 {
-	// Para cada vértice, miramos a qué nodo pertenece, y sacamos los ángulos phi y theta al próximo para ver cuánto nos torcemos.
+	// Para cada vértice, miramos a qué nodo pertenece.
 	int _i = int(in_Colour.a*10.0 + 0.05);
 	float _xPositionOffset = in_Position.x - 25.0*float(_i);
+	float _rat = _xPositionOffset/25.0;
+	
+	// Sacamos los ángulos phi y theta al próximo para ver cuánto nos torcemos. Primero el anterior...
+	float _phiBolaVertexPre   = uPhiBase;
+	float _thetaBolaVertexPre = uThetaBase;
+	if (_i >= 1)
+	{
+		float _xSoporteBolaPre = uArrXBolas[_i] - uArrXBolas[_i-1];
+		float _ySoporteBolaPre = uArrYBolas[_i] - uArrYBolas[_i-1];
+		float _zSoporteBolaPre = uArrZBolas[_i] - uArrZBolas[_i-1];
+		_phiBolaVertexPre   = degrees(-atan(_ySoporteBolaPre, _xSoporteBolaPre));
+		_thetaBolaVertexPre = degrees(-atan(_zSoporteBolaPre, length(vec2(_xSoporteBolaPre, _ySoporteBolaPre))));
+	}
+	
+	// ... y luego el siguiente para la graduación.
 	float _xSoporteBola = uArrXBolas[_i+1] - uArrXBolas[_i];
 	float _ySoporteBola = uArrYBolas[_i+1] - uArrYBolas[_i];
 	float _zSoporteBola = uArrZBolas[_i+1] - uArrZBolas[_i];
-	float _phiBolaVertex   = - atan(_ySoporteBola, _xSoporteBola);
-	float _thetaBolaVertex = - atan(_zSoporteBola, sqrt(_xSoporteBola*_xSoporteBola + _ySoporteBola*_ySoporteBola));
+	float _phiBolaVertexBase   = degrees(-atan(_ySoporteBola, _xSoporteBola));
+	float _thetaBolaVertexBase = degrees(-atan(_zSoporteBola, length(vec2(_xSoporteBola, _ySoporteBola))));
+	float _phiDiff = _phiBolaVertexBase-_phiBolaVertexPre;
+	_phiDiff = mod(_phiDiff+180.0,360.0)-180.0;
+	float _thetaDiff = _thetaBolaVertexBase-_thetaBolaVertexPre;
+	_thetaDiff = mod(_thetaDiff+180.0,360.0)-180.0;
+	float _phiBolaVertex   = radians(_phiBolaVertexPre + _rat*_phiDiff);
+	float _thetaBolaVertex = radians(_thetaBolaVertexPre + _rat*_thetaDiff);
 	
+	// Transformación...
 	mat4 _transformMatrix = mat4(
 		vec4(cos(_phiBolaVertex), -sin(_phiBolaVertex), 0.0, 0.0),
 		vec4(sin(_phiBolaVertex),  cos(_phiBolaVertex), 0.0, 0.0),
@@ -53,7 +76,7 @@ void main()
 	// Inicializa.
     gl_Position = gm_Matrices[MATRIX_PROJECTION]*_worldViewSpacePos;
     v_vColour = vec4(in_Colour.rgb, 1.0);
-	float _maxRat = uRatLight;
+	float _maxRat = 0.0;
 	
 	// Itera todas las luces y suma el factor.
 	for (int i = 0; i < uNLights; ++i)
@@ -92,8 +115,5 @@ void main()
     v_vTexcoord = in_TextureCoord;
 	
 	// Colorea el tono del agua y la luz.
-	v_vColour.rgb += vec3(0.0, 0.3, 0.3);
-	float _max = max(v_vColour.r, max(v_vColour.g, v_vColour.b));
-	v_vColour.rgb /= _max;
-	v_vColour.rgb *= min(_maxRat,1.0);
+	v_vColour.rgb *= vec3(1.0, 1.3, 1.3) * min(_maxRat,1.0);
 }

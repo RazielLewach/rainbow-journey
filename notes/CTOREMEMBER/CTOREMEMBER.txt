@@ -1,4 +1,3 @@
+- Pantalla de carga. OPTIMIZARLA.
+- Si creo muchas luces se rompe las anteriores y mi linterna.
 - Burbujitas con los movimientos como las primeras temporadas de bob esponja.
-- Muchos NPC que hagan vivo al mundo con tramas, y cada vez que mueres y se resetea el mundo, sus posiciones cambien PERO ellos recuerden el reseteo.
-El reseteo sea parte canónica de la trama. ¿Por qué está ligado a tu muerte? Asímismo el mundo tendrá reseteos periódicos (muertes forzadas)
-en varias posiciones a medida que avances en la trama.

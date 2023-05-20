@@ -81,20 +81,40 @@
 		return false;
 	}
 #endregion
-#region adjustPlayerTentacles
-	/// @func  adjustPlayerTentacles(xPre, yPre, zPre)
-	function adjustPlayerTentacles(_xPre, _yPre, _zPre) {
-		for (var i = 0; i < 5; ++i)
-			with(oPlayer.arrTentaculo[i])
+#region setJellyfishAndTentacles
+	/// @func  setJellyfishAndTentacles(idEntity, x, y, z, phi, theta, minRand, maxRand)
+	function setJellyfishAndTentacles(_idEntity, _x, _y, _z, _phi, _theta, _minRand, _maxRand) {
+		with(_idEntity)
+		{
+			x = _x;
+			y = _y;
+			z = _z;
+			dirPhiLook = _phi;
+			dirThetaLook = _theta;
+			
+			for (var i = 0; i < 5; ++i)
+			{
+				var _coords = getCoordsBaseTentacle(i,radius,dirPhiLook,dirThetaLook);
+				var _phiBase = dirPhiLook+180;
 				for (var j = 0; j <= 10; ++j)
 				{
-					arrXBolas[j] += (oPlayer.x-_xPre);
-					arrYBolas[j] += (oPlayer.y-_yPre);
-					arrZBolas[j] += (oPlayer.z-_zPre);
+					var _lon = 25*j;
+					var _xBase = j == 0 ? x+_coords[0] : arrTentaculo[i].arrXBolas[j-1];
+					var _yBase = j == 0 ? y+_coords[1] : arrTentaculo[i].arrYBolas[j-1];
+					var _zBase = j == 0 ? z+_coords[2] : arrTentaculo[i].arrZBolas[j-1];
+					arrTentaculo[i].arrXBolas[j] = _xBase+_lon*dcos(_phiBase);
+					arrTentaculo[i].arrYBolas[j] = _yBase-_lon*dsin(_phiBase);
+					arrTentaculo[i].arrZBolas[j] = _zBase;
+					arrTentaculo[i].arrHSpeed[j] = 0;
+					arrTentaculo[i].arrVSpeed[j] = 0;
+					arrTentaculo[i].arrDSpeed[j] = 0;
+					
+					_phiBase += random_range(_minRand, _maxRand);
 				}
+			}
+		}
 	}
 #endregion
-
 
 
 

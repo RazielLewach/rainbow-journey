@@ -17,7 +17,6 @@
 		setShaderParameterVec(shDefaults,"uMatLight",matLights);
 		setShaderParameterInt(shDefaults,"uNLights",nLights);
 		setShaderParameterVec(shDefaults,"uOrigin",[0,0,0]);
-		setShaderParameterFloat(shDefaults,"uRatLight",oPlayer.ratLight);
 		setShaderParameterFloat(shDefaults,"uDirWaterWave",dirWaterWave);
 		
 		matrix_set(matrix_world,matrixBuildExt(0,0,0, 0, 0, 0, 1,1,1));
@@ -36,11 +35,11 @@
 		setArrD3dOpciones(0,0,0,0,0,0,0,1,1,1);	
 		for (var i = 0; i < N_TILES; i++)
 			for (var j = 0; j < N_TILES; j++)
-				d3dAddSolidFloor(i, j, 0,
-					-L/2, +L/2, -ROOM_SIZE, 0.0, 1.0,
-					-L/2, -L/2, -ROOM_SIZE, 0.0, 0.0,
-					+L/2, +L/2, -ROOM_SIZE, 1.0, 1.0,
-					+L/2, -L/2, -ROOM_SIZE, 1.0, 0.0
+				d3dAddSolidFloor(i*L, j*L,
+					-L/2, +L/2, 0.0, 1.0,
+					-L/2, -L/2, 0.0, 0.0,
+					+L/2, +L/2, 1.0, 1.0,
+					+L/2, -L/2, 1.0, 0.0
 				);
 		
 		vertex_end(vertexFloorRock);
@@ -54,7 +53,6 @@
 		setShaderParameterVec(shDefaults,"uMatLight",matLights);
 		setShaderParameterInt(shDefaults,"uNLights",nLights);
 		setShaderParameterVec(shDefaults,"uOrigin",[0,0,0]);
-		setShaderParameterFloat(shDefaults,"uRatLight",oPlayer.ratLight);
 		setShaderParameterFloat(shDefaults,"uDirWaterWave",dirWaterWave);
 		
 		matrix_set(matrix_world,matrixBuildExt(0,0,0, 0, 0, 0, 1,1,1));

@@ -7,7 +7,8 @@
 	vertexFormat = vertex_format_end();
 #endregion
 #region Inicialización.
-	create(x,y,oPlayer);
+	create(ROOM_SIZE/2,ROOM_SIZE/2,-ROOM_SIZE-300,oPlayer);
+	create(ROOM_SIZE/2,ROOM_SIZE/2,-ROOM_SIZE-300,oLover);
 	create(x,y,oCamera);
 	create(x,y,oTrucos);
 	window_set_fullscreen(true);
@@ -27,6 +28,9 @@
 #region Enums (async).
 	// General.
 	enum MODE {NOONE, JELLYFISH}
+	
+	// Entidades.
+	enum ENTITY {NOONE, PLAYER, LOVE}
 #endregion
 #region Macros (async).
 	// General.
@@ -64,6 +68,9 @@
 	dirAngular12 = 0; // Dirección angular de incremento 15.
 	nStep = 0; // Contadores.
 	colorFinalEssence = make_color_hsv(colorHueEssence,255,255);
+	var _hueExt = colorHueEssence+128;
+	if (_hueExt > 255) _hueExt -= 255;
+	colorInvFinalEssence = make_color_hsv(_hueExt,255,255);
 	matLights = array_create(70,0); // Array de luces.
 	nLights = 0; // Cuántas luces.
 	dirWaterWave = 0; // Ondas del agua.

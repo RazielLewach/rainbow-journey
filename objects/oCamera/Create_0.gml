@@ -4,4 +4,5 @@
 	dirCamPhi = 0; // Dirección phi de la cámara.
 	dirCamTheta = 0; // Dirección theta de la cámara.
 	z = 0; // Altura.
+	cntSeeLove = 10*FPS; // Al inicio fuerza a ver al love.
 #endregion

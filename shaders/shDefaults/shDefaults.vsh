@@ -9,7 +9,6 @@ varying vec4 v_vColour;
 uniform float uMatLight[70]; // Posición de la luz.
 uniform int uNLights; // Número de luces.
 uniform vec3 uOrigin; // Posición del objeto.
-uniform float uRatLight; // Oscuridad por profundidad.
 uniform float uDirWaterWave; // Ondea el agua.
 
 void main()
@@ -23,7 +22,7 @@ void main()
     // Inicializa.
     gl_Position = gm_Matrices[MATRIX_PROJECTION]*_worldViewSpacePos;
     v_vColour = in_Colour;
-	float _maxRat = uRatLight;
+	float _maxRat = 0.0;
 	
 	// Itera todas las luces y suma el factor.
 	for (int i = 0; i < uNLights; ++i)
@@ -60,8 +59,5 @@ void main()
     v_vTexcoord = in_TextureCoord;
 	
 	// Colorea el tono del agua y la luz.
-	v_vColour.rgb += vec3(0.0, 0.3, 0.3);
-	float _max = max(v_vColour.r, max(v_vColour.g, v_vColour.b));
-	v_vColour.rgb /= _max;
-	v_vColour.rgb *= min(_maxRat,1.0);
+	v_vColour.rgb *= vec3(1.0, 1.3, 1.3) * min(_maxRat,1.0);
 }

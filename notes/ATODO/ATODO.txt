@@ -1,9 +1,13 @@
-- Escenario exterior para hacer algo mientras carga el interior (gradual a negro en círculo en los bordes, no dejarte salir, randomizador mejor que x*y...)
-- Pantalla de carga. OPTIMIZARLA.
-- Si creo muchas luces se rompe las anteriores y mi linterna.
+- Hacer la medusa amiga con su textura diferenciable pero versión normal y versión herida.
+- En dungeon, tentaculos de amigo se alejan y separan. ¿Es por acercarme al borde del vacuum, movidas con xdraw?
+- Sistema de diálogos simple. Que la medusa se queje del dolor al inicio.
 
 - Exploración + Rogelite.
 - El mapa se genera aleatoriamente.
 - Habrá una serie de elementos interactivos en plan puzzle, en posiciones aleatorias.
 - En cada partida se decidirá qué hace cada elemento, así que en cada partida deberás descubrirlo (como las pociones).
 - Pantalla de carga dinámica: escenario abierto prehecho con sólo suelo y mientras buscas "la entrada a la cueva" se va generando el mundo.
+- Que a medida que la carga se acerca al 100% la realidad "tiemble" y "poner lag artificial" para sumarse al lag de la carga y hacerlo canonico.
+- Muchos NPC que hagan vivo al mundo con tramas, y cada vez que mueres y se resetea el mundo, sus posiciones cambien PERO ellos recuerden el reseteo.
+El reseteo sea parte canónica de la trama. ¿Por qué está ligado a tu muerte? Asímismo el mundo tendrá reseteos periódicos (muertes forzadas)
+en varias posiciones a medida que avances en la trama.
