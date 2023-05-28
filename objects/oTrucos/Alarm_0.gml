@@ -1,0 +1,1 @@
+oCamera.cntSeeLove = 0;

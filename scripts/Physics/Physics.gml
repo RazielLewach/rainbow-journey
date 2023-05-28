@@ -105,9 +105,6 @@
 					arrTentaculo[i].arrXBolas[j] = _xBase+_lon*dcos(_phiBase);
 					arrTentaculo[i].arrYBolas[j] = _yBase-_lon*dsin(_phiBase);
 					arrTentaculo[i].arrZBolas[j] = _zBase;
-					arrTentaculo[i].arrHSpeed[j] = 0;
-					arrTentaculo[i].arrVSpeed[j] = 0;
-					arrTentaculo[i].arrDSpeed[j] = 0;
 					
 					_phiBase += random_range(_minRand, _maxRand);
 				}

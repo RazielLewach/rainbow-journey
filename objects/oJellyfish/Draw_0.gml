@@ -119,7 +119,7 @@
 		setShaderParameterFloat(shJellyfishHead,"uDirWaterWave",oControl.dirWaterWave);
 		
 		matrix_set(matrix_world,matrixBuildExt(x+xDraw,y+yDraw,z+zDraw,0,dirThetaLook-90,dirPhiLook,_scH,_scH,_scV));
-		vertex_submit(vertexJellyfishHead,pr_trianglelist,txJellyfishSkin);
+		vertex_submit(vertexJellyfishHead, pr_trianglelist, isHurt ? txJellyfishSkinHurt : txJellyfishSkin);
 		
 		shader_reset();
 	}
@@ -166,7 +166,7 @@
 				setShaderParameterFloat(shJellyfishTentacle,"uDirWaterWave",oControl.dirWaterWave);
 				
 				matrix_set(matrix_world,matrixBuildExt(arrXBolas[0]+oPlayer.xDraw, arrYBolas[0]+oPlayer.yDraw, arrZBolas[0]+oPlayer.zDraw, 0, 0, 0, 1,1,1));
-				vertex_submit(other.vertexJellyfishTentacle,pr_trianglelist,other.txJellyfishTentacle);
+				vertex_submit(other.vertexJellyfishTentacle, pr_trianglelist, other.txJellyfishTentacle);
 				
 				shader_reset();
 			}

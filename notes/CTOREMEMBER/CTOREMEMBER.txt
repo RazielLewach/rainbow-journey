@@ -1,3 +1,2 @@
-- Pantalla de carga. OPTIMIZARLA.
 - Si creo muchas luces se rompe las anteriores y mi linterna.
 - Burbujitas con los movimientos como las primeras temporadas de bob esponja.

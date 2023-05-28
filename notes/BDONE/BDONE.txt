@@ -1,3 +1,4 @@
+- Hacer la medusa amiga con su textura diferenciable pero versión normal y versión herida.
 - ¿Tentáculos más fluidos?
 - Medusa aparece con tentáculos mirando al suelo.
 - Cámara enloquece al acercarme a love en escena.

@@ -6,7 +6,7 @@
 	cntCierra = 0;
 	cntRestart = 0;
 	depth = -200;
-	//alarm[0] = 1;
+	alarm[0] = 5;
 
 	contAux = 0; // Reinicia los aux cada 2 segundos.
 	aux0 = "NOT-DEFINED";

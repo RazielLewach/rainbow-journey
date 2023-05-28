@@ -1,4 +1,5 @@
-- Hacer la medusa amiga con su textura diferenciable pero versión normal y versión herida.
+- Pantalla de carga. OPTIMIZARLA.
+
 - En dungeon, tentaculos de amigo se alejan y separan. ¿Es por acercarme al borde del vacuum, movidas con xdraw?
 - Sistema de diálogos simple. Que la medusa se queje del dolor al inicio.
 
